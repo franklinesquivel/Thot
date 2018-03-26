@@ -6,6 +6,7 @@
 package thot;
 
 import sv.edu.udb.form.usuario.AgregarUsuario;
+import sv.edu.udb.form.usuario.cambiarContrasenna;
 import sv.edu.udb.form.usuario.gestionUsuario;
 
 /**
@@ -70,8 +71,12 @@ public class ThotMDI extends javax.swing.JFrame {
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem.setMnemonic('a');
-        saveAsMenuItem.setText("Save As ...");
-        saveAsMenuItem.setDisplayedMnemonicIndex(5);
+        saveAsMenuItem.setText("Cambiar Contraseña");
+        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveAsMenuItem);
 
         exitMenuItem.setMnemonic('x');
@@ -152,6 +157,13 @@ public class ThotMDI extends javax.swing.JFrame {
         desktopPane.add(gestionForm);
         gestionForm.setVisible(true);
     }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    //Abrir cambiar contraseña para usuarios
+    private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
+        cambiarContrasenna cambiarCForm = new cambiarContrasenna();
+        desktopPane.add(cambiarCForm);
+        cambiarCForm.setVisible(true);
+    }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
     /**
      * @param args the command line arguments

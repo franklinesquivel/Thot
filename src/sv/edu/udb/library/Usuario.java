@@ -116,8 +116,8 @@ public class Usuario {
         this.estado = estado;
     }
 
-    public Usuario(String username, String password) {
-        this.username = username;
+    public Usuario(int idUsuario, String password) {
+        this.idUsuario = idUsuario;
         this.password = password;
     }
 

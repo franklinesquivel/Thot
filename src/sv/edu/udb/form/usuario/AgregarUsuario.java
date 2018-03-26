@@ -19,6 +19,7 @@ import sv.edu.udb.library.TipoUsuario;
 import sv.edu.udb.library.Usuario;
 import sv.edu.udb.models.TipoUsuario_Model;
 import sv.edu.udb.models.Usuario_Model;
+import sv.edu.udb.validacion.Validacion;
 /**
  *
  * @author Leonardo
@@ -141,26 +142,35 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
     //Registrar usuario
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         try {
-            String tipo = "";
-            for(TipoUsuario t : tipos){
-                if(t.getNombre().equals(cmbTipoUsuario.getSelectedItem().toString())){
-                    tipo = String.valueOf(t.getId());
-                    break;
+            if(validarCampos()){
+                String tipo = "";
+                for(TipoUsuario t : tipos){
+                    if(t.getNombre().equals(cmbTipoUsuario.getSelectedItem().toString())){
+                        tipo = String.valueOf(t.getId());
+                        break;
+                    }
                 }
-            }
-            
-            String password = Encriptar.encriptar(Usuario.crearContransenna());
-            String username = Usuario.crearNombreUsuario(tipo, Usuario_Model.obtenerNumUsuario(tipo));
-            String nombre = txtNombre.getText(), 
-                apellido = txtApellido.getText(),
-                correo = txtCorreo.getText(),
-                tipoUsuario = cmbTipoUsuario.getSelectedItem().toString();
-            DateFormat ft = new SimpleDateFormat("yyyy-MM-dd");  
-            Date fechaNacimiento = ft.parse(txtFechaNacimiento.getText());
-            if(Usuario_Model.insertar(new Usuario(nombre, apellido, correo, fechaNacimiento, username, password, true, tipo))){
-                JOptionPane.showMessageDialog(null, "Usuario registrado correctamente", "Registro de Usuario", JOptionPane.INFORMATION_MESSAGE);
-            }else{
-                JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Registro de Usuario", JOptionPane.ERROR_MESSAGE);
+
+                String password = Encriptar.encriptar(Usuario.crearContransenna());
+                String username = Usuario.crearNombreUsuario(tipo, Usuario_Model.obtenerNumUsuario(tipo));
+                String nombre = txtNombre.getText(), 
+                    apellido = txtApellido.getText(),
+                    correo = txtCorreo.getText(),
+                    tipoUsuario = cmbTipoUsuario.getSelectedItem().toString();
+                DateFormat ft = new SimpleDateFormat("yyyy-MM-dd");  
+                Date fechaNacimiento = ft.parse(txtFechaNacimiento.getText());
+                
+                if(compararFecha(fechaNacimiento)){//Comparamos que la fehca ingresada no sea mayor a la actual
+                    if(Usuario_Model.verificarCorreo(correo)){
+                        if(Usuario_Model.insertar(new Usuario(nombre, apellido, correo, fechaNacimiento, username, password, true, tipo))){
+                            JOptionPane.showMessageDialog(null, "Usuario registrado correctamente", "Registro de Usuario", JOptionPane.INFORMATION_MESSAGE);
+                        }else{
+                            JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Registro de Usuario", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "El correo ingresado ya existe!", "Registro de Usuario", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
             }
         } catch (ParseException ex) {
             Logger.getLogger(AgregarUsuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,6 +184,26 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
         for(TipoUsuario t : tipos){
             cmbTipoUsuario.addItem(t.getNombre());
         }
+    }
+    
+    private boolean validarCampos(){
+        if(Validacion.validar("^[\\p{L} .'-]+$", txtNombre.getText(), "Ingresar un nombre válido!", "Agregar Usuario")
+           && Validacion.validar("^[\\p{L} .'-]+", txtApellido.getText(), "Ingresar un apellido válido!", "Agregar Usuario")
+           && Validacion.validar("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", txtCorreo.getText(), "Correo Electrónico no válido", "Registro Usuario")
+           && Validacion.validar("^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$", txtFechaNacimiento.getText(), "Fecha Inválida (yyyy-MM-dd)", "Agregar Usuario")){
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean compararFecha(Date fecha){
+        Date fechaActual = new Date();
+        if(fecha.compareTo(fechaActual) < 0){
+            return true;
+        }else{
+            JOptionPane.showMessageDialog(null, "Ingresar una fecha válida", "Registro de Usuario", JOptionPane.ERROR_MESSAGE);
+        }
+        return false;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
