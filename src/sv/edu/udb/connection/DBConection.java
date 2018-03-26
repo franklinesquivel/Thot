@@ -16,9 +16,9 @@ import java.sql.Statement;
  *
  * @author Frank
  */
-public class DBConecction {
+public class DBConection {
     private static final String BD = "thot";
-    private static final String USER = "127.0.0.1";
+    private static final String USER = "root";
     private static final String PASS = "";
     private static Connection cn;
     private static ResultSet rs;
@@ -27,10 +27,10 @@ public class DBConecction {
     public static ResultSet getData(String sql){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            cn = DriverManager.getConnection("jdbc:mysql://localhost/" + BD + "?characterEncoding=utf8", USER, PASS);
+            cn = DriverManager.getConnection("jdbc:mysql://localhost/" + BD, USER, PASS);
             s = cn.createStatement();
             rs = s.executeQuery(sql);
-            return DBConecction.rs;
+            return DBConection.rs;
         }catch(ClassNotFoundException cE){
             System.out.println("ERROR: Clase no encontrada!: " + cE.getMessage());
             return null;

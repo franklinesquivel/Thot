@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sv.edu.udb.connection.DBConecction;
+import sv.edu.udb.connection.DBConection;
 import sv.edu.udb.library.Autor;
 import sv.edu.udb.library.Categoria;
 import sv.edu.udb.library.Imprenta;
@@ -29,7 +29,7 @@ public class Libro_Model {
         String _id;
         int _c;
         try {
-            ResultSet _r = DBConecction.getData("SELECT MAX(CAST(SUBSTRING(idLibro, 3, 5) AS UNSIGNED)) AS newId FROM Libro;");
+            ResultSet _r = DBConection.getData("SELECT MAX(CAST(SUBSTRING(idLibro, 3, 5) AS UNSIGNED)) AS newId FROM Libro;");
             _r.next();
             _c = Integer.parseInt(_r.getString("newId")) + 1;
 
@@ -51,7 +51,7 @@ public class Libro_Model {
     }
     
     public static Libro obtenerLibro(String id, boolean relaciones){
-        PreparedStatement obtenerLibro = DBConecction.getStatement("SELECT * FROM Libro WHERE idLibro = ?;");
+        PreparedStatement obtenerLibro = DBConection.getStatement("SELECT * FROM Libro WHERE idLibro = ?;");
         try {
             obtenerLibro.setString(1, id);
             try (ResultSet dataLibro = obtenerLibro.executeQuery()) {
@@ -70,8 +70,8 @@ public class Libro_Model {
                     );
                     
                     if(relaciones){
-                        PreparedStatement obtenerLibroAutor = DBConecction.getStatement("SELECT dAL.idAutor FROM Libro l INNER JOIN Detalle_AutorLibro dAL ON l.idLibro = dAL.idLibro WHERE l.idLibro = ?;");
-                        PreparedStatement obtenerLibroTema = DBConecction.getStatement("SELECT dLT.idTema FROM Libro l INNER JOIN Detalle_LibroTema dLT ON l.idLibro = dLT.idLibro WHERE l.idLibro = ?;");
+                        PreparedStatement obtenerLibroAutor = DBConection.getStatement("SELECT dAL.idAutor FROM Libro l INNER JOIN Detalle_AutorLibro dAL ON l.idLibro = dAL.idLibro WHERE l.idLibro = ?;");
+                        PreparedStatement obtenerLibroTema = DBConection.getStatement("SELECT dLT.idTema FROM Libro l INNER JOIN Detalle_LibroTema dLT ON l.idLibro = dLT.idLibro WHERE l.idLibro = ?;");
                         
                         obtenerLibroAutor.setString(1, id);
                         obtenerLibroTema.setString(1, id);
@@ -110,7 +110,7 @@ public class Libro_Model {
     
     public static List<Libro> obtenerLibros(){
         List<Libro> _lList = new ArrayList();
-        PreparedStatement insertarLibro = DBConecction.getStatement("SELECT * FROM Libro;");
+        PreparedStatement insertarLibro = DBConection.getStatement("SELECT * FROM Libro;");
         try {
             ResultSet data = insertarLibro.executeQuery();
             if(data != null){
@@ -129,7 +129,7 @@ public class Libro_Model {
     }
     
     public static boolean insertar(Libro _l){
-        PreparedStatement insertarSQL = DBConecction.getStatement("INSERT INTO Libro VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        PreparedStatement insertarSQL = DBConection.getStatement("INSERT INTO Libro VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
         try {
             String _id = nuevoId();
             _l.setIdLibro(_id);
@@ -155,7 +155,7 @@ public class Libro_Model {
     public static boolean modificar(Libro _l){
         try {
             Libro _l2 = obtenerLibro(_l.getIdLibro(), false);
-            PreparedStatement modificarSQL = DBConecction.getStatement("UPDATE Libro SET titulo = ?, isbn = ?, edicion = ?, descripcion = ?, notas = ?, imagen = ?, idImprenta = ? idCategoria = ? WHERE idLibro = ?;");
+            PreparedStatement modificarSQL = DBConection.getStatement("UPDATE Libro SET titulo = ?, isbn = ?, edicion = ?, descripcion = ?, notas = ?, imagen = ?, idImprenta = ? idCategoria = ? WHERE idLibro = ?;");
             
             modificarSQL.setString(1, _l.getTitulo());
             modificarSQL.setString(2, _l.getIsbn());
@@ -175,7 +175,7 @@ public class Libro_Model {
             }else if(_l2.getAutores() == null && _l.getAutores() != null){
                 if(!insertarAutores(_l)) {return false;}
             }else if(_l.getAutores() == null){
-                PreparedStatement modificar_DELETE = DBConecction.getStatement("DELETE FROM Detalle_AutorLibro WHERE idLibro = ?;");
+                PreparedStatement modificar_DELETE = DBConection.getStatement("DELETE FROM Detalle_AutorLibro WHERE idLibro = ?;");
                 modificar_DELETE.setString(1, _l.getIdLibro());
                 modificar_DELETE.executeUpdate();
             }
@@ -187,7 +187,7 @@ public class Libro_Model {
             }else if(_l2.getTemas() == null && _l.getTemas() != null){
                 if(!insertarTemas(_l)) {return false;}
             }else if(_l.getTemas() == null){
-                PreparedStatement modificar_DELETE = DBConecction.getStatement("DELETE FROM Detalle_LibroTema WHERE idLibro = ?;");
+                PreparedStatement modificar_DELETE = DBConection.getStatement("DELETE FROM Detalle_LibroTema WHERE idLibro = ?;");
                 modificar_DELETE.setString(1, _l.getIdLibro());
                 modificar_DELETE.executeUpdate();
             }
@@ -200,8 +200,8 @@ public class Libro_Model {
     }
     
     public static boolean evaluarDetalles_Autor(List<Autor> _n, List<Autor> _v, String idLibro) throws SQLException{
-        PreparedStatement modificar_ADD = DBConecction.getStatement("INSERT INTO autor VALUES (NULL, ?, ?);");
-        PreparedStatement modificar_DELETE = DBConecction.getStatement("DELETE FROM detalle_autorlibro WHERE idLibro = ? AND idAutor = ?;");
+        PreparedStatement modificar_ADD = DBConection.getStatement("INSERT INTO autor VALUES (NULL, ?, ?);");
+        PreparedStatement modificar_DELETE = DBConection.getStatement("DELETE FROM detalle_autorlibro WHERE idLibro = ? AND idAutor = ?;");
         modificar_ADD.setString(2, idLibro);
         modificar_DELETE.setString(1, idLibro);
 
@@ -235,8 +235,8 @@ public class Libro_Model {
     }
     
     public static boolean evaluarDetalles_Tema(List<Tema> _n, List<Tema> _v, String idLibro) throws SQLException{
-        PreparedStatement modificar_ADD = DBConecction.getStatement("INSERT INTO autor VALUES (NULL, ?, ?);");
-        PreparedStatement modificar_DELETE = DBConecction.getStatement("DELETE FROM Detalle_LibroTema WHERE idLibro = ? AND idTema = ?;");
+        PreparedStatement modificar_ADD = DBConection.getStatement("INSERT INTO autor VALUES (NULL, ?, ?);");
+        PreparedStatement modificar_DELETE = DBConection.getStatement("DELETE FROM Detalle_LibroTema WHERE idLibro = ? AND idTema = ?;");
         modificar_ADD.setString(2, idLibro);
         modificar_DELETE.setString(1, idLibro);
 
@@ -271,7 +271,7 @@ public class Libro_Model {
     
     public static boolean eliminar(Libro _l){
         try {
-            PreparedStatement eliminarSQL = DBConecction.getStatement("DELETE FROM Libro WHERE idLibro = ?;");
+            PreparedStatement eliminarSQL = DBConection.getStatement("DELETE FROM Libro WHERE idLibro = ?;");
             eliminarSQL.setString(1, _l.getIdLibro());
 
             eliminarSQL.executeUpdate();
@@ -284,7 +284,7 @@ public class Libro_Model {
     
     public static boolean insertarAutores(Libro _l){
         try {
-            PreparedStatement insertarAutorLibro = DBConecction.getStatement("INSERT INTO detalle_autorlibro VALUES (NULL, ?, ?);");
+            PreparedStatement insertarAutorLibro = DBConection.getStatement("INSERT INTO detalle_autorlibro VALUES (NULL, ?, ?);");
             insertarAutorLibro.setString(2, _l.getIdLibro());
             if(_l.getAutores() != null){
                 if(_l.getAutores().size() > 0){
@@ -303,7 +303,7 @@ public class Libro_Model {
 
     public static boolean insertarTemas(Libro _l){
         try {
-            PreparedStatement insertarTemaLibro = DBConecction.getStatement("INSERT INTO detalle_librotema VALUES (NULL, ?, ?);");
+            PreparedStatement insertarTemaLibro = DBConection.getStatement("INSERT INTO detalle_librotema VALUES (NULL, ?, ?);");
             insertarTemaLibro.setString(1, _l.getIdLibro());
             if(_l.getTemas() != null){
                 if(_l.getTemas().size() > 0){

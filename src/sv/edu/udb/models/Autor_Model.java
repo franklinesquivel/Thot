@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sv.edu.udb.connection.DBConecction;
+import sv.edu.udb.connection.DBConection;
 import sv.edu.udb.library.Autor;
 import sv.edu.udb.library.Libro;
 
@@ -28,7 +28,7 @@ public class Autor_Model {
     public static List<Autor> obtenerAutores(){
         List<Autor> _aList = new ArrayList();
         try {
-            try (ResultSet data = DBConecction.getData("SELECT * FROM Autor;")) {
+            try (ResultSet data = DBConection.getData("SELECT * FROM Autor;")) {
                 while(data.next()){
                     Date date = null;
                     DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -50,7 +50,7 @@ public class Autor_Model {
     }
     
     public static Autor obtenerAutor(String idAutor, boolean relaciones){
-        PreparedStatement insertarCategoria = DBConecction.getStatement("SELECT * FROM tema WHERE idTema = ?;");
+        PreparedStatement insertarCategoria = DBConection.getStatement("SELECT * FROM tema WHERE idTema = ?;");
         try {
             insertarCategoria.setString(1, idAutor);
             try (ResultSet data = insertarCategoria.executeQuery()) {
@@ -58,7 +58,7 @@ public class Autor_Model {
                     Autor _a = new Autor(data.getString(1), data.getString(2), data.getString(3), data.getDate(4));
                     
                     if(relaciones){
-                        PreparedStatement obtenerCategoriaLibro = DBConecction.getStatement("SELECT dAL.idLibro FROM Autor a INNER JOIN Detalle_LibroTema dAL ON a.idAutor = dAL.idAutor WHERE a.idAutor = ?;");
+                        PreparedStatement obtenerCategoriaLibro = DBConection.getStatement("SELECT dAL.idLibro FROM Autor a INNER JOIN Detalle_LibroTema dAL ON a.idAutor = dAL.idAutor WHERE a.idAutor = ?;");
                         obtenerCategoriaLibro.setString(1, idAutor);
                         
                         ResultSet dataAL = obtenerCategoriaLibro.executeQuery();
@@ -85,7 +85,7 @@ public class Autor_Model {
     }
     
     public static boolean insertar(Autor _a) {
-        PreparedStatement insertarSQL = DBConecction.getStatement("INSERT INTO Autor VALUES(?, ?, ?, ?, ?);");
+        PreparedStatement insertarSQL = DBConection.getStatement("INSERT INTO Autor VALUES(?, ?, ?, ?, ?);");
         try {
             insertarSQL.setString(1, _a.getIdAutor());
             insertarSQL.setString(2, _a.getNombres());
@@ -101,7 +101,7 @@ public class Autor_Model {
     }
 
     public static boolean modificar(Autor _a) {
-        PreparedStatement modificarSQL = DBConecction.getStatement("UPDATE Autor SET nombres = ?, apellidos = ?, fechaNac = ?, idPais = ? WHERE idAutor = ?;");
+        PreparedStatement modificarSQL = DBConection.getStatement("UPDATE Autor SET nombres = ?, apellidos = ?, fechaNac = ?, idPais = ? WHERE idAutor = ?;");
         try {
             
             modificarSQL.setString(1, _a.getNombres());
@@ -118,7 +118,7 @@ public class Autor_Model {
     }
 
     public static boolean eliminar(Autor _a) {
-        PreparedStatement eliminarSQL = DBConecction.getStatement("DELETE FROM Autor WHERE idAutor = ?;");
+        PreparedStatement eliminarSQL = DBConection.getStatement("DELETE FROM Autor WHERE idAutor = ?;");
         try {
             eliminarSQL.setString(1, _a.getIdAutor());
             eliminarSQL.executeUpdate();
