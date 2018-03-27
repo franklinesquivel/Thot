@@ -51,7 +51,9 @@ public class Tema {
         this.idTema = idTema;
         this.descripcion = descripcion;
     }
-
+    public Tema(String descripcion){
+        this.descripcion = descripcion;
+    }
     public Tema(int idTema, boolean relaciones) {
         Tema _t = Tema_Model.obtenerTema(idTema, relaciones);
         if(_t != null){

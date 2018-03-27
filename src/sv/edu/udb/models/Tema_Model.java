@@ -35,6 +35,21 @@ public class Tema_Model {
             return null;
         }
     }
+    public static List<Tema> buscarTemas(String cadena){
+        List<Tema> _t = new ArrayList();
+        PreparedStatement consultaSQL = DBConection.getStatement("SELECT idTema,descripcion FROM tema WHERE descripcion LIKE '%"+cadena +"%'");
+        try{
+            ResultSet data = consultaSQL.executeQuery();
+            while(data.next()){
+                _t.add(new Tema(Integer.parseInt(data.getString("idTema")),data.getString("descripcion")));
+            }
+            data.close();
+            return _t;
+        }catch(SQLException ex){
+            Logger.getLogger(Tema_Model.class.getName()).log(Level.SEVERE,null,ex);
+            return null;
+        }
+    }
     
     public static Tema obtenerTema(int idTema, boolean relaciones){
         PreparedStatement insertarCategoria = DBConection.getStatement("SELECT * FROM tema WHERE idTema = ?;");
