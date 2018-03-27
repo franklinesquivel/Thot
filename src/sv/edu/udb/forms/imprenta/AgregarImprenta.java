@@ -8,7 +8,10 @@ package sv.edu.udb.forms.imprenta;
 import com.sun.glass.events.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import sv.edu.udb.validacion.Validacion;
+import javax.swing.JOptionPane;
+import sv.edu.udb.models.Imprenta_Model;
+import sv.edu.udb.library.Imprenta;
 /**
  *
  * @author Pazzuelo02
@@ -117,25 +120,40 @@ public class AgregarImprenta extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-        if(!Character.isLetter(evt.getKeyChar()) && !(evt.getKeyChar() == KeyEvent.VK_SPACE) && !(evt.getKeyChar() == KeyEvent.VK_BACKSPACE)){
+        /*if(!Character.isLetter(evt.getKeyChar()) && !(evt.getKeyChar() == KeyEvent.VK_SPACE) && !(evt.getKeyChar() == KeyEvent.VK_BACKSPACE)){
             evt.consume();
-        }
+        }*/
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void txtDireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionKeyTyped
-        if(!Character.isLetter(evt.getKeyChar()) && !Character.isDigit(evt.getKeyChar()) && !(evt.getKeyChar() == KeyEvent.VK_MINUS) && !(evt.getKeyChar() == KeyEvent.VK_NUMBER_SIGN) && !(evt.getKeyChar() == KeyEvent.VK_PERIOD) && !(evt.getKeyChar() == KeyEvent.VK_SPACE) && !(evt.getKeyChar() == KeyEvent.VK_BACKSPACE)){
+        /*if(!Character.isLetter(evt.getKeyChar()) && !Character.isDigit(evt.getKeyChar()) && !(evt.getKeyChar() == KeyEvent.VK_MINUS) && !(evt.getKeyChar() == KeyEvent.VK_NUMBER_SIGN) && !(evt.getKeyChar() == KeyEvent.VK_PERIOD) && !(evt.getKeyChar() == KeyEvent.VK_SPACE) && !(evt.getKeyChar() == KeyEvent.VK_BACKSPACE)){
             evt.consume();
-        }
+        }*/
     }//GEN-LAST:event_txtDireccionKeyTyped
 
     private void btnAgregarImprentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarImprentaActionPerformed
         try{
-            
+            if(validarDatos()){
+            if(txtNombre.getText().length() > 0 && !(txtNombre.getText().isEmpty()) && !(txtNombre.getText().equals(" "))){
+                if(txtDireccion.getText().length() > 0 && !(txtDireccion.getText().isEmpty()) && !(txtDireccion.getText().equals(" "))){
+                    if(Imprenta_Model.insertar(new Imprenta(txtNombre.getText(),txtDireccion.getText()))){
+                        JOptionPane.showMessageDialog(null, "Imprenta ingresada correctamente","Agregar Imprenta",JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }      
+                }
+            } 
         }catch(Exception ex){
             Logger.getLogger(AgregarImprenta.class.getName()).log(Level.SEVERE,null,ex);
         }
     }//GEN-LAST:event_btnAgregarImprentaActionPerformed
-
+    private boolean validarDatos(){
+        if(Validacion.validar("^[A-Za-z áéíóúñÑhH]$",txtNombre.getText(),"Ingrese un nombre válido","Agregar Imprenta")){
+            if(Validacion.validar("^[A-Za-z áéíóúñÑhH,-#']$",txtDireccion.getText(),"Algunos caracteres no estan permitidos, revise su direccion","Agregar Imprenta")){
+                return true;
+            }
+        }
+        return false;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarImprenta;

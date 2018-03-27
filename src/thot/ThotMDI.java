@@ -8,6 +8,8 @@ package thot;
 import sv.edu.udb.form.usuario.AgregarUsuario;
 import sv.edu.udb.form.usuario.cambiarContrasenna;
 import sv.edu.udb.form.usuario.gestionUsuario;
+import sv.edu.udb.forms.imprenta.AgregarImprenta;
+import sv.edu.udb.forms.imprenta.GestionImprenta;
 import sv.edu.udb.forms.temas.AgregarTema;
 import sv.edu.udb.forms.temas.GestionTemas;
 
@@ -114,11 +116,21 @@ public class ThotMDI extends javax.swing.JFrame {
         editMenu.add(copyMenuItem);
 
         pasteMenuItem.setMnemonic('p');
-        pasteMenuItem.setText("Paste");
+        pasteMenuItem.setText("Registrar I");
+        pasteMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pasteMenuItemActionPerformed(evt);
+            }
+        });
         editMenu.add(pasteMenuItem);
 
         deleteMenuItem.setMnemonic('d');
-        deleteMenuItem.setText("Delete");
+        deleteMenuItem.setText("Gestionar I");
+        deleteMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteMenuItemActionPerformed(evt);
+            }
+        });
         editMenu.add(deleteMenuItem);
 
         menuBar.add(editMenu);
@@ -188,6 +200,18 @@ public class ThotMDI extends javax.swing.JFrame {
         desktopPane.add(alterform);
         alterform.setVisible(true);
     }//GEN-LAST:event_copyMenuItemActionPerformed
+
+    private void pasteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasteMenuItemActionPerformed
+        AgregarImprenta alterform = new AgregarImprenta();
+        desktopPane.add(alterform);
+        alterform.setVisible(true);
+    }//GEN-LAST:event_pasteMenuItemActionPerformed
+
+    private void deleteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuItemActionPerformed
+        GestionImprenta alterform = new GestionImprenta();
+        desktopPane.add(alterform);
+        alterform.setVisible(true);
+    }//GEN-LAST:event_deleteMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
