@@ -94,23 +94,30 @@ public class AgregarTema extends javax.swing.JInternalFrame {
 
     private void btnAgregarTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarTemaActionPerformed
         try{
-            String descripcion = txtDescripcion.getText();
-
-            if(Tema_Model.insertar(new Tema(txtDescripcion.getText()))){
+            if(validarDatos() && txtDescripcion.getText().length() > 0 && !(txtDescripcion.getText().isEmpty()) && !(txtDescripcion.getText().equals(" "))){
+                String descripcion = txtDescripcion.getText();
+                if(Tema_Model.insertar(new Tema(txtDescripcion.getText()))){
                 JOptionPane.showMessageDialog(null, "Tema Ingresado correctamente", "Registro de Temas", JOptionPane.INFORMATION_MESSAGE);
                 txtDescripcion.setText("");
             }else{
                 JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Registro de Temas", JOptionPane.ERROR_MESSAGE);
             }
+            }
         }catch(Exception ex){
             Logger.getLogger(AgregarTema.class.getName()).log(Level.SEVERE,null,ex);
         }
     }//GEN-LAST:event_btnAgregarTemaActionPerformed
-
-    private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
-       if (!Character.isLetter(evt.getKeyChar()) && !(evt.getKeyChar() == KeyEvent.VK_COMMA) && !(evt.getKeyChar() == KeyEvent.VK_SPACE) && !(evt.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
-      evt.consume();
+    private boolean validarDatos(){
+        if(Validacion.validar("^[A-Za-z ,-áéíóúñÑhH]$", txtDescripcion.getText(), "No puede ingresar numeros o simbolos!", "Agregar Tema")){
+            return true;
         }
+        return false;    
+    }
+    
+    private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
+       /*if (!Character.isLetter(evt.getKeyChar()) && !(evt.getKeyChar() == KeyEvent.VK_COMMA) && !(evt.getKeyChar() == KeyEvent.VK_SPACE) && !(evt.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+      evt.consume();
+        }*/
     }//GEN-LAST:event_txtDescripcionKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

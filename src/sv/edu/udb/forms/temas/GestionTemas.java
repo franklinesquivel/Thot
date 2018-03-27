@@ -199,12 +199,14 @@ public class GestionTemas extends javax.swing.JInternalFrame {
     
     private void modificarTema(){
         try{
-            if(Tema_Model.modificar(new Tema(idTemaSeleccionado,txtDescripcion.getText()))){
+            if(validarDatos() && txtDescripcion.getText().length() > 0 && !(txtDescripcion.getText().isEmpty()) && !(txtDescripcion.getText().equals(" "))){
+                if(Tema_Model.modificar(new Tema(idTemaSeleccionado,txtDescripcion.getText()))){
                 JOptionPane.showMessageDialog(null,"Tema modificado con éxito", "Gestión de Temas",JOptionPane.INFORMATION_MESSAGE);
                 txtBusqueda.setText("");
-            }else{
-                JOptionPane.showMessageDialog(null,"Ha ocurrido un error","Gestión de Temas",JOptionPane.ERROR_MESSAGE);
-            }
+                }else{
+                    JOptionPane.showMessageDialog(null,"Ha ocurrido un error","Gestión de Temas",JOptionPane.ERROR_MESSAGE);
+                }
+            }   
         }catch(Exception ex){
             Logger.getLogger(GestionTemas.class.getName()).log(Level.SEVERE,null,ex);
         }
@@ -248,11 +250,17 @@ public class GestionTemas extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_jtblTemasMouseClicked
-
-    private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
-        if (!Character.isLetter(evt.getKeyChar()) && !(evt.getKeyChar() == KeyEvent.VK_COMMA) && !(evt.getKeyChar() == KeyEvent.VK_SPACE) && !(evt.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
-      evt.consume();
+    private boolean validarDatos(){
+        if(Validacion.validar("^[A-Za-z ,-áéíóúñÑhH]$", txtDescripcion.getText(), "No puede ingresar numeros o simbolos!", "Agregar Tema")){
+            return true;
         }
+        return false;    
+    }
+    
+    private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
+        /*if (!Character.isLetter(evt.getKeyChar()) && !(evt.getKeyChar() == KeyEvent.VK_COMMA) && !(evt.getKeyChar() == KeyEvent.VK_SPACE) && !(evt.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+      evt.consume();
+        }*/
     }//GEN-LAST:event_txtDescripcionKeyTyped
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
