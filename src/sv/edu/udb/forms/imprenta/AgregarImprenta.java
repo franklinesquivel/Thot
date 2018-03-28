@@ -136,8 +136,10 @@ public class AgregarImprenta extends javax.swing.JInternalFrame {
             if(validarDatos()){
             if(txtNombre.getText().length() > 0 && !(txtNombre.getText().isEmpty()) && !(txtNombre.getText().equals(" "))){
                 if(txtDireccion.getText().length() > 0 && !(txtDireccion.getText().isEmpty()) && !(txtDireccion.getText().equals(" "))){
-                    if(Imprenta_Model.insertar(new Imprenta(txtNombre.getText(),txtDireccion.getText()))){
+                    if(Imprenta_Model.insertar(new Imprenta(Imprenta_Model.generarId(),txtNombre.getText(),txtDireccion.getText()))){
                         JOptionPane.showMessageDialog(null, "Imprenta ingresada correctamente","Agregar Imprenta",JOptionPane.INFORMATION_MESSAGE);
+                        }else{
+                        JOptionPane.showMessageDialog(null, "Ha ocurrido un error","Agregar Imprenta",JOptionPane.ERROR_MESSAGE);
                         }
                     }      
                 }
@@ -147,8 +149,8 @@ public class AgregarImprenta extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnAgregarImprentaActionPerformed
     private boolean validarDatos(){
-        if(Validacion.validar("^[A-Za-z áéíóúñÑhH]$",txtNombre.getText(),"Ingrese un nombre válido","Agregar Imprenta")){
-            if(Validacion.validar("^[A-Za-z áéíóúñÑhH,-#']$",txtDireccion.getText(),"Algunos caracteres no estan permitidos, revise su direccion","Agregar Imprenta")){
+        if(Validacion.validar("^[A-Z]([a-zA-Z0-9]|[- @\\.#&!])*$",txtNombre.getText(),"Ingrese un nombre válido","Agregar Imprenta")){
+            if(Validacion.validar("^([a-zA-Z0-9]|[@\\. -,#&!])*$",txtDireccion.getText(),"Algunos caracteres no estan permitidos, revise su direccion","Agregar Imprenta")){
                 return true;
             }
         }

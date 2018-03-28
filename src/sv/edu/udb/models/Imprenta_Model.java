@@ -85,7 +85,28 @@ public class Imprenta_Model {
             return false;
         }
     }
-    
+    public static String generarId(){
+        String _id;
+        int _c;
+        try{
+            ResultSet _r = DBConection.getData("SELECT MAX(CAST(SUBSTRING(idImprenta,5,4) AS UNSIGNED)) AS newId FROM imprenta");
+            _r.next();
+            _c = Integer.parseInt(_r.getString("newId")) + 1;
+            if(_c < 10){
+                _id = "IMTA000" + _c;
+            }else if(_c >=10 && _c < 100){
+                _id = "IMTA00" + _c;
+            }else if(_c >= 100 && _c < 1000){
+                _id = "IMTA0" + _c;
+            }else{
+                _id = "IMTA" + _c;
+            }
+            return _id;
+        }catch(SQLException ex){
+            Logger.getLogger(Imprenta_Model.class.getName()).log(Level.SEVERE,null,ex);
+            return null;
+        }
+    }
     public static boolean modificar(Imprenta _i){
         PreparedStatement modificarSQL = DBConection.getStatement("UPDATE Imprenta SET nombre = ?, direccion = ? WHERE idImprenta = ?;");
         try{

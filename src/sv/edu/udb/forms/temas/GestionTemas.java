@@ -33,6 +33,8 @@ public class GestionTemas extends javax.swing.JInternalFrame {
     private void inicializarComponente(){
         txtDescripcion.setEnabled(false);
         txtDescripcion.setText("");
+        btnEliminarTema.setEnabled(false);
+        btnModificarTema.setEnabled(false);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -247,11 +249,14 @@ public class GestionTemas extends javax.swing.JInternalFrame {
                 idTemaSeleccionado = temas.get(fila).getIdTema();
                 txtDescripcion.setText(temas.get(fila).getDescripcion());
                 txtDescripcion.setEnabled(true);
+                btnEliminarTema.setEnabled(true);
+               btnModificarTema.setEnabled(true);
             }
         }
     }//GEN-LAST:event_jtblTemasMouseClicked
     private boolean validarDatos(){
-        if(Validacion.validar("^[A-Za-z ,-áéíóúñÑhH]$", txtDescripcion.getText(), "No puede ingresar numeros o simbolos!", "Agregar Tema")){
+        
+        if(Validacion.validar("^[A-Z][a-z ,.'-]+$", txtDescripcion.getText(), "No puede ingresar numeros o simbolos!", "Agregar Tema")){
             return true;
         }
         return false;    

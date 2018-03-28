@@ -55,10 +55,6 @@ public class Imprenta {
         this.nombre = nombre;
         this.direccion = direccion;
     }
-    public Imprenta(String nombre,String direccion){
-        this.nombre = nombre;
-        this.direccion = direccion;
-    }
     public Imprenta(String idImprenta, String nombre, String direccion, List<Libro> libros) {
         this.idImprenta = idImprenta;
         this.nombre = nombre;
