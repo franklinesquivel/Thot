@@ -91,10 +91,10 @@ public class Autor_Model {
             insertarSQL.setString(1, _a.getIdAutor());
             insertarSQL.setString(2, _a.getNombres());
             insertarSQL.setString(3, _a.getApellidos());
-            insertarSQL.setString(4, _a.getFechaNac().toString());
+            insertarSQL.setDate(4, new java.sql.Date(_a.getFechaNac().getTime()));
             insertarSQL.setString(5, _a.getPais());
             insertarSQL.executeUpdate();
-            return true;
+            return true; //wii te ganaste un beso gracias, una sandía mejor :p Oral exddd o mejor un beso con brillo de sandia <3
         } catch (SQLException ex) {
             Logger.getLogger(Autor_Model.class.getName()).log(Level.SEVERE, null, ex);
             return false;

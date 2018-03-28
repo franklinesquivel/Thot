@@ -159,7 +159,7 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
                     tipoUsuario = cmbTipoUsuario.getSelectedItem().toString();
                 DateFormat ft = new SimpleDateFormat("yyyy-MM-dd");  
                 Date fechaNacimiento = ft.parse(txtFechaNacimiento.getText());
-                
+                //Este es el de Leo :v
                 if(compararFecha(fechaNacimiento)){//Comparamos que la fehca ingresada no sea mayor a la actual
                     if(Usuario_Model.verificarCorreo(correo)){
                         if(Usuario_Model.insertar(new Usuario(nombre, apellido, correo, fechaNacimiento, username, password, true, tipo))){
