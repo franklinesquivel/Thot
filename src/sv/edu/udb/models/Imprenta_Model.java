@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import sv.edu.udb.connection.DBConection;
 import sv.edu.udb.library.Imprenta;
 import sv.edu.udb.library.Libro;
@@ -36,7 +37,22 @@ public class Imprenta_Model {
             return null;
         }
     }
-    
+    public static List<Imprenta> BuscarImprenta(String campo,String busqueda){
+        List<Imprenta> _Ilist = new ArrayList();
+        PreparedStatement consultaSQL = DBConection.getStatement("SELECT idImprenta,nombre,direccion FROM imprenta WHERE "+ campo +" LIKE '%"+busqueda +"%'");
+        
+        try{
+            ResultSet data = consultaSQL.executeQuery();
+            while(data.next()){
+                _Ilist.add(new Imprenta(data.getString("idImprenta"),data.getString("nombre"),data.getString("direccion")));
+            }
+            data.close();
+            return _Ilist;
+        }catch(SQLException ex){
+            Logger.getLogger(Imprenta_Model.class.getName()).log(Level.SEVERE,null, ex);
+            return null;
+        }
+    }
     public static Imprenta obtenerImprenta(String idImprenta, boolean relaciones){
         PreparedStatement insertarCategoria = DBConection.getStatement("SELECT * FROM Imprenta WHERE idImprenta = ?;");
         try {
@@ -120,13 +136,37 @@ public class Imprenta_Model {
             return false;
         }
     }
+    public static boolean verificarRegistros(String idImprenta){
+        int cuenta;
+        try{
+            ResultSet _rs = DBConection.getData("SELECT COUNT(idImprenta) AS cuentaID FROM libro WHERE idImprenta = '"+ idImprenta +"';");
+            if(_rs != null){
+                if(_rs.next()){
+                    cuenta = Integer.parseInt(_rs.getString("cuentaID"));
+                    if (cuenta > 0) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(Imprenta_Model.class.getName()).log(Level.SEVERE,null,ex);
+            return false;
+        }
+    }
     
     public static boolean eliminar(Imprenta _i){
-        PreparedStatement eliminarSQL = DBConection.getStatement("DELETE FROM Tema WHERE idImprenta = ?;");
+        PreparedStatement eliminarSQL = DBConection.getStatement("DELETE FROM Imprenta WHERE idImprenta = ?;");
         try{
-            eliminarSQL.setString(1, _i.getIdImprenta());
-            eliminarSQL.executeUpdate();
-            return true;
+                eliminarSQL.setString(1, _i.getIdImprenta());
+                eliminarSQL.executeUpdate();
+                return true;
+
         }catch(SQLException ex){
             Logger.getLogger(Libro_Model.class.getName()).log(Level.SEVERE, null, ex);
             return false;

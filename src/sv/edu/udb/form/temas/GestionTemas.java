@@ -3,8 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.forms.temas;
-import java.awt.event.KeyEvent;
+package sv.edu.udb.form.temas;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
@@ -35,6 +34,7 @@ public class GestionTemas extends javax.swing.JInternalFrame {
         txtDescripcion.setText("");
         btnEliminarTema.setEnabled(false);
         btnModificarTema.setEnabled(false);
+        idTemaSeleccionado = -1;
     }
     /**
      * This method is called from within the constructor to initialize the form.

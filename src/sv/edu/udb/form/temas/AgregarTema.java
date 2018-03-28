@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.forms.temas;
+package sv.edu.udb.form.temas;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;

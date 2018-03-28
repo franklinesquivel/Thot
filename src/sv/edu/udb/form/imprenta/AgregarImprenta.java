@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.forms.imprenta;
+package sv.edu.udb.form.imprenta;
 
 import com.sun.glass.events.KeyEvent;
 import java.util.logging.Level;
@@ -138,7 +138,9 @@ public class AgregarImprenta extends javax.swing.JInternalFrame {
                 if(txtDireccion.getText().length() > 0 && !(txtDireccion.getText().isEmpty()) && !(txtDireccion.getText().equals(" "))){
                     if(Imprenta_Model.insertar(new Imprenta(Imprenta_Model.generarId(),txtNombre.getText(),txtDireccion.getText()))){
                         JOptionPane.showMessageDialog(null, "Imprenta ingresada correctamente","Agregar Imprenta",JOptionPane.INFORMATION_MESSAGE);
-                        }else{
+                        txtNombre.setText("");
+                        txtDireccion.setText("");
+                    }else{
                         JOptionPane.showMessageDialog(null, "Ha ocurrido un error","Agregar Imprenta",JOptionPane.ERROR_MESSAGE);
                         }
                     }      

@@ -8,10 +8,10 @@ package thot;
 import sv.edu.udb.form.usuario.AgregarUsuario;
 import sv.edu.udb.form.usuario.cambiarContrasenna;
 import sv.edu.udb.form.usuario.gestionUsuario;
-import sv.edu.udb.forms.imprenta.AgregarImprenta;
-import sv.edu.udb.forms.imprenta.GestionImprenta;
-import sv.edu.udb.forms.temas.AgregarTema;
-import sv.edu.udb.forms.temas.GestionTemas;
+import sv.edu.udb.form.imprenta.AgregarImprenta;
+import sv.edu.udb.form.imprenta.GestionImprenta;
+import sv.edu.udb.form.temas.AgregarTema;
+import sv.edu.udb.form.temas.GestionTemas;
 
 /**
  *
