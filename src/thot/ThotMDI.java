@@ -5,6 +5,7 @@
  */
 package thot;
 
+import sv.edu.udb.form.autor.AgregarAutor;
 import sv.edu.udb.form.usuario.AgregarUsuario;
 import sv.edu.udb.form.usuario.cambiarContrasenna;
 import sv.edu.udb.form.usuario.gestionUsuario;
@@ -47,9 +48,8 @@ public class ThotMDI extends javax.swing.JFrame {
         copyMenuItem = new javax.swing.JMenuItem();
         pasteMenuItem = new javax.swing.JMenuItem();
         deleteMenuItem = new javax.swing.JMenuItem();
-        helpMenu = new javax.swing.JMenu();
-        contentMenuItem = new javax.swing.JMenuItem();
-        aboutMenuItem = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -135,18 +135,17 @@ public class ThotMDI extends javax.swing.JFrame {
 
         menuBar.add(editMenu);
 
-        helpMenu.setMnemonic('h');
-        helpMenu.setText("Help");
+        jMenu1.setText("Autor");
 
-        contentMenuItem.setMnemonic('c');
-        contentMenuItem.setText("Contents");
-        helpMenu.add(contentMenuItem);
+        jMenuItem1.setText("Agregar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
 
-        aboutMenuItem.setMnemonic('a');
-        aboutMenuItem.setText("About");
-        helpMenu.add(aboutMenuItem);
-
-        menuBar.add(helpMenu);
+        menuBar.add(jMenu1);
 
         setJMenuBar(menuBar);
 
@@ -170,9 +169,9 @@ public class ThotMDI extends javax.swing.JFrame {
 
     //Abrir registar usuario
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-       AgregarUsuario usuarioForm = new AgregarUsuario();
-       desktopPane.add(usuarioForm);
-       usuarioForm.setVisible(true);
+        AgregarUsuario usuarioForm = new AgregarUsuario();
+        desktopPane.add(usuarioForm);
+        usuarioForm.setVisible(true);
     }//GEN-LAST:event_openMenuItemActionPerformed
 
     //Abrir gestión de usuario
@@ -213,6 +212,13 @@ public class ThotMDI extends javax.swing.JFrame {
         alterform.setVisible(true);
     }//GEN-LAST:event_deleteMenuItemActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+
+        AgregarAutor autorForm = new AgregarAutor();
+        desktopPane.add(autorForm);
+        autorForm.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -249,8 +255,6 @@ public class ThotMDI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem aboutMenuItem;
-    private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
     private javax.swing.JMenuItem deleteMenuItem;
@@ -258,7 +262,8 @@ public class ThotMDI extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;

@@ -14,13 +14,14 @@ import sv.edu.udb.models.Autor_Model;
  * @author Frank
  */
 public class Autor {
+
     private String idAutor;
     private String nombres;
     private String apellidos;
     private Date fechaNac;
-    private Pais pais;
+    private String pais;
     private List<Libro> libros;
-    
+
     public String getIdAutor() {
         return idAutor;
     }
@@ -52,15 +53,15 @@ public class Autor {
     public void setFechaNac(Date fechaNac) {
         this.fechaNac = fechaNac;
     }
-    
-    public Pais getPais() {
+
+    public String getPais() {
         return pais;
     }
 
-    public void setPais(Pais pais) {
+    public void setPais(String pais) {
         this.pais = pais;
     }
-    
+
     public List<Libro> getLibros() {
         return libros;
     }
@@ -69,13 +70,21 @@ public class Autor {
         this.libros = libros;
     }
 
-    public Autor(String idAutor, String nombres, String apellidos, Date fechaNac, Pais pais, List<Libro> libros) {
+    public Autor(String idAutor, String nombres, String apellidos, Date fechaNac, String pais, List<Libro> libros) {
         this.idAutor = idAutor;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.fechaNac = fechaNac;
         this.pais = pais;
         this.libros = libros;
+    }
+
+    public Autor(String idAutor, String nombres, String apellidos, Date fechaNac, String pais) {
+        this.idAutor = idAutor;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.fechaNac = fechaNac;
+        this.pais = pais;
     }
 
     public Autor(String idAutor, String nombres, String apellidos, Date fechaNac) {
@@ -101,10 +110,10 @@ public class Autor {
         this.nombres = nombres;
         this.apellidos = apellidos;
     }
-    
+
     public Autor(String idAutor, boolean relaciones) {
         Autor _a = Autor_Model.obtenerAutor(idAutor, relaciones);
-        if(_a != null){
+        if (_a != null) {
             this.idAutor = _a.getIdAutor();
             this.nombres = _a.getNombres();
             this.apellidos = _a.getApellidos();
@@ -112,5 +121,19 @@ public class Autor {
             this.pais = _a.getPais();
             this.libros = _a.getLibros();
         }
+    }
+
+    public static String crearNombreAutor(int numAutor) {
+        String nombreAutor = "A";
+        if (numAutor < 10) {
+            nombreAutor += "000" + (numAutor += 1);
+        } else if (numAutor >= 10 && numAutor < 100) {
+            nombreAutor += "00" + (numAutor += 1);
+        } else if (numAutor >= 100 && numAutor < 1000) {
+            nombreAutor += "0" + (numAutor += 1);
+        } else if (numAutor >= 1000) {
+            nombreAutor += (numAutor += 1);
+        }
+        return nombreAutor;
     }
 }
