@@ -49,12 +49,36 @@ public class Autor_Model {
             return null;
         }
     }
+    
+    public static List<Autor> obtenerAutores(String filtros) {
+        List<Autor> _aList = new ArrayList();
+        try {
+            try (ResultSet data = DBConection.getData("SELECT * FROM Autor " + filtros + " ;")) {
+                while (data.next()) {
+                    Date date = null;
+                    DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+
+                    try {
+                        date = df.parse(data.getString(4));
+                    } catch (ParseException ex) {
+                        Logger.getLogger(Autor_Model.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    _aList.add(new Autor(data.getString(1), data.getString(2), data.getString(3), date));
+                }
+            }
+            return _aList;
+        } catch (SQLException ex) {
+            Logger.getLogger(Libro_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
 
     public static Autor obtenerAutor(String idAutor, boolean relaciones) {
-        PreparedStatement insertarCategoria = DBConection.getStatement("SELECT * FROM tema WHERE idTema = ?;");
+        PreparedStatement obtenerAutor = DBConection.getStatement("SELECT * FROM autor WHERE idAutor = ?;");
         try {
-            insertarCategoria.setString(1, idAutor);
-            try (ResultSet data = insertarCategoria.executeQuery()) {
+            obtenerAutor.setString(1, idAutor);
+            try (ResultSet data = obtenerAutor.executeQuery()) {
                 while (data.next()) {
                     Autor _a = new Autor(data.getString(1), data.getString(2), data.getString(3), data.getDate(4));
 

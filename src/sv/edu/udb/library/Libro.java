@@ -149,6 +149,14 @@ public class Libro {
         this.imagen = imagen;
     }
     
+    public Libro cargarRelaciones(Libro _l){
+        _l = Libro_Model.obtenerLibro(_l.getIdLibro(), true);
+//        _l.setCategoria(new Categoria(_l.getCategoria().getIdCategoria(), false));
+//        _l.setImprenta(new Imprenta(_l.getImprenta().getIdImprenta(), false));
+        
+        return _l;
+    }
+    
     public Libro(String _id, boolean relaciones){
         Libro _l = Libro_Model.obtenerLibro(_id, relaciones);
         if(_l != null){

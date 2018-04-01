@@ -37,6 +37,22 @@ public class Imprenta_Model {
             return null;
         }
     }
+    
+    public static List<Imprenta> obtenerImprentas(String filtros){
+        List<Imprenta> _iList = new ArrayList();
+        try {
+            try (ResultSet data = DBConection.getData("SELECT * FROM Imprenta " + filtros + ";")) {
+                while(data.next()){
+                    _iList.add(new Imprenta(data.getString(1), data.getString(2), data.getString(3)));
+                }
+            }
+            return _iList;
+        } catch (SQLException ex) {    
+            Logger.getLogger(Libro_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
     public static List<Imprenta> BuscarImprenta(String campo,String busqueda){
         List<Imprenta> _Ilist = new ArrayList();
         PreparedStatement consultaSQL = DBConection.getStatement("SELECT idImprenta,nombre,direccion FROM imprenta WHERE "+ campo +" LIKE '%"+busqueda +"%'");

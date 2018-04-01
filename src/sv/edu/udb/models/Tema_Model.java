@@ -35,6 +35,22 @@ public class Tema_Model {
             return null;
         }
     }
+    
+    public static List<Tema> obtenerTemas(String filtros){
+        List<Tema> _tList = new ArrayList();
+        try {
+            try (ResultSet data = DBConection.getData("SELECT * FROM Tema " + filtros + ";")) {
+                while(data.next()){
+                    _tList.add(new Tema(data.getInt(1), data.getString(2)));
+                }
+            }
+            return _tList;
+        } catch (SQLException ex) {    
+            Logger.getLogger(Libro_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
     public static List<Tema> buscarTemas(String cadena){
         List<Tema> _t = new ArrayList();
         PreparedStatement consultaSQL = DBConection.getStatement("SELECT idTema,descripcion FROM tema WHERE descripcion LIKE '%"+cadena +"%'");

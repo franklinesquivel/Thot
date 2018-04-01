@@ -13,6 +13,8 @@ import sv.edu.udb.form.imprenta.AgregarImprenta;
 import sv.edu.udb.form.imprenta.GestionImprenta;
 import sv.edu.udb.form.temas.AgregarTema;
 import sv.edu.udb.form.temas.GestionTemas;
+import sv.edu.udb.libros.AgregarLibro;
+import sv.edu.udb.libros.GestionLibro;
 
 /**
  *
@@ -25,6 +27,7 @@ public class ThotMDI extends javax.swing.JFrame {
      */
     public ThotMDI() {
         initComponents();
+        setExtendedState(ThotMDI.MAXIMIZED_BOTH);
     }
 
     /**
@@ -50,8 +53,14 @@ public class ThotMDI extends javax.swing.JFrame {
         deleteMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        libroMenu = new javax.swing.JMenu();
+        miAgregarLibro = new javax.swing.JMenuItem();
+        miGestionLibro = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("[Thot] - Sistema Gestor de Librerías");
+        setPreferredSize(new java.awt.Dimension(500, 500));
+        setResizable(false);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("Usuario");
@@ -147,17 +156,37 @@ public class ThotMDI extends javax.swing.JFrame {
 
         menuBar.add(jMenu1);
 
+        libroMenu.setText("Libros");
+
+        miAgregarLibro.setText("Agregar libro");
+        miAgregarLibro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miAgregarLibroActionPerformed(evt);
+            }
+        });
+        libroMenu.add(miAgregarLibro);
+
+        miGestionLibro.setText("Gestión");
+        miGestionLibro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miGestionLibroActionPerformed(evt);
+            }
+        });
+        libroMenu.add(miGestionLibro);
+
+        menuBar.add(libroMenu);
+
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
         );
 
         pack();
@@ -219,6 +248,18 @@ public class ThotMDI extends javax.swing.JFrame {
         autorForm.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void miAgregarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAgregarLibroActionPerformed
+        AgregarLibro _f = new AgregarLibro();
+        desktopPane.add(_f);
+        _f.setVisible(true);
+    }//GEN-LAST:event_miAgregarLibroActionPerformed
+
+    private void miGestionLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGestionLibroActionPerformed
+        GestionLibro _f = new GestionLibro();
+        desktopPane.add(_f);
+        _f.setVisible(true);
+    }//GEN-LAST:event_miGestionLibroActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -264,7 +305,10 @@ public class ThotMDI extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenu libroMenu;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem miAgregarLibro;
+    private javax.swing.JMenuItem miGestionLibro;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;

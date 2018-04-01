@@ -73,6 +73,22 @@ public class Categoria_Model {
         }
     }
     
+    public static List<Categoria> obtenerCategorias(String filtros){
+        List<Categoria> _lList = new ArrayList();
+        PreparedStatement insertarLibro = DBConection.getStatement("SELECT idCategoria, nombre, descripcion FROM categoria " + filtros + ";");
+        try {
+            try (ResultSet data = insertarLibro.executeQuery()) {
+                while(data.next()){
+                    _lList.add(new Categoria(Integer.parseInt(data.getString("idCategoria")), data.getString("nombre"), data.getString("descripcion")));
+                }
+            }
+            return _lList;
+        } catch (SQLException ex) {    
+            Logger.getLogger(Libro_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
      public static boolean insertar(Categoria _c){
         PreparedStatement insertarSQL = DBConection.getStatement("INSERT INTO categoria(nombre, descripcion) VALUES(?, ?);");
         try {
