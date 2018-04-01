@@ -269,7 +269,7 @@ CREATE TABLE `usuario` (
   `correo` varchar(60) COLLATE utf8_spanish2_ci NOT NULL,
   `fechaNacimiento` date NOT NULL,
   `username` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
-  `password` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  `password` varchar(300) COLLATE utf8_spanish2_ci NOT NULL,
   `estado` tinyint(1) NOT NULL,
   `tipoUsuario` varchar(1) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`idUsuario`),

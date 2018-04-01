@@ -347,9 +347,10 @@ public class gestionUsuario extends javax.swing.JInternalFrame {
         if(idUsuarioSeleccionado > -1){
             if(validarCampos()){
                 if(Usuario_Model.verificarCorreo(txtCorreo.getText(), idUsuarioSeleccionado)){
-                    modificarUsuario();
-                    inicializarComponente();
-                    cargarUsuarios();
+                    if(modificarUsuario()){
+                        inicializarComponente();
+                        cargarUsuarios();
+                    }
                 }else{
                     JOptionPane.showMessageDialog(null, "El correo ingresado ya existe!", "Registro de Usuario", JOptionPane.WARNING_MESSAGE);
                 }
@@ -359,7 +360,7 @@ public class gestionUsuario extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void modificarUsuario(){
+    private boolean modificarUsuario(){
         try {
             boolean estado = (cmbEstado.getSelectedIndex() == 0) ? true : false;
             String nombre = txtNombre.getText(), 
@@ -370,6 +371,7 @@ public class gestionUsuario extends javax.swing.JInternalFrame {
             if(compararFecha(fechaNacimiento)){
                 if(Usuario_Model.modificarUsuario(new Usuario(idUsuarioSeleccionado, nombre, apellido, correo, fechaNacimiento, estado))){
                     JOptionPane.showMessageDialog(null, "Usuario modificado correctamente", "Gestión de Usuario", JOptionPane.INFORMATION_MESSAGE);
+                    return true;
                 }else{
                     JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Gestión de Usuario", JOptionPane.ERROR_MESSAGE);
                 }
@@ -377,6 +379,7 @@ public class gestionUsuario extends javax.swing.JInternalFrame {
         } catch (ParseException ex) {
             Logger.getLogger(AgregarUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
     //Eliminar Usuario
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed

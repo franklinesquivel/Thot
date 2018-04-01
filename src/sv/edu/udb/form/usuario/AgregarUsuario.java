@@ -31,7 +31,7 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
      */
     public AgregarUsuario() {
         initComponents();
-        cargarTipoUsuario();
+        iniciarCampos();
     }
 
     /**
@@ -163,7 +163,9 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
                 if(compararFecha(fechaNacimiento)){//Comparamos que la fehca ingresada no sea mayor a la actual
                     if(Usuario_Model.verificarCorreo(correo)){
                         if(Usuario_Model.insertar(new Usuario(nombre, apellido, correo, fechaNacimiento, username, password, true, tipo))){
-                            JOptionPane.showMessageDialog(null, "Usuario registrado correctamente", "Registro de Usuario", JOptionPane.INFORMATION_MESSAGE);
+                            String mensaje = "Usuario: "+username+". \n Contraseña: "+Encriptar.desencriptar(password)+".";
+                            JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.\n "+mensaje, "Registro de Usuario", JOptionPane.INFORMATION_MESSAGE); 
+                            iniciarCampos(); //Se reinician campos
                         }else{
                             JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Registro de Usuario", JOptionPane.ERROR_MESSAGE);
                         }
@@ -178,12 +180,20 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     //Carga los tipos de usuario en el cmb
-    public void cargarTipoUsuario(){
+    private void cargarTipoUsuario(){
         cmbTipoUsuario.removeAllItems(); //Remover Items
         tipos = TipoUsuario_Model.obtenerTiposUsuarios();
         for(TipoUsuario t : tipos){
             cmbTipoUsuario.addItem(t.getNombre());
         }
+    }
+    
+    private void iniciarCampos(){
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtCorreo.setText("");
+        txtFechaNacimiento.setText("");
+        cargarTipoUsuario();
     }
     
     private boolean validarCampos(){

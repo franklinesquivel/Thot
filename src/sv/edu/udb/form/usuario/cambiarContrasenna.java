@@ -114,7 +114,7 @@ public class cambiarContrasenna extends javax.swing.JInternalFrame {
 
         lblContrasenna.setText("Nueva Contraseña");
 
-        btnProcesar.setText("jButton1");
+        btnProcesar.setText("Procesar");
         btnProcesar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnProcesarActionPerformed(evt);
