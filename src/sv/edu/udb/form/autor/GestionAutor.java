@@ -5,18 +5,68 @@
  */
 package sv.edu.udb.form.autor;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import sv.edu.udb.library.Autor;
+import sv.edu.udb.library.Pais;
+import sv.edu.udb.models.Autor_Model;
+import sv.edu.udb.models.Pais_Model;
+
 /**
  *
  * @author jasso
  */
 public class GestionAutor extends javax.swing.JInternalFrame {
+    private DefaultTableModel modelo = null;
+    private List<Autor> autores = new ArrayList<Autor>();
+    private List<Pais> tipos = new ArrayList<Pais>();
+    private String idAutorSeleccionado;
 
     /**
      * Creates new form GestionAutor
      */
     public GestionAutor() {
         initComponents();
+        inicializarComponente();
+        cargarUsuarios();
+        
     }
+    
+    private void cargarUsuarios(){
+        Object[][] datos = null;
+        String[] columns = {"ID", "Nombres", "Apellidos", "Fecha de Nacimiento", "Pais"};
+        modelo = new DefaultTableModel(datos, columns);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        
+        for(Autor _a : autores){
+            Object[] nuevaLinea = {_a.getIdAutor(), _a.getNombres(), _a.getApellidos(), format.format(_a.getFechaNac()), _a.getPais()};
+            modelo.addRow(nuevaLinea);
+        }       
+        jtDatos.setModel(modelo);
+    }
+    
+    private void inicializarComponente(){
+        autores = Autor_Model.obtenerAutores(); 
+        txtNombre.setEnabled(false);
+        jcbPais.setEnabled(false);
+        
+        //Cargamos los tipos de usuario
+        jcbPais.removeAllItems(); //Remover Items
+        tipos = Pais_Model.obtenerPaises();
+        for(Pais p : tipos){
+            jcbPais.addItem(p.getNombre());
+        }
+        
+        //Ponemos en blanco los campos
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtFecha.setText("");        
+        jcbPais.setSelectedIndex(0);
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,7 +78,7 @@ public class GestionAutor extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtDatos = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         lblNombre = new javax.swing.JLabel();
         lblApellido = new javax.swing.JLabel();
@@ -41,18 +91,23 @@ public class GestionAutor extends javax.swing.JInternalFrame {
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Nombre", "Apellido", "F. Nac", "Pais"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jtDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtDatosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtDatos);
 
         lblNombre.setText("Nombre");
 
@@ -157,14 +212,32 @@ public class GestionAutor extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnModificarActionPerformed
 
+    private void jtDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtDatosMouseClicked
+        if(autores.size() > 0){
+            int fila = jtDatos.rowAtPoint(evt.getPoint());
+            if(fila > -1){
+                idAutorSeleccionado = autores.get(fila).getIdAutor();
+                txtNombre.setText(autores.get(fila).getNombres());
+                txtApellido.setText(autores.get(fila).getApellidos()); 
+                
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                String date = format.format(autores.get(fila).getFechaNac());
+                
+                txtFecha.setText(date);
+                jcbPais.setEnabled(true);
+                
+            }
+        }
+    }//GEN-LAST:event_jtDatosMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JComboBox<String> jcbPais;
+    private javax.swing.JTable jtDatos;
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblNombre;
