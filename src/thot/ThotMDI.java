@@ -6,6 +6,7 @@
 package thot;
 
 import sv.edu.udb.form.autor.AgregarAutor;
+import sv.edu.udb.form.autor.GestionAutor;
 import sv.edu.udb.form.usuario.AgregarUsuario;
 import sv.edu.udb.form.usuario.cambiarContrasenna;
 import sv.edu.udb.form.usuario.gestionUsuario;
@@ -53,6 +54,7 @@ public class ThotMDI extends javax.swing.JFrame {
         deleteMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         libroMenu = new javax.swing.JMenu();
         miAgregarLibro = new javax.swing.JMenuItem();
         miGestionLibro = new javax.swing.JMenuItem();
@@ -153,6 +155,14 @@ public class ThotMDI extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Gestionar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
 
         menuBar.add(jMenu1);
 
@@ -260,6 +270,12 @@ public class ThotMDI extends javax.swing.JFrame {
         _f.setVisible(true);
     }//GEN-LAST:event_miGestionLibroActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        GestionAutor _ga = new GestionAutor();
+        desktopPane.add(_ga);
+        _ga.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -305,6 +321,7 @@ public class ThotMDI extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu libroMenu;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem miAgregarLibro;
