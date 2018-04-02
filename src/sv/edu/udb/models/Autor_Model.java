@@ -32,15 +32,15 @@ public class Autor_Model {
             try (ResultSet data = DBConection.getData("SELECT * FROM Autor;")) {
                 while (data.next()) {
                     Date date = null;
-                    DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
                     try {
-                        date = df.parse(data.getString(4));
+                        date = df.parse(data.getDate(4).toString());
                     } catch (ParseException ex) {
                         Logger.getLogger(Autor_Model.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                    _aList.add(new Autor(data.getString(1), data.getString(2), data.getString(3), date));
+                    _aList.add(new Autor(data.getString(1), data.getString(2), data.getString(3), date, data.getString(5)));
                 }
             }
             return _aList;
@@ -56,7 +56,7 @@ public class Autor_Model {
             try (ResultSet data = DBConection.getData("SELECT * FROM Autor " + filtros + " ;")) {
                 while (data.next()) {
                     Date date = null;
-                    DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
                     try {
                         date = df.parse(data.getString(4));
@@ -131,7 +131,7 @@ public class Autor_Model {
 
             modificarSQL.setString(1, _a.getNombres());
             modificarSQL.setString(2, _a.getApellidos());
-            modificarSQL.setString(3, _a.getFechaNac().toString());
+            modificarSQL.setString(3, new java.sql.Date(_a.getFechaNac().getTime()).toString());
             modificarSQL.setString(4, _a.getPais());
             modificarSQL.setString(5, _a.getIdAutor());
             modificarSQL.executeUpdate();

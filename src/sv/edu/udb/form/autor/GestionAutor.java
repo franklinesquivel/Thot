@@ -5,23 +5,31 @@
  */
 package sv.edu.udb.form.autor;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sv.edu.udb.library.Autor;
 import sv.edu.udb.library.Pais;
 import sv.edu.udb.models.Autor_Model;
 import sv.edu.udb.models.Pais_Model;
+import sv.edu.udb.validacion.Validacion;
 
 /**
  *
  * @author jasso
  */
 public class GestionAutor extends javax.swing.JInternalFrame {
+    private List<Pais> items = new ArrayList<Pais>();
+
     private DefaultTableModel modelo = null;
     private List<Autor> autores = new ArrayList<Autor>();
-    private List<Pais> tipos = new ArrayList<Pais>();
     private String idAutorSeleccionado;
 
     /**
@@ -31,42 +39,87 @@ public class GestionAutor extends javax.swing.JInternalFrame {
         initComponents();
         inicializarComponente();
         cargarUsuarios();
-        
+
     }
-    
-    private void cargarUsuarios(){
+
+    private void cargarUsuarios() {
         Object[][] datos = null;
         String[] columns = {"ID", "Nombres", "Apellidos", "Fecha de Nacimiento", "Pais"};
         modelo = new DefaultTableModel(datos, columns);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        
-        for(Autor _a : autores){
+
+        for (Autor _a : autores) {
             Object[] nuevaLinea = {_a.getIdAutor(), _a.getNombres(), _a.getApellidos(), format.format(_a.getFechaNac()), _a.getPais()};
             modelo.addRow(nuevaLinea);
-        }       
+        }
         jtDatos.setModel(modelo);
     }
-    
-    private void inicializarComponente(){
-        autores = Autor_Model.obtenerAutores(); 
-        txtNombre.setEnabled(false);
+
+    private void inicializarComponente() {
+        autores = Autor_Model.obtenerAutores();
         jcbPais.setEnabled(false);
-        
+
         //Cargamos los tipos de usuario
         jcbPais.removeAllItems(); //Remover Items
-        tipos = Pais_Model.obtenerPaises();
-        for(Pais p : tipos){
+        items = Pais_Model.obtenerPaises();
+        for (Pais p : items) {
             jcbPais.addItem(p.getNombre());
         }
-        
+
         //Ponemos en blanco los campos
         txtNombre.setText("");
         txtApellido.setText("");
-        txtFecha.setText("");        
+        txtFecha.setText("");
         jcbPais.setSelectedIndex(0);
     }
-    
-    
+
+    private boolean modificarUsuario() {
+        try {
+            String nombre = txtNombre.getText(),
+                    apellido = txtApellido.getText(),
+                    pais = jcbPais.getSelectedItem().toString();
+            Date fechaNacimiento = new SimpleDateFormat("yyyy-MM-dd").parse(txtFecha.getText());
+            
+            String PaisString = "";
+                for (Pais P : items) {
+                    if (P.getNombre().equals(jcbPais.getSelectedItem().toString())) {
+                        PaisString = String.valueOf(P.getIdPais());
+                        break;
+                    }
+                }
+
+            if (compararFecha(fechaNacimiento)) {
+                if (Autor_Model.modificar(new Autor(idAutorSeleccionado, nombre, apellido, fechaNacimiento, PaisString))) {
+                    JOptionPane.showMessageDialog(null, "Usuario modificado correctamente", "Gestión de Usuario", JOptionPane.INFORMATION_MESSAGE);
+                    return true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Gestión de Usuario", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(AgregarAutor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    private boolean validarCampos() {
+        if (Validacion.validar("^[\\p{L} .'-]+$", txtNombre.getText(), "Ingresar un nombre válido!", "Agregar Usuario")
+                && Validacion.validar("^[\\p{L} .'-]+", txtApellido.getText(), "Ingresar un apellido válido!", "Agregar Usuario")
+                && Validacion.validar("^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$", txtFecha.getText(), "Fecha Inválida (yyyy-MM-dd)", "Agregar Usuario")) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean compararFecha(Date fecha) {
+        Date fechaActual = new Date();
+        if (fecha.compareTo(fechaActual) < 0) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingresar una fecha válida", "Registro de Usuario", JOptionPane.ERROR_MESSAGE);
+        }
+        return false;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -210,22 +263,35 @@ public class GestionAutor extends javax.swing.JInternalFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
+        if (validarCampos()) {
+            
+            
+
+            if (modificarUsuario()) {
+                inicializarComponente();
+                cargarUsuarios();
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecciona un usuario", "Gestión de Usuario", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void jtDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtDatosMouseClicked
-        if(autores.size() > 0){
+        if (autores.size() > 0) {
             int fila = jtDatos.rowAtPoint(evt.getPoint());
-            if(fila > -1){
+            if (fila > -1) {
                 idAutorSeleccionado = autores.get(fila).getIdAutor();
                 txtNombre.setText(autores.get(fila).getNombres());
-                txtApellido.setText(autores.get(fila).getApellidos()); 
-                
+                txtApellido.setText(autores.get(fila).getApellidos());
+
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 String date = format.format(autores.get(fila).getFechaNac());
-                
+
                 txtFecha.setText(date);
                 jcbPais.setEnabled(true);
-                
+
             }
         }
     }//GEN-LAST:event_jtDatosMouseClicked
