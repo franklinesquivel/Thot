@@ -26,6 +26,7 @@ import sv.edu.udb.validacion.Validacion;
  * @author jasso
  */
 public class GestionAutor extends javax.swing.JInternalFrame {
+
     private List<Pais> items = new ArrayList<Pais>();
 
     private DefaultTableModel modelo = null;
@@ -38,11 +39,11 @@ public class GestionAutor extends javax.swing.JInternalFrame {
     public GestionAutor() {
         initComponents();
         inicializarComponente();
-        cargarUsuarios();
+        cargarAutores();
 
     }
 
-    private void cargarUsuarios() {
+    private void cargarAutores() {
         Object[][] datos = null;
         String[] columns = {"ID", "Nombres", "Apellidos", "Fecha de Nacimiento", "Pais"};
         modelo = new DefaultTableModel(datos, columns);
@@ -79,14 +80,14 @@ public class GestionAutor extends javax.swing.JInternalFrame {
                     apellido = txtApellido.getText(),
                     pais = jcbPais.getSelectedItem().toString();
             Date fechaNacimiento = new SimpleDateFormat("yyyy-MM-dd").parse(txtFecha.getText());
-            
+
             String PaisString = "";
-                for (Pais P : items) {
-                    if (P.getNombre().equals(jcbPais.getSelectedItem().toString())) {
-                        PaisString = String.valueOf(P.getIdPais());
-                        break;
-                    }
+            for (Pais P : items) {
+                if (P.getNombre().equals(jcbPais.getSelectedItem().toString())) {
+                    PaisString = String.valueOf(P.getIdPais());
+                    break;
                 }
+            }
 
             if (compararFecha(fechaNacimiento)) {
                 if (Autor_Model.modificar(new Autor(idAutorSeleccionado, nombre, apellido, fechaNacimiento, PaisString))) {
@@ -180,6 +181,11 @@ public class GestionAutor extends javax.swing.JInternalFrame {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -264,16 +270,14 @@ public class GestionAutor extends javax.swing.JInternalFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
         if (validarCampos()) {
-            
-            
 
             if (modificarUsuario()) {
                 inicializarComponente();
-                cargarUsuarios();
+                cargarAutores();
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "Selecciona un usuario", "Gestión de Usuario", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Selecciona un autor", "Gestión de Autor", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnModificarActionPerformed
@@ -295,6 +299,26 @@ public class GestionAutor extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_jtDatosMouseClicked
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        if (idAutorSeleccionado != null) {
+
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Estas seguro eliminar este autor?", "Gestion de autor", JOptionPane.WARNING_MESSAGE);
+            if (respuesta == JOptionPane.OK_OPTION) { //Eliminar
+
+                if (Autor_Model.eliminar(new Autor(idAutorSeleccionado, "", "", new Date(), ""))) {
+                    inicializarComponente();
+                    cargarAutores();
+                    JOptionPane.showMessageDialog(null, "Autor elimnado correctamente", "Gestión de Autor", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error en el proceso de eliminación", "Gestión de Autor", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecciona un Autor", "Gestión de Autor", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
