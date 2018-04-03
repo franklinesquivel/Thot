@@ -39,6 +39,7 @@ public class AgregarTema extends javax.swing.JInternalFrame {
         btnAgregarTema = new javax.swing.JButton();
         txtDescripcion = new javax.swing.JTextField();
 
+        setClosable(true);
         setTitle("Registro de Temas");
         setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 

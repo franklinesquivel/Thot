@@ -50,14 +50,15 @@ public class ThotMDI extends javax.swing.JFrame {
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
         copyMenuItem = new javax.swing.JMenuItem();
-        pasteMenuItem = new javax.swing.JMenuItem();
-        deleteMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         libroMenu = new javax.swing.JMenu();
         miAgregarLibro = new javax.swing.JMenuItem();
         miGestionLibro = new javax.swing.JMenuItem();
+        jmainImprentas = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("[Thot] - Sistema Gestor de Librerías");
@@ -109,7 +110,7 @@ public class ThotMDI extends javax.swing.JFrame {
         editMenu.setText("Temas");
 
         cutMenuItem.setMnemonic('t');
-        cutMenuItem.setText("Registrar");
+        cutMenuItem.setText("Agregar");
         cutMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cutMenuItemActionPerformed(evt);
@@ -125,24 +126,6 @@ public class ThotMDI extends javax.swing.JFrame {
             }
         });
         editMenu.add(copyMenuItem);
-
-        pasteMenuItem.setMnemonic('p');
-        pasteMenuItem.setText("Registrar I");
-        pasteMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pasteMenuItemActionPerformed(evt);
-            }
-        });
-        editMenu.add(pasteMenuItem);
-
-        deleteMenuItem.setMnemonic('d');
-        deleteMenuItem.setText("Gestionar I");
-        deleteMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteMenuItemActionPerformed(evt);
-            }
-        });
-        editMenu.add(deleteMenuItem);
 
         menuBar.add(editMenu);
 
@@ -185,6 +168,26 @@ public class ThotMDI extends javax.swing.JFrame {
         libroMenu.add(miGestionLibro);
 
         menuBar.add(libroMenu);
+
+        jmainImprentas.setText("Imprentas");
+
+        jMenuItem3.setText("Agregar");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jmainImprentas.add(jMenuItem3);
+
+        jMenuItem4.setText("Gestión");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jmainImprentas.add(jMenuItem4);
+
+        menuBar.add(jmainImprentas);
 
         setJMenuBar(menuBar);
 
@@ -239,18 +242,6 @@ public class ThotMDI extends javax.swing.JFrame {
         alterform.setVisible(true);
     }//GEN-LAST:event_copyMenuItemActionPerformed
 
-    private void pasteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasteMenuItemActionPerformed
-        AgregarImprenta alterform = new AgregarImprenta();
-        desktopPane.add(alterform);
-        alterform.setVisible(true);
-    }//GEN-LAST:event_pasteMenuItemActionPerformed
-
-    private void deleteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuItemActionPerformed
-        GestionImprenta alterform = new GestionImprenta();
-        desktopPane.add(alterform);
-        alterform.setVisible(true);
-    }//GEN-LAST:event_deleteMenuItemActionPerformed
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
         AgregarAutor autorForm = new AgregarAutor();
@@ -275,6 +266,18 @@ public class ThotMDI extends javax.swing.JFrame {
         desktopPane.add(_ga);
         _ga.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+       GestionImprenta alterform = new GestionImprenta();
+        desktopPane.add(alterform);
+        alterform.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        AgregarImprenta alterform = new AgregarImprenta();
+        desktopPane.add(alterform);
+        alterform.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -314,7 +317,6 @@ public class ThotMDI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
-    private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
@@ -322,12 +324,14 @@ public class ThotMDI extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenu jmainImprentas;
     private javax.swing.JMenu libroMenu;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem miAgregarLibro;
     private javax.swing.JMenuItem miGestionLibro;
     private javax.swing.JMenuItem openMenuItem;
-    private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables

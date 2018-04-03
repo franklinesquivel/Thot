@@ -71,6 +71,7 @@ public class GestionImprenta extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblImprentas = new javax.swing.JTable();
 
+        setClosable(true);
         setTitle("Gestión de Imprentas");
 
         txtBusqueda.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N

@@ -55,6 +55,7 @@ public class GestionTemas extends javax.swing.JInternalFrame {
         btnEliminarTema = new javax.swing.JButton();
         btnModificarTema = new javax.swing.JButton();
 
+        setClosable(true);
         setResizable(true);
         setTitle("Gestión de Temas");
 

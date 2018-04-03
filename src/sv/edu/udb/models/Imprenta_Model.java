@@ -123,7 +123,10 @@ public class Imprenta_Model {
         try{
             ResultSet _r = DBConection.getData("SELECT MAX(CAST(SUBSTRING(idImprenta,5,4) AS UNSIGNED)) AS newId FROM imprenta");
             _r.next();
-            _c = Integer.parseInt(_r.getString("newId")) + 1;
+            
+            if(_r.getString("newId") != null){
+                _c = Integer.parseInt(_r.getString("newId")) + 1;
+
             if(_c < 10){
                 _id = "IMTA000" + _c;
             }else if(_c >=10 && _c < 100){
@@ -133,6 +136,10 @@ public class Imprenta_Model {
             }else{
                 _id = "IMTA" + _c;
             }
+            }else{
+                _id = "IMTA0001";
+            }
+            _r.close();
             return _id;
         }catch(SQLException ex){
             Logger.getLogger(Imprenta_Model.class.getName()).log(Level.SEVERE,null,ex);

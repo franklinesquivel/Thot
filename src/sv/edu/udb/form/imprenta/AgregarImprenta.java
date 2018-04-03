@@ -41,6 +41,7 @@ public class AgregarImprenta extends javax.swing.JInternalFrame {
         btnAgregarImprenta = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
+        setClosable(true);
         setTitle("Registro de Imprentas");
 
         lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N

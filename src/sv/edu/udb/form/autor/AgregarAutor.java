@@ -55,6 +55,7 @@ public class AgregarAutor extends javax.swing.JInternalFrame {
         btnIngresar = new javax.swing.JButton();
         txtFechaNac = new javax.swing.JTextField();
 
+        setClosable(true);
         setPreferredSize(new java.awt.Dimension(500, 500));
         try {
             setSelected(true);

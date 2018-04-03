@@ -55,6 +55,8 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
         lblTipo = new javax.swing.JLabel();
         cmbTipoUsuario = new javax.swing.JComboBox<>();
 
+        setClosable(true);
+
         lblNombre.setText("Nombres");
 
         lblApellido.setText("Apellidos");
