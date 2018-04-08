@@ -144,6 +144,10 @@ public class GestionAutor extends javax.swing.JInternalFrame {
         jcbPais = new javax.swing.JComboBox<>();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        lblFiltro = new javax.swing.JLabel();
+        jcbBuscador = new javax.swing.JComboBox<>();
+        lblBuscador = new javax.swing.JLabel();
+        txtBuscador = new javax.swing.JTextField();
 
         setClosable(true);
 
@@ -242,24 +246,58 @@ public class GestionAutor extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificar)
                     .addComponent(btnEliminar))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
+
+        lblFiltro.setText("Filtro");
+
+        jcbBuscador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Apellido", "Pais" }));
+
+        lblBuscador.setText("Patrón a buscar");
+
+        txtBuscador.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscadorKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(292, 292, 292)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblBuscador)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblFiltro)
+                                .addGap(18, 18, 18)
+                                .addComponent(jcbBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(76, 76, 76)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFiltro)
+                    .addComponent(jcbBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblBuscador)
+                    .addComponent(txtBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -297,7 +335,6 @@ public class GestionAutor extends javax.swing.JInternalFrame {
 
                 txtFecha.setText(date);
                 jcbPais.setEnabled(true);
-
             }
         }
     }//GEN-LAST:event_jtDatosMouseClicked
@@ -305,7 +342,6 @@ public class GestionAutor extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         if (idAutorSeleccionado != null) {
-
             int respuesta = JOptionPane.showConfirmDialog(null, "¿Estas seguro eliminar este autor?", "Gestion de autor", JOptionPane.WARNING_MESSAGE);
             if (respuesta == JOptionPane.OK_OPTION) { //Eliminar
 
@@ -322,19 +358,39 @@ public class GestionAutor extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    //Txt Buscador
+    private void txtBuscadorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscadorKeyReleased
+        if(jcbBuscador.getSelectedItem().toString().equals("Nombre")){ //Buscar por nombre
+            autores = Autor_Model.obtenerAutores(" WHERE nombres LIKE '%"+ txtBuscador.getText() +"%'");
+        }else if(jcbBuscador.getSelectedItem().toString().equals("Apellido")){//Buscar por apellido
+            autores = Autor_Model.obtenerAutores(" WHERE apellidos LIKE '%"+ txtBuscador.getText() +"%'");
+        }else if(jcbBuscador.getSelectedItem().toString().equals("Pais")){ //Buscar por Correo
+            autores = Autor_Model.obtenerAutores(" WHERE idPais LIKE '%"+ txtBuscador.getText() +"%'");
+        }
+        
+        if(txtBuscador.getText().length() == 1){
+            autores = Autor_Model.obtenerAutores(); //Obtenemos el listado de autores (todos)
+        }
+        cargarAutores();
+    }//GEN-LAST:event_txtBuscadorKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> jcbBuscador;
     private javax.swing.JComboBox<String> jcbPais;
     private javax.swing.JTable jtDatos;
     private javax.swing.JLabel lblApellido;
+    private javax.swing.JLabel lblBuscador;
     private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblFiltro;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPais;
     private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtBuscador;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables

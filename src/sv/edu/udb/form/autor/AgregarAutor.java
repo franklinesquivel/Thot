@@ -182,19 +182,24 @@ public class AgregarAutor extends javax.swing.JInternalFrame {
                 if (compararFecha(fechaNacimiento)) {//Comparamos que la fehca ingresada no sea mayor a la actual
                     if (Autor_Model.insertar(new Autor(idAutor, nombre, apellido, fechaNacimiento, PaisString))) {
                         JOptionPane.showMessageDialog(null, "Autor registrado correctamente", "Registro de Autor", JOptionPane.INFORMATION_MESSAGE);
+                        limpiarCampos();
                     } else { //Esperame voy a buscar
-                        
                         JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Registro de Autor", JOptionPane.ERROR_MESSAGE);
                     }
-
                 }
             }
         } catch (ParseException ex) {
             Logger.getLogger(AgregarAutor.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
     }//GEN-LAST:event_btnIngresarActionPerformed
+    
+    public void limpiarCampos(){
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtFechaNac.setText("");
+        cargarPais();
+    }
+    
     public void cargarPais() {
         jcbPais.removeAllItems();
         items = Pais_Model.obtenerPaises();

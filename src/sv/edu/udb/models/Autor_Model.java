@@ -64,7 +64,7 @@ public class Autor_Model {
                         Logger.getLogger(Autor_Model.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                    _aList.add(new Autor(data.getString(1), data.getString(2), data.getString(3), date));
+                    _aList.add(new Autor(data.getString(1), data.getString(2), data.getString(3), date, data.getString(5)));
                 }
             }
             return _aList;
