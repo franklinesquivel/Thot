@@ -84,7 +84,7 @@ public class cambiarContrasenna extends javax.swing.JInternalFrame {
 
         lblFiltro.setText("Filtro");
 
-        cmbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Apellido", "Correo Electrónico", "Nombre de Usuario", " " }));
+        cmbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Apellido", "Correo Electrónico", "Nombre de Usuario" }));
 
         lblBuscar.setText("Patrón de busqueda");
 
