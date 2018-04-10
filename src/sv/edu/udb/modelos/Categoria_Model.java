@@ -127,4 +127,19 @@ public class Categoria_Model {
             return false;
         }
     }
+    
+    public static boolean verificar(String nombre){ //Verifica la existencia
+        PreparedStatement query = DBConection.getStatement("SELECT COUNT(*) FROM categoria WHERE LOWER(nombre) = ?");
+        try{
+            query.setString(1, nombre.toLowerCase());
+            ResultSet data = query.executeQuery();
+            data.next();
+            int num = data.getInt(1);
+            data.close();
+            return ((num > 0) ? false : true);
+        }catch(SQLException ex){
+            Logger.getLogger(Usuario_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 }

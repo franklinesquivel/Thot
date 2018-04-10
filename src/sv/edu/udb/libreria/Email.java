@@ -1,9 +1,10 @@
 /*
- * Al momento de ingresar usuarios en la app. Se envìa su contraseña a su respectivo correo.
- * Esta clase sirve para enviar el correo
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package sv.edu.udb.library;
-    
+package sv.edu.udb.libreria;
+
 import javax.mail.Session;
 import java.util.Properties;
 import javax.mail.Message;
@@ -110,3 +111,4 @@ public class Email {
         return respuesta;
     }//FIN método de enviar
 }
+
