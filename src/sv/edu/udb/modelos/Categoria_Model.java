@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.models;
+package sv.edu.udb.modelos;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sv.edu.udb.connection.DBConection;
-import sv.edu.udb.library.Categoria;
-import sv.edu.udb.library.Libro;
+import sv.edu.udb.libreria.Categoria;
+import sv.edu.udb.libreria.Libro;
 
 /**
  *

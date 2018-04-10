@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import sv.edu.udb.library.Autor;
-import sv.edu.udb.library.Pais;
-import sv.edu.udb.models.Autor_Model;
-import sv.edu.udb.models.Pais_Model;
+import sv.edu.udb.libreria.Autor;
+import sv.edu.udb.libreria.Pais;
+import sv.edu.udb.modelos.Autor_Model;
+import sv.edu.udb.modelos.Pais_Model;
 import sv.edu.udb.validacion.Validacion;
 
 /**

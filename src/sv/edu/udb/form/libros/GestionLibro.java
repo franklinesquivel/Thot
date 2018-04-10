@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.libros;
+package sv.edu.udb.form.libros;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -19,16 +19,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import sv.edu.udb.library.Autor;
-import sv.edu.udb.library.Categoria;
-import sv.edu.udb.library.Imprenta;
-import sv.edu.udb.library.Libro;
-import sv.edu.udb.library.Tema;
-import sv.edu.udb.models.Autor_Model;
-import sv.edu.udb.models.Categoria_Model;
-import sv.edu.udb.models.Imprenta_Model;
-import sv.edu.udb.models.Libro_Model;
-import sv.edu.udb.models.Tema_Model;
+import sv.edu.udb.libreria.Autor;
+import sv.edu.udb.libreria.Categoria;
+import sv.edu.udb.libreria.Imprenta;
+import sv.edu.udb.libreria.Libro;
+import sv.edu.udb.libreria.Tema;
+import sv.edu.udb.modelos.Autor_Model;
+import sv.edu.udb.modelos.Categoria_Model;
+import sv.edu.udb.modelos.Imprenta_Model;
+import sv.edu.udb.modelos.Libro_Model;
+import sv.edu.udb.modelos.Tema_Model;
 import sv.edu.udb.validacion.Validacion;
 
 /**

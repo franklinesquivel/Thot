@@ -14,8 +14,8 @@ import sv.edu.udb.form.imprenta.AgregarImprenta;
 import sv.edu.udb.form.imprenta.GestionImprenta;
 import sv.edu.udb.form.temas.AgregarTema;
 import sv.edu.udb.form.temas.GestionTemas;
-import sv.edu.udb.libros.AgregarLibro;
-import sv.edu.udb.libros.GestionLibro;
+import sv.edu.udb.form.libros.AgregarLibro;
+import sv.edu.udb.form.libros.GestionLibro;
 
 /**
  *

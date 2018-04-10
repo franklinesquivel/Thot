@@ -10,8 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import sv.edu.udb.validacion.Validacion;
 import javax.swing.JOptionPane;
-import sv.edu.udb.models.Imprenta_Model;
-import sv.edu.udb.library.Imprenta;
+import sv.edu.udb.modelos.Imprenta_Model;
+import sv.edu.udb.libreria.Imprenta;
 /**
  *
  * @author Pazzuelo02

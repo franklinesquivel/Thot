@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.library;
+package sv.edu.udb.libreria;
 
-import sv.edu.udb.models.Libro_Model;
+import sv.edu.udb.modelos.Libro_Model;
 import java.util.List;
 
 /**
