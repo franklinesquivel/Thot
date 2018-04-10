@@ -298,3 +298,60 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2018-04-09 17:08:05
+
+--Aqui dejo los campos por que no se donde ponerlos xd
+--Autores
+INSERT INTO `autor` (`idAutor`, `nombres`, `apellidos`, `fechaNac`, `idPais`) VALUES
+('A0001', 'Ricardo Eliecer Neftali', 'Reyes Basoalto', '1904-07-02', 'CHL'),
+('A0002', 'Friedrich Wilhelm', 'Nietzsche', '1844-10-15', 'DEU'),
+('A0003', 'Miguel de Cervantes', 'Saavedra', '1547-09-29', 'ESP'),
+('A0004', 'Gabriel Jose', 'García Márquez', '1927-03-17', 'MEX'),
+('A0005', 'Federico', 'Garcia Lorca', '1898-06-05', 'ESP');
+
+--categoria
+INSERT INTO `categoria` (`idCategoria`, `nombre`, `descripcion`) VALUES
+(1, 'Filosofia', 'Filosofia universal'),
+(2, 'Realismo magico', 'Realidad magicas externas'),
+(3, 'Literatura', 'Literatura universal'),
+(4, 'Biografias', 'Biografias o autobiografias'),
+(5, 'Historia', 'Historia universal');
+
+--Detalle Autor libro
+INSERT INTO `detalle_autorlibro` (`idDetalle_AutorLibro`, `idAutor`, `idLibro`) VALUES
+(1, 'A0002', 'L0001'),
+(2, 'A0004', 'L0002'),
+(3, 'A0003', 'L0003'),
+(4, 'A0001', 'L0004'),
+(5, 'A0005', 'L0005');
+
+--DetalleLibroTema
+INSERT INTO `detalle_librotema` (`idDetalle_LibroTema`, `idLibro`, `idTema`) VALUES
+(1, 'L0001', 2),
+(2, 'L0002', 5),
+(3, 'L0003', 3),
+(4, 'L0004', 5),
+(5, 'L0005', 1);
+
+--Imprenta
+INSERT INTO `imprenta` (`idImprenta`, `nombre`, `direccion`) VALUES
+('IMTA0001', 'ALBACROME', 'Km.13. a, 5, Comalapa'),
+('IMTA0002', 'Creadores', 'Calle al volcan Col. Sta. Gertrudis No. 2A Mejicanos, San Salvador'),
+('IMTA0003', 'IMPRESAL', 'Calle Cuscatlan No. 532, 87 Avenida Sur, San Salvador'),
+('IMTA0004', 'Tipografia comercial', '1a Calle Oriente, Santa Ana 2201'),
+('IMTA0005', 'VIMTAZA', 'Carretera al puerto de la libertad, santa tecla');
+
+--Libros
+INSERT INTO `libro` (`idLibro`, `titulo`, `isbn`, `edicion`, `descripcion`, `notas`, `imagen`, `idImprenta`, `idCategoria`) VALUES
+('L0001', 'Asi hablo zaratustra', 'ISBN 901-7-314-36698-3', '2', 'La obra contiene las principales ideas de Nietzsche, expresadas de forma poetica.', 'Dificil de interpretar Para mentes desarrolladas', 'L0001.jpg', 'IMTA0004', 1),
+('L0002', 'Cien años de soledad', 'ISBN 521-0-256-00528-0', '31', 'Es una novela de gabriel garcia marquez', 'Ganador del premio nobel', 'L0002.jpg', 'IMTA0001', 3),
+('L0003', 'Don quijote', 'ISBN 769-5-321-87501-9', '12', 'Es la obra mas destacada de la literatura española', 'Una buena novela', 'L0003.jpg', 'IMTA0005', 2),
+('L0004', 'Cien sonetos de amor', 'ISBN 349-6-003-74320-9', '16', 'Una coleccion de sonetos escrito por pablo neruda', 'Fue publicada en 1959', 'L0004.jpg', 'IMTA0003', 3),
+('L0005', 'Bodas de sangre', 'ISBN 349-6-003-74320-7', '4', 'es una tragedia escrita en verso y en prosa del escritor español Federico García Lorca', 'Escrita en el año 1931', 'L0005.jpg', 'IMTA0004', 3);
+
+--Temas
+INSERT INTO `tema` (`idTema`, `descripcion`) VALUES
+(1, 'Realidad social'),
+(2, 'Creencias religiosas'),
+(3, 'Realismo magico'),
+(4, 'Formas de vida'),
+(5, 'Clasicos latinoamerica');
