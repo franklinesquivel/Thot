@@ -6,10 +6,10 @@
 package sv.edu.udb.form.imprenta;
 
 import java.util.List;
-import sv.edu.udb.library.Imprenta;
+import sv.edu.udb.libreria.Imprenta;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
-import sv.edu.udb.models.Imprenta_Model;
+import sv.edu.udb.modelos.Imprenta_Model;
 import sv.edu.udb.validacion.Validacion;
 import java.util.logging.Level;
 import java.util.logging.Logger;

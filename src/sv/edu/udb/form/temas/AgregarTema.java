@@ -10,9 +10,9 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import sv.edu.udb.library.Tema;
+import sv.edu.udb.libreria.Tema;
 import sv.edu.udb.validacion.Validacion;
-import sv.edu.udb.models.Tema_Model;
+import sv.edu.udb.modelos.Tema_Model;
 /**
  *
  * @author Pazzuelo02

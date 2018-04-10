@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import sv.edu.udb.library.Encriptar;
-import sv.edu.udb.library.TipoUsuario;
-import sv.edu.udb.library.Usuario;
-import sv.edu.udb.models.Usuario_Model;
+import sv.edu.udb.libreria.Encriptar;
+import sv.edu.udb.libreria.TipoUsuario;
+import sv.edu.udb.libreria.Usuario;
+import sv.edu.udb.modelos.Usuario_Model;
 import sv.edu.udb.validacion.Validacion;
 
 /**

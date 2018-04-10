@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import sv.edu.udb.library.Tema;
-import sv.edu.udb.models.Tema_Model;
+import sv.edu.udb.libreria.Tema;
+import sv.edu.udb.modelos.Tema_Model;
 import sv.edu.udb.validacion.Validacion;
 /**
  *
