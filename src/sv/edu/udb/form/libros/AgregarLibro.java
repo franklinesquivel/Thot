@@ -107,11 +107,15 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
             });
 
             txtDescripcion.setColumns(20);
+            txtDescripcion.setLineWrap(true);
             txtDescripcion.setRows(5);
+            txtDescripcion.setAutoscrolls(false);
             jScrollPane1.setViewportView(txtDescripcion);
 
             txtNotas.setColumns(20);
+            txtNotas.setLineWrap(true);
             txtNotas.setRows(5);
+            txtNotas.setAutoscrolls(false);
             jScrollPane2.setViewportView(txtNotas);
 
             btnImagen.setText("Seleccionar imagen");
@@ -320,22 +324,21 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
             List<Autor> _auxA = new ArrayList();
             List<Tema> _auxT = new ArrayList();
 
-            validData = idAutores.length > 0 && idTemas.length > 0;
-            validData = cmbCategorias.getSelectedIndex() != -1 && cmbImprentas.getSelectedIndex() != -1;
-            validData = cmbCategorias.getSelectedIndex() != -1 && cmbImprentas.getSelectedIndex() != -1;
-            validData = cmbCategorias.getSelectedIndex() != 0 && cmbImprentas.getSelectedIndex() != 0;
-
             if (
                 Validacion.validar("^(?!\\s*$).+", txtTitulo.getText(), "Ingresa un título válido!", "[Thot] - Registro de Libro")
                 && Validacion.validar("^ISBN \\d{3}-\\d-\\d{3}-\\d{5}-\\d$", txtIsbn.getText(), "Ingresa un ISBN válido!", "[Thot] - Registro de Libro")
                 && Validacion.validar("^(?!\\s*$).+", txtEdicion.getText(), "Ingresa una edición válida!", "[Thot] - Registro de Libro")
-                && Validacion.validar("^(?!\\s*$).+", txtDescripcion.getText().trim(), "Ingresa una descripción válida!", "[Thot] - Registro de Libro")
-                && Validacion.validar("^(?!\\s*$).+", txtNotas.getText().trim(), "Ingresa notas válidos!", "[Thot] - Registro de Libro")
+                && Validacion.validar("(?s)(?!\\s*$).+", txtDescripcion.getText().trim(), "Ingresa una descripción válida!", "[Thot] - Registro de Libro")
+                && Validacion.validar("(?s)(?!\\s*$).+", txtNotas.getText().trim(), "Ingresa notas válidos!", "[Thot] - Registro de Libro")
             ) {
                 if(Libro_Model.validarIsbn(txtIsbn.getText())){
                     JOptionPane.showMessageDialog(this, "El ISBN que quieres ingresar ya se encuentra registrado en nuestro sistema!", "[Thot] - Registro de Libro", JOptionPane.ERROR_MESSAGE);
                 }else{
-                    if (validData) {
+                    if (
+                        idAutores.length > 0 && idTemas.length > 0 &&
+                        cmbCategorias.getSelectedIndex() != -1 && cmbImprentas.getSelectedIndex() != -1 &&
+                        cmbCategorias.getSelectedIndex() != 0 && cmbImprentas.getSelectedIndex() != 0
+                    ) {
                         for (int i = 0; i < idAutores.length; i++) {
                             _auxA.add(_a.get(idAutores[i]));
                         }

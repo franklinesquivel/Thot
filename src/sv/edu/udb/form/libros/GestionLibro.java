@@ -177,11 +177,24 @@ public class GestionLibro extends javax.swing.JInternalFrame {
         _l = _l.cargarRelaciones(_l);
         int _sCate = 0, _sImp = 0;
         int[] _sAutores = new int[_l.getAutores().size()], _sTemas = new int[_l.getTemas().size()];
+        
         for(Categoria c : _c){
-            _sCate += c.getIdCategoria() == _l.getCategoria().getIdCategoria() ? 0 : 1;
-        }   for(Imprenta i: _i){
-            _sImp += i.getIdImprenta().equals(_l.getImprenta().getIdImprenta()) ? 0 : 1;
-        }   int x = 0;
+            if(c.getIdCategoria() == _l.getCategoria().getIdCategoria()){
+                break;
+            }else{
+                _sCate++;
+            }
+        }
+        
+        for(Imprenta i: _i){
+            if(i.getIdImprenta().equals(_l.getImprenta().getIdImprenta())){
+                break;
+            }else{
+                _sImp++;
+            }
+        }
+        
+        int x = 0;
         for(Autor a2 : _l.getAutores()){
             int y = 0;
             for (Autor a : _a) {
@@ -191,7 +204,9 @@ public class GestionLibro extends javax.swing.JInternalFrame {
                     y++;
                 }
             }
-        }   x = 0;
+        }
+        
+        x = 0;
         for(Tema t2 : _l.getTemas()){
             int y = 0;
             for(Tema t : _t){
@@ -385,11 +400,15 @@ public class GestionLibro extends javax.swing.JInternalFrame {
         txtEdicion.setText("edicion");
 
         txtDescripcion.setColumns(20);
+        txtDescripcion.setLineWrap(true);
         txtDescripcion.setRows(5);
+        txtDescripcion.setAutoscrolls(false);
         jScrollPane10.setViewportView(txtDescripcion);
 
         txtNotas.setColumns(20);
+        txtNotas.setLineWrap(true);
         txtNotas.setRows(5);
+        txtNotas.setAutoscrolls(false);
         jScrollPane11.setViewportView(txtNotas);
 
         btnImagen.setText("Seleccionar imagen");
@@ -727,8 +746,8 @@ public class GestionLibro extends javax.swing.JInternalFrame {
             Validacion.validar("^(?!\\s*$).+", txtTitulo.getText(), "Ingresa un título válido!", "[Thot] - Registro de Libro")
             && Validacion.validar("^ISBN \\d{3}-\\d-\\d{3}-\\d{5}-\\d$", txtIsbn.getText(), "Ingresa un ISBN válido!", "[Thot] - Registro de Libro")
             && Validacion.validar("^(?!\\s*$).+", txtEdicion.getText(), "Ingresa una edición válida!", "[Thot] - Registro de Libro")
-            && Validacion.validar("^(?!\\s*$).+", txtDescripcion.getText(), "Ingresa una descripción válida!", "[Thot] - Registro de Libro")
-            && Validacion.validar("^(?!\\s*$).+", txtNotas.getText(), "Ingresa notas válidos!", "[Thot] - Registro de Libro")) {
+            && Validacion.validar("(?s)(?!\\s*$).+", txtDescripcion.getText(), "Ingresa una descripción válida!", "[Thot] - Registro de Libro")
+            && Validacion.validar("(?s)(?!\\s*$).++", txtNotas.getText(), "Ingresa notas válidos!", "[Thot] - Registro de Libro")) {
             
             if (validData) {
                 for (int i = 0; i < idAutores.length; i++) {

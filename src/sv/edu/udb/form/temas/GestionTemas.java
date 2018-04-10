@@ -19,7 +19,7 @@ import sv.edu.udb.validacion.Validacion;
  */
 public class GestionTemas extends javax.swing.JInternalFrame {
     private DefaultTableModel model = null;
-    private List<Tema> temas = new ArrayList<Tema>();
+    private List<Tema> temas = Tema_Model.obtenerTemas();
     private int idTemaSeleccionado = -1;
     /**
      * Creates new form GestionTemas

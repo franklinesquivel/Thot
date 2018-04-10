@@ -42,6 +42,7 @@ CREATE TABLE `autor` (
 
 LOCK TABLES `autor` WRITE;
 /*!40000 ALTER TABLE `autor` DISABLE KEYS */;
+INSERT INTO `autor` VALUES ('A0001','Ricardo Eliecer Neftali','Reyes Basoalto','1904-07-02','CHL'),('A0002','Friedrich Wilhelm','Nietzsche','1844-10-15','DEU'),('A0003','Miguel de Cervantes','Saavedra','1547-09-29','ESP'),('A0004','Gabriel Jose','García Márquez','1927-03-17','MEX'),('A0005','Federico','Garcia Lorca','1898-06-05','ESP');
 /*!40000 ALTER TABLE `autor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,7 +58,7 @@ CREATE TABLE `categoria` (
   `nombre` varchar(15) COLLATE utf8_spanish2_ci NOT NULL,
   `descripcion` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`idCategoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,6 +67,7 @@ CREATE TABLE `categoria` (
 
 LOCK TABLES `categoria` WRITE;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
+INSERT INTO `categoria` VALUES (1,'Filosofia','Filosofia universal'),(2,'Realismo magico','Realidad magicas externas'),(3,'Literatura','Literatura universal'),(4,'Biografias','Biografias o autobiografias'),(5,'Historia','Historia universal');
 /*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +87,7 @@ CREATE TABLE `detalle_autorlibro` (
   KEY `FK_Detalle_AutorLibro_Libro` (`idLibro`),
   CONSTRAINT `FK_Detalle_AutorLibro_Autor` FOREIGN KEY (`idAutor`) REFERENCES `autor` (`idAutor`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Detalle_AutorLibro_Libro` FOREIGN KEY (`idLibro`) REFERENCES `libro` (`idLibro`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,6 +96,7 @@ CREATE TABLE `detalle_autorlibro` (
 
 LOCK TABLES `detalle_autorlibro` WRITE;
 /*!40000 ALTER TABLE `detalle_autorlibro` DISABLE KEYS */;
+INSERT INTO `detalle_autorlibro` VALUES (1,'A0002','L0001'),(2,'A0004','L0002'),(3,'A0003','L0003'),(4,'A0001','L0004'),(5,'A0005','L0005'),(6,'A0001','L0006');
 /*!40000 ALTER TABLE `detalle_autorlibro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +116,7 @@ CREATE TABLE `detalle_librotema` (
   KEY `FK_Detalle_LibroTema_Tema` (`idTema`),
   CONSTRAINT `FK_Detalle_LibroTema_Libro` FOREIGN KEY (`idLibro`) REFERENCES `libro` (`idLibro`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Detalle_LibroTema_Tema` FOREIGN KEY (`idTema`) REFERENCES `tema` (`idTema`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,6 +125,7 @@ CREATE TABLE `detalle_librotema` (
 
 LOCK TABLES `detalle_librotema` WRITE;
 /*!40000 ALTER TABLE `detalle_librotema` DISABLE KEYS */;
+INSERT INTO `detalle_librotema` VALUES (1,'L0001',2),(2,'L0002',5),(3,'L0003',3),(4,'L0004',5),(5,'L0005',1),(6,'L0006',1);
 /*!40000 ALTER TABLE `detalle_librotema` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,6 +150,7 @@ CREATE TABLE `imprenta` (
 
 LOCK TABLES `imprenta` WRITE;
 /*!40000 ALTER TABLE `imprenta` DISABLE KEYS */;
+INSERT INTO `imprenta` VALUES ('IMTA0001','ALBACROME','Km.13. a, 5, Comalapa'),('IMTA0002','Creadores','Calle al volcan Col. Sta. Gertrudis No. 2A Mejicanos, San Salvador'),('IMTA0003','IMPRESAL','Calle Cuscatlan No. 532, 87 Avenida Sur, San Salvador'),('IMTA0004','Tipografia comercial','1a Calle Oriente, Santa Ana 2201'),('IMTA0005','VIMTAZA','Carretera al puerto de la libertad, santa tecla');
 /*!40000 ALTER TABLE `imprenta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,6 +186,7 @@ CREATE TABLE `libro` (
 
 LOCK TABLES `libro` WRITE;
 /*!40000 ALTER TABLE `libro` DISABLE KEYS */;
+INSERT INTO `libro` VALUES ('L0001','Asi hablo zaratustra','ISBN 901-7-314-36698-3','2','La obra contiene las principales ideas de Nietzsche, expresadas de forma poetica.','Dificil de interpretar Para mentes desarrolladas','L0001.jpg','IMTA0004',1),('L0002','Cien años de soledad','ISBN 521-0-256-00528-0','31','Es una novela de gabriel garcia marquez','Ganador del premio nobel','L0002.jpg','IMTA0001',3),('L0003','Don quijote','ISBN 769-5-321-87501-9','12','Es la obra mas destacada de la literatura española','Una buena novela','L0003.jpg','IMTA0005',2),('L0004','Cien sonetos de amor','ISBN 349-6-003-74320-9','16','Una coleccion de sonetos escrito por pablo neruda','Fue publicada en 1959','L0004.jpg','IMTA0003',3),('L0005','Bodas de sangre','ISBN 349-6-003-74320-7','4','es una tragedia escrita en verso y en prosa del escritor español Federico García Lorca','Escrita en el año 1931','L0005.jpg','IMTA0004',3),('L0006','Hola gege','ISBN 282-1-033-78411-3','3ra','Holaaaa Agarrara este tipo de descripcion?','Pues no lo se sinceramente. Tu que piensas, por cierto esto no tiene mltilinea','L0006.jpg','IMTA0001',1);
 /*!40000 ALTER TABLE `libro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,7 +226,7 @@ CREATE TABLE `tema` (
   `idTema` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`idTema`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,6 +235,7 @@ CREATE TABLE `tema` (
 
 LOCK TABLES `tema` WRITE;
 /*!40000 ALTER TABLE `tema` DISABLE KEYS */;
+INSERT INTO `tema` VALUES (1,'Realidad social'),(2,'Creencias religiosas'),(3,'Realismo magico'),(4,'Formas de vida'),(5,'Clasicos latinoamerica');
 /*!40000 ALTER TABLE `tema` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,6 +260,7 @@ CREATE TABLE `tipos_usuario` (
 
 LOCK TABLES `tipos_usuario` WRITE;
 /*!40000 ALTER TABLE `tipos_usuario` DISABLE KEYS */;
+INSERT INTO `tipos_usuario` VALUES ('B','Bibliotecario','Posee acceso total a la plataforma'),('U','Usuario','Puede registrar y visaulizar libros');
 /*!40000 ALTER TABLE `tipos_usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,9 +282,10 @@ CREATE TABLE `usuario` (
   `estado` tinyint(1) NOT NULL,
   `tipoUsuario` varchar(1) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`idUsuario`),
-  KEY `usuarios_ibfk_1` (`tipoUsuario`),
-  CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`tipoUsuario`) REFERENCES `tipos_usuario` (`idTipoUsuario`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+  UNIQUE KEY `U_Usuario_Correo` (`correo`),
+  KEY `FK_Usuario_TipoUsuario` (`tipoUsuario`),
+  CONSTRAINT `FK_Usuario_TipoUsuario` FOREIGN KEY (`tipoUsuario`) REFERENCES `tipos_usuario` (`idTipoUsuario`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -285,6 +294,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` VALUES (1,'Jasson Alexander','Lopez Soriano','jasson_alex99@hotmail.com','1999-07-10','B0001','84472/74362/10143*109123-112163-66282!80432/72342*',1,'B'),(2,'Franklin Armando','Esquivel Guevara','franklin.esquivel@outlook.com','1998-10-09','B0002','112163-113173/52A2/107103!116203*107103/88512/120243-',1,'B'),(3,'Diego Alberto','Lemus Torres','ciegolem7@gmail.es','1998-09-18','U0001','57p2!121253-10473/66282/76382*51y2*88512-9702/',1,'U'),(4,'Marta Carolina','Rosado Pérez','marta.rope@gmail.com','1998-08-12','U0002','10693-51y2*56o2/65272-68302-115193!111153!10363!',1,'U'),(5,'Leonarlo Elenilson','Lopez Cañas','lopezleonardo44@gmail.com','1999-04-09','U0003','75372-10693-66282/116203-84472!49l2/70322-56o2!',1,'U');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -297,74 +307,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-09 17:08:05
-
---Aqui dejo los campos por que no se donde ponerlos xd
---Autores
-INSERT INTO `autor` (`idAutor`, `nombres`, `apellidos`, `fechaNac`, `idPais`) VALUES
-('A0001', 'Ricardo Eliecer Neftali', 'Reyes Basoalto', '1904-07-02', 'CHL'),
-('A0002', 'Friedrich Wilhelm', 'Nietzsche', '1844-10-15', 'DEU'),
-('A0003', 'Miguel de Cervantes', 'Saavedra', '1547-09-29', 'ESP'),
-('A0004', 'Gabriel Jose', 'García Márquez', '1927-03-17', 'MEX'),
-('A0005', 'Federico', 'Garcia Lorca', '1898-06-05', 'ESP');
-
---categoria
-INSERT INTO `categoria` (`idCategoria`, `nombre`, `descripcion`) VALUES
-(1, 'Filosofia', 'Filosofia universal'),
-(2, 'Realismo magico', 'Realidad magicas externas'),
-(3, 'Literatura', 'Literatura universal'),
-(4, 'Biografias', 'Biografias o autobiografias'),
-(5, 'Historia', 'Historia universal');
-
---Detalle Autor libro
-INSERT INTO `detalle_autorlibro` (`idDetalle_AutorLibro`, `idAutor`, `idLibro`) VALUES
-(1, 'A0002', 'L0001'),
-(2, 'A0004', 'L0002'),
-(3, 'A0003', 'L0003'),
-(4, 'A0001', 'L0004'),
-(5, 'A0005', 'L0005');
-
---DetalleLibroTema
-INSERT INTO `detalle_librotema` (`idDetalle_LibroTema`, `idLibro`, `idTema`) VALUES
-(1, 'L0001', 2),
-(2, 'L0002', 5),
-(3, 'L0003', 3),
-(4, 'L0004', 5),
-(5, 'L0005', 1);
-
---Imprenta
-INSERT INTO `imprenta` (`idImprenta`, `nombre`, `direccion`) VALUES
-('IMTA0001', 'ALBACROME', 'Km.13. a, 5, Comalapa'),
-('IMTA0002', 'Creadores', 'Calle al volcan Col. Sta. Gertrudis No. 2A Mejicanos, San Salvador'),
-('IMTA0003', 'IMPRESAL', 'Calle Cuscatlan No. 532, 87 Avenida Sur, San Salvador'),
-('IMTA0004', 'Tipografia comercial', '1a Calle Oriente, Santa Ana 2201'),
-('IMTA0005', 'VIMTAZA', 'Carretera al puerto de la libertad, santa tecla');
-
---Libros
-INSERT INTO `libro` (`idLibro`, `titulo`, `isbn`, `edicion`, `descripcion`, `notas`, `imagen`, `idImprenta`, `idCategoria`) VALUES
-('L0001', 'Asi hablo zaratustra', 'ISBN 901-7-314-36698-3', '2', 'La obra contiene las principales ideas de Nietzsche, expresadas de forma poetica.', 'Dificil de interpretar Para mentes desarrolladas', 'L0001.jpg', 'IMTA0004', 1),
-('L0002', 'Cien años de soledad', 'ISBN 521-0-256-00528-0', '31', 'Es una novela de gabriel garcia marquez', 'Ganador del premio nobel', 'L0002.jpg', 'IMTA0001', 3),
-('L0003', 'Don quijote', 'ISBN 769-5-321-87501-9', '12', 'Es la obra mas destacada de la literatura española', 'Una buena novela', 'L0003.jpg', 'IMTA0005', 2),
-('L0004', 'Cien sonetos de amor', 'ISBN 349-6-003-74320-9', '16', 'Una coleccion de sonetos escrito por pablo neruda', 'Fue publicada en 1959', 'L0004.jpg', 'IMTA0003', 3),
-('L0005', 'Bodas de sangre', 'ISBN 349-6-003-74320-7', '4', 'es una tragedia escrita en verso y en prosa del escritor español Federico García Lorca', 'Escrita en el año 1931', 'L0005.jpg', 'IMTA0004', 3);
-
---Temas
-INSERT INTO `tema` (`idTema`, `descripcion`) VALUES
-(1, 'Realidad social'),
-(2, 'Creencias religiosas'),
-(3, 'Realismo magico'),
-(4, 'Formas de vida'),
-(5, 'Clasicos latinoamerica');
-
---Tipousuarios
-INSERT INTO `tipos_usuario` (`idTipoUsuario`, `nombre`, `descripcion`) VALUES
-('B', 'Bibliotecario', ''),
-('U', 'Usuario', '');
-
---Usuarios
-INSERT INTO `usuario` (`idUsuario`, `nombre`, `apellido`, `correo`, `fechaNacimiento`, `username`, `password`, `estado`, `tipoUsuario`) VALUES
-(1, 'Jasson Alexander', 'Lopez Soriano', 'jasson_alex99@hotmail.com', '1999-07-10', 'B0001', '84472/74362/10143*109123-112163-66282!80432/72342*', 1, 'B'),
-(2, 'Franklin Armando', 'Esquivel Guevara', 'franklin.esquivel@outlook.com', '1998-10-09', 'B0002', '112163-113173/52A2/107103!116203*107103/88512/120243-', 1, 'B'),
-(3, 'Diego Alberto', 'Lemus Torres', 'ciegolem7@gmail.es', '1998-09-18', 'U0001', '57p2!121253-10473/66282/76382*51y2*88512-9702/', 1, 'U'),
-(4, 'Marta Carolina', 'Rosado Pérez', 'marta.rope@gmail.com', '1998-08-12', 'U0002', '10693-51y2*56o2/65272-68302-115193!111153!10363!', 1, 'U'),
-(5, 'Leonardo Elenilson', 'Lopez Cañas', 'lopezleonardo44@gmail.com', '1999-04-09', 'U0003', '75372-10693-66282/116203-84472!49l2/70322-56o2!', 1, 'U');
+-- Dump completed on 2018-04-09 20:36:31

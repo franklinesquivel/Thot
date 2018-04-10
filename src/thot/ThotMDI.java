@@ -7,6 +7,8 @@ package thot;
 
 import sv.edu.udb.form.autor.AgregarAutor;
 import sv.edu.udb.form.autor.GestionAutor;
+import sv.edu.udb.form.categorias.AgregarCategoria;
+import sv.edu.udb.form.categorias.GestionCategoria;
 import sv.edu.udb.form.usuario.AgregarUsuario;
 import sv.edu.udb.form.usuario.cambiarContrasenna;
 import sv.edu.udb.form.usuario.gestionUsuario;
@@ -46,22 +48,24 @@ public class ThotMDI extends javax.swing.JFrame {
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
-        cutMenuItem = new javax.swing.JMenuItem();
-        copyMenuItem = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         libroMenu = new javax.swing.JMenu();
         miAgregarLibro = new javax.swing.JMenuItem();
         miGestionLibro = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jmainImprentas = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        categoriaMenuItem = new javax.swing.JMenu();
+        miAgregarCategoria = new javax.swing.JMenuItem();
+        miGestionCategoria = new javax.swing.JMenuItem();
+        editMenu = new javax.swing.JMenu();
+        cutMenuItem = new javax.swing.JMenuItem();
+        copyMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("[Thot] - Sistema Gestor de Librerías");
-        setPreferredSize(new java.awt.Dimension(500, 500));
         setResizable(false);
 
         fileMenu.setMnemonic('f');
@@ -96,6 +100,86 @@ public class ThotMDI extends javax.swing.JFrame {
 
         menuBar.add(fileMenu);
 
+        libroMenu.setText("Libros");
+
+        miAgregarLibro.setText("Agregar libro");
+        miAgregarLibro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miAgregarLibroActionPerformed(evt);
+            }
+        });
+        libroMenu.add(miAgregarLibro);
+
+        miGestionLibro.setText("Gestión");
+        miGestionLibro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miGestionLibroActionPerformed(evt);
+            }
+        });
+        libroMenu.add(miGestionLibro);
+
+        menuBar.add(libroMenu);
+
+        jMenu1.setText("Autor");
+
+        jMenuItem1.setText("Agregar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Gestionar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        menuBar.add(jMenu1);
+
+        jmainImprentas.setText("Imprentas");
+
+        jMenuItem3.setText("Agregar");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jmainImprentas.add(jMenuItem3);
+
+        jMenuItem4.setText("Gestión");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jmainImprentas.add(jMenuItem4);
+
+        menuBar.add(jmainImprentas);
+
+        categoriaMenuItem.setText("Categorías");
+
+        miAgregarCategoria.setText("Agregar");
+        miAgregarCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miAgregarCategoriaActionPerformed(evt);
+            }
+        });
+        categoriaMenuItem.add(miAgregarCategoria);
+
+        miGestionCategoria.setText("Gestión");
+        miGestionCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miGestionCategoriaActionPerformed(evt);
+            }
+        });
+        categoriaMenuItem.add(miGestionCategoria);
+
+        menuBar.add(categoriaMenuItem);
+
         editMenu.setMnemonic('e');
         editMenu.setText("Temas");
 
@@ -118,66 +202,6 @@ public class ThotMDI extends javax.swing.JFrame {
         editMenu.add(copyMenuItem);
 
         menuBar.add(editMenu);
-
-        jMenu1.setText("Autor");
-
-        jMenuItem1.setText("Agregar");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem1);
-
-        jMenuItem2.setText("Gestionar");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem2);
-
-        menuBar.add(jMenu1);
-
-        libroMenu.setText("Libros");
-
-        miAgregarLibro.setText("Agregar libro");
-        miAgregarLibro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miAgregarLibroActionPerformed(evt);
-            }
-        });
-        libroMenu.add(miAgregarLibro);
-
-        miGestionLibro.setText("Gestión");
-        miGestionLibro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miGestionLibroActionPerformed(evt);
-            }
-        });
-        libroMenu.add(miGestionLibro);
-
-        menuBar.add(libroMenu);
-
-        jmainImprentas.setText("Imprentas");
-
-        jMenuItem3.setText("Agregar");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jmainImprentas.add(jMenuItem3);
-
-        jMenuItem4.setText("Gestión");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jmainImprentas.add(jMenuItem4);
-
-        menuBar.add(jmainImprentas);
 
         setJMenuBar(menuBar);
 
@@ -265,6 +289,18 @@ public class ThotMDI extends javax.swing.JFrame {
         alterform.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void miAgregarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAgregarCategoriaActionPerformed
+        AgregarCategoria alterform = new AgregarCategoria();
+        desktopPane.add(alterform);
+        alterform.setVisible(true);
+    }//GEN-LAST:event_miAgregarCategoriaActionPerformed
+
+    private void miGestionCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGestionCategoriaActionPerformed
+        GestionCategoria alterform = new GestionCategoria();
+        desktopPane.add(alterform);
+        alterform.setVisible(true);
+    }//GEN-LAST:event_miGestionCategoriaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -301,6 +337,7 @@ public class ThotMDI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu categoriaMenuItem;
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
     private javax.swing.JDesktopPane desktopPane;
@@ -314,7 +351,9 @@ public class ThotMDI extends javax.swing.JFrame {
     private javax.swing.JMenu jmainImprentas;
     private javax.swing.JMenu libroMenu;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem miAgregarCategoria;
     private javax.swing.JMenuItem miAgregarLibro;
+    private javax.swing.JMenuItem miGestionCategoria;
     private javax.swing.JMenuItem miGestionLibro;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;

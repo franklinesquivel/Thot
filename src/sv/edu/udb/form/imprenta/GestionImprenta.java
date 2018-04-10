@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class GestionImprenta extends javax.swing.JInternalFrame {
     private DefaultTableModel modelo = null;
-    private List<Imprenta> imprentas = new ArrayList<Imprenta>();
+    private List<Imprenta> imprentas = Imprenta_Model.obtenerImprentas();
     private String idImprentaSeleccionada = "";
     /**
      * Creates new form GestionImprenta
