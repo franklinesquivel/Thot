@@ -355,3 +355,16 @@ INSERT INTO `tema` (`idTema`, `descripcion`) VALUES
 (3, 'Realismo magico'),
 (4, 'Formas de vida'),
 (5, 'Clasicos latinoamerica');
+
+--Tipousuarios
+INSERT INTO `tipos_usuario` (`idTipoUsuario`, `nombre`, `descripcion`) VALUES
+('B', 'Bibliotecario', ''),
+('U', 'Usuario', '');
+
+--Usuarios
+INSERT INTO `usuario` (`idUsuario`, `nombre`, `apellido`, `correo`, `fechaNacimiento`, `username`, `password`, `estado`, `tipoUsuario`) VALUES
+(1, 'Jasson Alexander', 'Lopez Soriano', 'jasson_alex99@hotmail.com', '1999-07-10', 'B0001', '84472/74362/10143*109123-112163-66282!80432/72342*', 1, 'B'),
+(2, 'Franklin Armando', 'Esquivel Guevara', 'franklin@yahoo.com', '1998-10-09', 'B0002', '112163-113173/52A2/107103!116203*107103/88512/120243-', 1, 'B'),
+(3, 'Diego Alejandro', 'Lemus Canjura', 'diego@hotmail.es', '1998-09-18', 'U0001', '57p2!121253-10473/66282/76382*51y2*88512-9702/', 1, 'U'),
+(4, 'Carlos Armando', 'Lemus Torres', 'carlos@edu.sv', '1998-08-12', 'U0002', '10693-51y2*56o2/65272-68302-115193!111153!10363!', 1, 'U'),
+(5, 'Leonarlo Elenilson', 'Lopez Cañas', 'leonardo@educa.me', '1999-04-09', 'U0003', '75372-10693-66282/116203-84472!49l2/70322-56o2!', 1, 'U');
