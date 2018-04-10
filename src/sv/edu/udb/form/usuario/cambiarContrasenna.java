@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import sv.edu.udb.library.Email;
 import sv.edu.udb.library.Encriptar;
 import sv.edu.udb.library.TipoUsuario;
 import sv.edu.udb.library.Usuario;
@@ -232,6 +233,12 @@ public class cambiarContrasenna extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtblUsuariosMouseClicked
 
+    private boolean enviarCorreo(String correo, String contrasenna){
+        String mensaje  = "<h5>Contraseña: </h5>"+contrasenna;
+        Email email = new Email(correo);
+        return email.enviar(mensaje, "Modificación de Contraseña");
+    }
+    
     private boolean validarCampos(){
         if(Validacion.validar("^[a-zA-Z0-9]+$", txtContrasenna.getText(), "Ingresar solamente caracteres alfanúmericos!", "Cambiar Contraseña")){
             if(txtContrasenna.getText().length() >= 8){

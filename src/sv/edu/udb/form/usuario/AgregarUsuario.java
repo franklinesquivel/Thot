@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import sv.edu.udb.library.Email;
 import sv.edu.udb.library.Encriptar;
 import sv.edu.udb.library.TipoUsuario;
 import sv.edu.udb.library.Usuario;
@@ -165,9 +166,12 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
                 if(compararFecha(fechaNacimiento)){//Comparamos que la fehca ingresada no sea mayor a la actual
                     if(Usuario_Model.verificarCorreo(correo)){
                         if(Usuario_Model.insertar(new Usuario(nombre, apellido, correo, fechaNacimiento, username, password, true, tipo))){
-                            String mensaje = "Usuario: "+username+". \n Contraseña: "+Encriptar.desencriptar(password)+".";
-                            JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.\n "+mensaje, "Registro de Usuario", JOptionPane.INFORMATION_MESSAGE); 
-                            iniciarCampos(); //Se reinician campos
+                            if(enviarCorreo(correo, Encriptar.desencriptar(password))){
+                                JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.\n ", "Registro de Usuario", JOptionPane.INFORMATION_MESSAGE); 
+                                iniciarCampos(); //Se reinician campos
+                            }else{
+                                JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Registro de Usuario", JOptionPane.ERROR_MESSAGE);
+                            }
                         }else{
                             JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Registro de Usuario", JOptionPane.ERROR_MESSAGE);
                         }
@@ -196,6 +200,12 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
         txtCorreo.setText("");
         txtFechaNacimiento.setText("");
         cargarTipoUsuario();
+    }
+    
+    private boolean enviarCorreo(String correo, String contrasenna){
+        String mensaje  = "<h5>Contraseña: </h5>"+contrasenna;
+        Email email = new Email(correo);
+        return email.enviar(mensaje, "Registro de Usuario");
     }
     
     private boolean validarCampos(){
