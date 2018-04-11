@@ -20,7 +20,7 @@ import javax.mail.internet.MimeMessage;
 public class Email {
 
     private String receptor;
-    private String emisor = "ezic2017@gmail.com";
+    private String emisor = "";
     private String contrasenna = "";
     private String nombre = "Thot"; //Nombre de la compañía.
     private String smtpServidor = "smtp.gmail.com"; //Servidor SMTP de gmail
