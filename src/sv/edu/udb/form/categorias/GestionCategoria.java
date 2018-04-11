@@ -72,6 +72,8 @@ public class GestionCategoria extends javax.swing.JInternalFrame {
         tblCategorias = new javax.swing.JTable();
 
         setClosable(true);
+        setTitle("[Thot] - Gestión de Categoría");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sv/edu/udb/data/thot.jpg"))); // NOI18N
 
         pnlForm.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlForm.setEnabled(false);
@@ -180,7 +182,7 @@ public class GestionCategoria extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if(
-            Validacion.validar("^(?!\\s*$).+", txtNombre.getText().trim(), "Ingresa un nombre válido!", "[Thot] - Gestión de Categorías") &&
+            Validacion.validar("^[A-Za-z áéíóúÑñ,]*$", txtNombre.getText().trim(), "Ingresa un nombre válido!", "[Thot] - Gestión de Categorías") &&
             Validacion.validar("(?s)(?!\\s*$).+", txtDescripcion.getText().trim(), "Ingresa una descripción válida!", "[Thot] - Gestión de Categorías")
         ){
             Categoria c = new Categoria(categoriaSeleccionada, false);

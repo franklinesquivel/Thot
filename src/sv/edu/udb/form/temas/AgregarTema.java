@@ -41,7 +41,9 @@ public class AgregarTema extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("Registro de Temas");
+        setToolTipText("[Thot] - Registro de Tema");
         setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sv/edu/udb/data/thot.jpg"))); // NOI18N
 
         lblDescripcion.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lblDescripcion.setText("Descripción");

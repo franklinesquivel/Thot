@@ -4,8 +4,12 @@
   <Properties>
     <Property name="closable" type="boolean" value="true"/>
     <Property name="title" type="java.lang.String" value="Registro de Temas"/>
+    <Property name="toolTipText" type="java.lang.String" value="[Thot] - Registro de Tema"/>
     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
       <Font name="Segoe UI" size="12" style="0"/>
+    </Property>
+    <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+      <Image iconType="3" name="/sv/edu/udb/data/thot.jpg"/>
     </Property>
   </Properties>
   <SyntheticProperties>

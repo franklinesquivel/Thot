@@ -93,6 +93,9 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
             });
 
             setClosable(true);
+            setTitle("[Thot] - Registro de Libro");
+            setToolTipText("");
+            setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sv/edu/udb/data/thot.jpg"))); // NOI18N
             setName("[Thot] - Agregar Libro"); // NOI18N
 
             txtTitulo.setText("titulo");
