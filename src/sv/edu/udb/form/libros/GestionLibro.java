@@ -747,7 +747,7 @@ public class GestionLibro extends javax.swing.JInternalFrame {
             && Validacion.validar("^ISBN \\d{3}-\\d-\\d{3}-\\d{5}-\\d$", txtIsbn.getText(), "Ingresa un ISBN válido!", "[Thot] - Registro de Libro")
             && Validacion.validar("^(?!\\s*$).+", txtEdicion.getText(), "Ingresa una edición válida!", "[Thot] - Registro de Libro")
             && Validacion.validar("(?s)(?!\\s*$).+", txtDescripcion.getText(), "Ingresa una descripción válida!", "[Thot] - Registro de Libro")
-            && Validacion.validar("(?s)(?!\\s*$).++", txtNotas.getText(), "Ingresa notas válidos!", "[Thot] - Registro de Libro")) {
+            && Validacion.validar("(?s)(?!\\s*$).+", txtNotas.getText(), "Ingresa notas válidos!", "[Thot] - Registro de Libro")) {
             
             if (validData) {
                 for (int i = 0; i < idAutores.length; i++) {
