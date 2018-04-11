@@ -13,14 +13,19 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-/**@author Leonardo */
+
+/**
+ * @author Leonardo
+ */
 public class Email {
+
     private String receptor;
-    private String emisor = "";
+    private String emisor = "ezic2017@gmail.com";
     private String contrasenna = "";
     private String nombre = "Thot"; //Nombre de la compañía.
     private String smtpServidor = "smtp.gmail.com"; //Servidor SMTP de gmail
     private int puerto = 587;
+
     /**
      * @return the receptor
      */
@@ -76,14 +81,14 @@ public class Email {
     public void setSmtpServidor(String smtServidor) {
         this.smtpServidor = smtServidor;
     }
-    
-    public Email(String receptor){ //Contructor
+
+    public Email(String receptor) { //Contructor
         this.receptor = receptor;
     }
-    
-    public boolean enviar(String contenido, String titulo){
+
+    public boolean enviar(String contenido, String titulo) {
         boolean respuesta = true;
-        
+
         Properties props = System.getProperties();
         props.put("mail.smtp.host", this.smtpServidor);
         props.put("mail.smtp.auth", "true");
@@ -91,24 +96,23 @@ public class Email {
         props.put("mail.smtp.port", this.puerto);
         String emisor = this.emisor;
         String contrasenna = this.contrasenna;
-        
+
         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication(){
+            protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(emisor, contrasenna);
             }
         });
         Message mensaje = new MimeMessage(session);
-        
-        try{
+
+        try {
             mensaje.setFrom(new InternetAddress(this.emisor));
             mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(this.receptor));
             mensaje.setSubject(titulo);
             mensaje.setContent(contenido, "text/html; charset=utf-8");
             Transport.send(mensaje);
-        }catch(MessagingException msg){
+        } catch (MessagingException msg) {
             respuesta = false;
         }
         return respuesta;
     }//FIN método de enviar
 }
-

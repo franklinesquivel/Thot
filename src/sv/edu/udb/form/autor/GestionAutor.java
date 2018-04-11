@@ -32,6 +32,7 @@ public class GestionAutor extends javax.swing.JInternalFrame {
     private DefaultTableModel modelo = null;
     private List<Autor> autores = new ArrayList<Autor>();
     private String idAutorSeleccionado;
+    private Pais np = new Pais();
 
     /**
      * Creates new form GestionAutor
@@ -45,12 +46,19 @@ public class GestionAutor extends javax.swing.JInternalFrame {
 
     private void cargarAutores() {
         Object[][] datos = null;
+        String pais = "";
         String[] columns = {"ID", "Nombres", "Apellidos", "Fecha de Nacimiento", "Pais"};
         modelo = new DefaultTableModel(datos, columns);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         for (Autor _a : autores) {
-            Object[] nuevaLinea = {_a.getIdAutor(), _a.getNombres(), _a.getApellidos(), format.format(_a.getFechaNac()), _a.getPais()};
+
+            for (Pais p : items) {
+                if (String.valueOf(p.getIdPais()).equals(_a.getPais())) {
+                    pais = p.getNombre();
+                }
+            }
+            Object[] nuevaLinea = {_a.getIdAutor(), _a.getNombres(), _a.getApellidos(), format.format(_a.getFechaNac()), pais};
             modelo.addRow(nuevaLinea);
         }
         jtDatos.setModel(modelo);
@@ -60,7 +68,6 @@ public class GestionAutor extends javax.swing.JInternalFrame {
         autores = Autor_Model.obtenerAutores();
         jcbPais.setEnabled(false);
 
-        //Cargamos los tipos de usuario
         jcbPais.removeAllItems(); //Remover Items
         items = Pais_Model.obtenerPaises();
         for (Pais p : items) {
@@ -200,19 +207,20 @@ public class GestionAutor extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(93, 93, 93)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblNombre)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblApellido)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(btnModificar)
-                        .addGap(62, 62, 62)
-                        .addComponent(btnEliminar))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(lblApellido)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnModificar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnEliminar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblNombre)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblPais)
@@ -221,19 +229,19 @@ public class GestionAutor extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jcbPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(80, 80, 80)
+                .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombre)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblApellido)
-                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblApellido))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFecha)
@@ -246,7 +254,7 @@ public class GestionAutor extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificar)
                     .addComponent(btnEliminar))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         lblFiltro.setText("Filtro");
@@ -269,9 +277,7 @@ public class GestionAutor extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(292, 292, 292)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -285,6 +291,10 @@ public class GestionAutor extends javax.swing.JInternalFrame {
                                 .addComponent(jcbBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 205, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(195, 195, 195))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,8 +310,8 @@ public class GestionAutor extends javax.swing.JInternalFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -335,6 +345,15 @@ public class GestionAutor extends javax.swing.JInternalFrame {
 
                 txtFecha.setText(date);
                 jcbPais.setEnabled(true);
+
+                for (Pais p : items) {
+                    if (String.valueOf(p.getIdPais()).equals(autores.get(fila).getPais())) {
+                        jcbPais.removeAllItems(); //Remover Items
+
+                    }
+                    jcbPais.addItem(p.getNombre());
+                }
+
             }
         }
     }//GEN-LAST:event_jtDatosMouseClicked
@@ -360,15 +379,15 @@ public class GestionAutor extends javax.swing.JInternalFrame {
 
     //Txt Buscador
     private void txtBuscadorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscadorKeyReleased
-        if(jcbBuscador.getSelectedItem().toString().equals("Nombre")){ //Buscar por nombre
-            autores = Autor_Model.obtenerAutores(" WHERE nombres LIKE '%"+ txtBuscador.getText() +"%'");
-        }else if(jcbBuscador.getSelectedItem().toString().equals("Apellido")){//Buscar por apellido
-            autores = Autor_Model.obtenerAutores(" WHERE apellidos LIKE '%"+ txtBuscador.getText() +"%'");
-        }else if(jcbBuscador.getSelectedItem().toString().equals("Pais")){ //Buscar por Correo
-            autores = Autor_Model.obtenerAutores(" WHERE idPais LIKE '%"+ txtBuscador.getText() +"%'");
+        if (jcbBuscador.getSelectedItem().toString().equals("Nombre")) { //Buscar por nombre
+            autores = Autor_Model.obtenerAutores(" WHERE nombres LIKE '%" + txtBuscador.getText() + "%'");
+        } else if (jcbBuscador.getSelectedItem().toString().equals("Apellido")) {//Buscar por apellido
+            autores = Autor_Model.obtenerAutores(" WHERE apellidos LIKE '%" + txtBuscador.getText() + "%'");
+        } else if (jcbBuscador.getSelectedItem().toString().equals("Pais")) { //Buscar por Correo
+            autores = Autor_Model.obtenerAutores(" WHERE idPais LIKE '%" + txtBuscador.getText() + "%'");
         }
-        
-        if(txtBuscador.getText().length() == 1){
+
+        if (txtBuscador.getText().length() == 1) {
             autores = Autor_Model.obtenerAutores(); //Obtenemos el listado de autores (todos)
         }
         cargarAutores();

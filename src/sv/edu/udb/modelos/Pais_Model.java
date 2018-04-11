@@ -37,4 +37,20 @@ public class Pais_Model {
         }
     }
 
+    public static String getPais(String idPais) {
+        PreparedStatement obtenerSQL = DBConection.getStatement("SELECT * FROM pais WHERE idPais = ?");
+        String paisReturn = "";
+        try {
+            obtenerSQL.setString(1, idPais);
+            ResultSet data = obtenerSQL.executeQuery();
+            while (data.next()) {
+                paisReturn = data.getString("nombre");
+            }
+            return paisReturn;
+        } catch (SQLException ex) {
+            Logger.getLogger(Pais_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
 }
