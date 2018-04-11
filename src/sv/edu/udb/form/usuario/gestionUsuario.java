@@ -112,6 +112,8 @@ public class gestionUsuario extends javax.swing.JInternalFrame {
         btnEliminar = new javax.swing.JButton();
 
         setClosable(true);
+        setTitle("[Thot] - Gestión de Usuario");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sv/edu/udb/data/thot.jpg"))); // NOI18N
 
         jtblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

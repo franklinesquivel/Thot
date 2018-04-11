@@ -40,12 +40,17 @@ public class AgregarCategoria extends javax.swing.JInternalFrame {
         btnRegistrar = new javax.swing.JButton();
 
         setClosable(true);
+        setTitle("[Thot] - Registro de Categoría");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sv/edu/udb/data/thot.jpg"))); // NOI18N
 
         lblNombre.setText("Nombre");
 
         jLabel1.setText("Descripción");
 
+        jScrollPane1.setAutoscrolls(true);
+
         txtDescripcion.setColumns(20);
+        txtDescripcion.setLineWrap(true);
         txtDescripcion.setRows(5);
         jScrollPane1.setViewportView(txtDescripcion);
 

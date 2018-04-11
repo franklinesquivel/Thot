@@ -81,6 +81,8 @@ public class cambiarContrasenna extends javax.swing.JInternalFrame {
         jLabel2.setText("jLabel2");
 
         setClosable(true);
+        setTitle("[Thot] - Cambiar Contraseña");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sv/edu/udb/data/thot.jpg"))); // NOI18N
 
         lblFiltro.setText("Filtro");
 

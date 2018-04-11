@@ -56,6 +56,8 @@ public class AgregarAutor extends javax.swing.JInternalFrame {
         txtFechaNac = new javax.swing.JTextField();
 
         setClosable(true);
+        setTitle("[Thot] - Registro de Autor");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sv/edu/udb/data/thot.jpg"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(500, 500));
         try {
             setSelected(true);

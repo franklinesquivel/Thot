@@ -5,6 +5,13 @@
  */
 package thot;
 
+import java.awt.Image;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import sv.edu.udb.form.autor.AgregarAutor;
 import sv.edu.udb.form.autor.GestionAutor;
 import sv.edu.udb.form.categorias.AgregarCategoria;
@@ -31,6 +38,25 @@ public class ThotMDI extends javax.swing.JFrame {
     public ThotMDI() {
         initComponents();
         setExtendedState(ThotMDI.MAXIMIZED_BOTH);
+        
+        String savePath = System.getProperty("user.dir") + "^src^sv^edu^udb^data";
+        savePath = String.join(System.getProperty("file.separator"), savePath.split("\\^"));
+        
+        Image i = null;
+        URL url = null;
+        try {
+            url = new URL("file:///" + savePath + System.getProperty("file.separator") + "thot.jpg");
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ThotMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            i = ImageIO.read(url);
+        } catch (IOException ex) {
+            Logger.getLogger(ThotMDI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        setIconImage(i);
     }
 
     /**

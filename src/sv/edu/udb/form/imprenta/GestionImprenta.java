@@ -72,7 +72,8 @@ public class GestionImprenta extends javax.swing.JInternalFrame {
         jtblImprentas = new javax.swing.JTable();
 
         setClosable(true);
-        setTitle("Gestión de Imprentas");
+        setTitle("[Thot] - Gestión de Imprenta");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sv/edu/udb/data/thot.jpg"))); // NOI18N
 
         txtBusqueda.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {

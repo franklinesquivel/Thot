@@ -57,7 +57,9 @@ public class GestionTemas extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setResizable(true);
-        setTitle("Gestión de Temas");
+        setTitle("[Thot] - Gestión de Tema");
+        setToolTipText("");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sv/edu/udb/data/thot.jpg"))); // NOI18N
 
         txtBusqueda.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {

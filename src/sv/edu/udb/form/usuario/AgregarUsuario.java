@@ -57,6 +57,9 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
         cmbTipoUsuario = new javax.swing.JComboBox<>();
 
         setClosable(true);
+        setTitle("[Thot] - Registro de Usuarios");
+        setToolTipText("");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sv/edu/udb/data/thot.jpg"))); // NOI18N
 
         lblNombre.setText("Nombres");
 

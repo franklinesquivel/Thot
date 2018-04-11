@@ -5,7 +5,6 @@
  */
 package sv.edu.udb.form.autor;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -157,6 +156,8 @@ public class GestionAutor extends javax.swing.JInternalFrame {
         txtBuscador = new javax.swing.JTextField();
 
         setClosable(true);
+        setTitle("[Thot] - Gestión de Autor");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sv/edu/udb/data/thot.jpg"))); // NOI18N
 
         jtDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

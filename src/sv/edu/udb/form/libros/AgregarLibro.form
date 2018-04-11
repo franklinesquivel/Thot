@@ -25,6 +25,11 @@
   </NonVisualComponents>
   <Properties>
     <Property name="closable" type="boolean" value="true"/>
+    <Property name="title" type="java.lang.String" value="[Thot] - Registro de Libro"/>
+    <Property name="toolTipText" type="java.lang.String" value=""/>
+    <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+      <Image iconType="3" name="/sv/edu/udb/data/thot.jpg"/>
+    </Property>
     <Property name="name" type="java.lang.String" value="[Thot] - Agregar Libro" noResource="true"/>
   </Properties>
   <SyntheticProperties>
