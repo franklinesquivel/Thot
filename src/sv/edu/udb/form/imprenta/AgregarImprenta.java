@@ -152,14 +152,13 @@ public class AgregarImprenta extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnAgregarImprentaActionPerformed
     private boolean validarDatos(){
-        if(Validacion.validar("^^(?!\\s*$).+",txtNombre.getText(),"Ingrese un nombre válido","Agregar Imprenta")){
+        if(Validacion.validar("^[A-Za-z0-9 áéíóú&Ññ-]*$",txtNombre.getText(),"Ingrese un nombre válido","Agregar Imprenta")){
             if(Validacion.validar("^(?!\\s*$).+",txtDireccion.getText(),"Algunos caracteres no estan permitidos, revise su direccion","Agregar Imprenta")){
                 return true;
             }
         }
         return false;
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarImprenta;
     private javax.swing.JLabel jLabel1;

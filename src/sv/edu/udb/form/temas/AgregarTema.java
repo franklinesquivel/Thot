@@ -109,7 +109,7 @@ public class AgregarTema extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnAgregarTemaActionPerformed
     private boolean validarDatos(){
-        if(Validacion.validar("^(?!\\s*$).+", txtDescripcion.getText(), "No puede ingresar numeros o simbolos!", "Agregar Tema")){
+        if(Validacion.validar("^[A-Z][A-Za-z áéíóú&Ññ-]*$", txtDescripcion.getText(), "No puede ingresar numeros o simbolos!", "Agregar Tema")){
             return true;
         }
         return false;    
