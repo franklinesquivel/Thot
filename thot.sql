@@ -26,8 +26,8 @@ DROP TABLE IF EXISTS `autor`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `autor` (
   `idAutor` varchar(6) COLLATE utf8_spanish2_ci NOT NULL,
-  `nombres` varchar(25) COLLATE utf8_spanish2_ci NOT NULL,
-  `apellidos` varchar(25) COLLATE utf8_spanish2_ci NOT NULL,
+  `nombres` varchar(35) COLLATE utf8_spanish2_ci NOT NULL,
+  `apellidos` varchar(35) COLLATE utf8_spanish2_ci NOT NULL,
   `fechaNac` date NOT NULL,
   `idPais` varchar(3) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`idAutor`),
@@ -55,8 +55,8 @@ DROP TABLE IF EXISTS `categoria`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `categoria` (
   `idCategoria` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(15) COLLATE utf8_spanish2_ci NOT NULL,
-  `descripcion` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  `nombre` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  `descripcion` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`idCategoria`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -138,8 +138,8 @@ DROP TABLE IF EXISTS `imprenta`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `imprenta` (
   `idImprenta` varchar(8) COLLATE utf8_spanish2_ci NOT NULL,
-  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
-  `direccion` varchar(150) COLLATE utf8_spanish2_ci NOT NULL,
+  `nombre` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `direccion` varchar(300) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`idImprenta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -163,11 +163,11 @@ DROP TABLE IF EXISTS `libro`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `libro` (
   `idLibro` varchar(5) COLLATE utf8_spanish2_ci NOT NULL,
-  `titulo` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
+  `titulo` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `isbn` varchar(25) COLLATE utf8_spanish2_ci NOT NULL,
   `edicion` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
-  `descripcion` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
-  `notas` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
+  `descripcion` varchar(400) COLLATE utf8_spanish2_ci NOT NULL,
+  `notas` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   `imagen` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
   `idImprenta` varchar(8) COLLATE utf8_spanish2_ci NOT NULL,
   `idCategoria` int(11) NOT NULL,
@@ -186,7 +186,7 @@ CREATE TABLE `libro` (
 
 LOCK TABLES `libro` WRITE;
 /*!40000 ALTER TABLE `libro` DISABLE KEYS */;
-INSERT INTO `libro` VALUES ('L0001','Asi hablo zaratustra','ISBN 901-7-314-36698-3','2','La obra contiene las principales ideas de Nietzsche, expresadas de forma poetica.','Dificil de interpretar Para mentes desarrolladas','L0001.jpg','IMTA0004',1),('L0002','Cien años de soledad','ISBN 521-0-256-00528-0','31','Es una novela de gabriel garcia marquez','Ganador del premio nobel','L0002.jpg','IMTA0001',3),('L0003','Don quijote','ISBN 769-5-321-87501-9','12','Es la obra mas destacada de la literatura española','Una buena novela','L0003.jpg','IMTA0005',2),('L0004','Cien sonetos de amor','ISBN 349-6-003-74320-9','16','Una coleccion de sonetos escrito por pablo neruda','Fue publicada en 1959','L0004.jpg','IMTA0003',3),('L0005','Bodas de sangre','ISBN 349-6-003-74320-7','4','es una tragedia escrita en verso y en prosa del escritor español Federico García Lorca','Escrita en el año 1931','L0005.jpg','IMTA0004',3),('L0006','Hola gege','ISBN 282-1-033-78411-3','3ra','Holaaaa Agarrara este tipo de descripcion?','Pues no lo se sinceramente. Tu que piensas, por cierto esto no tiene mltilinea','L0006.jpg','IMTA0001',1);
+INSERT INTO `libro` VALUES ('L0001','Asi hablo zaratustra','ISBN 901-7-314-36698-3','2','La obra contiene las principales ideas de Nietzsche, expresadas de forma poetica.','Dificil de interpretar Para mentes desarrolladas','L0001.jpg','IMTA0004',1),('L0002','Cien años de soledad','ISBN 521-0-256-00528-0','31','Es una novela de gabriel garcia marquez','Ganador del premio nobel','L0002.jpg','IMTA0001',3),('L0003','Don quijote','ISBN 769-5-321-87501-9','12','Es la obra mas destacada de la literatura española','Una buena novela','L0003.jpg','IMTA0005',2),('L0004','Cien sonetos de amor','ISBN 349-6-003-74320-9','16','Una coleccion de sonetos escrito por pablo neruda','Fue publicada en 1959','L0004.jpg','IMTA0003',3),('L0005','Bodas de sangre','ISBN 349-6-003-74320-7','4','es una tragedia escrita en verso y en prosa del escritor español Federico García Lorca','Escrita en el año 1931','L0005.jpg','IMTA0004',3);
 /*!40000 ALTER TABLE `libro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,7 +199,7 @@ DROP TABLE IF EXISTS `pais`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pais` (
   `idPais` varchar(3) COLLATE utf8_spanish2_ci NOT NULL,
-  `nombre` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
+  `nombre` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`idPais`),
   UNIQUE KEY `U_Pais_Nombre` (`nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
@@ -224,7 +224,7 @@ DROP TABLE IF EXISTS `tema`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tema` (
   `idTema` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  `descripcion` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`idTema`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -249,7 +249,7 @@ DROP TABLE IF EXISTS `tipos_usuario`;
 CREATE TABLE `tipos_usuario` (
   `idTipoUsuario` varchar(1) COLLATE utf8_spanish2_ci NOT NULL,
   `nombre` varchar(25) COLLATE utf8_spanish2_ci NOT NULL,
-  `descripcion` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
+  `descripcion` varchar(150) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`idTipoUsuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -275,9 +275,9 @@ CREATE TABLE `usuario` (
   `idUsuario` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
   `apellido` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
-  `correo` varchar(60) COLLATE utf8_spanish2_ci NOT NULL,
+  `correo` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   `fechaNacimiento` date NOT NULL,
-  `username` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
+  `username` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   `password` varchar(300) COLLATE utf8_spanish2_ci NOT NULL,
   `estado` tinyint(1) NOT NULL,
   `tipoUsuario` varchar(1) COLLATE utf8_spanish2_ci NOT NULL,

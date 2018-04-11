@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import sv.edu.udb.libreria.Encriptar;
 import sv.edu.udb.libreria.TipoUsuario;
 import sv.edu.udb.libreria.Usuario;
 import sv.edu.udb.modelos.TipoUsuario_Model;
@@ -50,7 +49,11 @@ public class gestionUsuario extends javax.swing.JInternalFrame {
         
         for(Usuario _u : usuarios){
             String estado = (_u.isEstado()) ? "Activo" : "Pasivo";
-            Object[] nuevaLinea = {_u.getNombre(), _u.getApellido(), _u.getFechaNacimiento(), _u.getCorreo(), _u.getUsername(), estado, _u.getTipoUsuario()};
+            
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String date = df.format(_u.getFechaNacimiento());
+            
+            Object[] nuevaLinea = {_u.getNombre(), _u.getApellido(), date, _u.getCorreo(), _u.getUsername(), estado, _u.getTipoUsuario()};
             modelo.addRow(nuevaLinea);
         }       
         jtblUsuarios.setModel(modelo);

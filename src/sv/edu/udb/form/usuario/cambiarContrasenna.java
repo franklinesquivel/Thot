@@ -5,10 +5,14 @@
  */
 package sv.edu.udb.form.usuario;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import sv.edu.udb.libreria.Email;
 import sv.edu.udb.libreria.Encriptar;
 import sv.edu.udb.libreria.TipoUsuario;
 import sv.edu.udb.libreria.Usuario;
@@ -41,8 +45,12 @@ public class cambiarContrasenna extends javax.swing.JInternalFrame {
         modelo = new DefaultTableModel(datos, columns);
         
         for(Usuario _u : usuarios){
+            
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String date = df.format(_u.getFechaNacimiento());
+            
             String estado = (_u.isEstado()) ? "Activo" : "Pasivo";
-            Object[] nuevaLinea = {_u.getNombre(), _u.getApellido(), _u.getFechaNacimiento(), _u.getCorreo(), _u.getUsername(), estado, _u.getTipoUsuario()};
+            Object[] nuevaLinea = {_u.getNombre(), _u.getApellido(), date, _u.getCorreo(), _u.getUsername(), estado, _u.getTipoUsuario()};
             modelo.addRow(nuevaLinea);
         }       
         jtblUsuarios.setModel(modelo);
@@ -211,10 +219,14 @@ public class cambiarContrasenna extends javax.swing.JInternalFrame {
     private void btnProcesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcesarActionPerformed
         if(idUsuarioSeleccionado > -1){
             if(validarCampos()){
-                if(Usuario_Model.modificarContrasenna(new Usuario(idUsuarioSeleccionado, Encriptar.encriptar(txtContrasenna.getText())))){
-                    JOptionPane.showMessageDialog(null, "Contraseña modificada!", "Cambiar Contraseña", JOptionPane.INFORMATION_MESSAGE);
-                    inicializarComponentes();
-                    cargarUsuarios();
+                if(Usuario_Model.modificarContrasenna(new Usuario(idUsuarioSeleccionado, Encriptar.encriptar(txtContrasenna.getText().trim())))){
+                    if (enviarCorreo(usuarios.get(idUsuarioSeleccionado).getCorreo(), (txtContrasenna.getText().trim()))) {
+                        JOptionPane.showMessageDialog(null, "Contraseña modificada!", "Cambiar Contraseña", JOptionPane.INFORMATION_MESSAGE);
+                        cargarUsuarios();
+                        inicializarComponentes();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Registro de Usuario", JOptionPane.ERROR_MESSAGE);
+                    }
                 }else{
                     JOptionPane.showMessageDialog(null, "Ha ocurrido un error!", "Cambiar Contraseña", JOptionPane.ERROR_MESSAGE);
                 }
@@ -244,6 +256,13 @@ public class cambiarContrasenna extends javax.swing.JInternalFrame {
         }
         return false;
     }
+    
+    private boolean enviarCorreo(String correo, String contrasenna){
+        String mensaje  = "<h5>Contraseña: </h5>"+contrasenna;
+        Email email = new Email(correo);
+        return email.enviar(mensaje, "Modificación de Usuario");
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnProcesar;

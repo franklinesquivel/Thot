@@ -20,11 +20,11 @@ import javax.mail.internet.MimeMessage;
 public class Email {
 
     private String receptor;
-    private String emisor = "";
-    private String contrasenna = "";
+    private final String EMISOR = "";
+    private final String PASSWORD = "";
     private String nombre = "Thot"; //Nombre de la compañía.
     private String smtpServidor = "smtp.gmail.com"; //Servidor SMTP de gmail
-    private int puerto = 587;
+    private final int puerto = 587;
 
     /**
      * @return the receptor
@@ -38,20 +38,6 @@ public class Email {
      */
     public void setReceptor(String receptor) {
         this.receptor = receptor;
-    }
-
-    /**
-     * @return the emisor
-     */
-    public String getEmisor() {
-        return emisor;
-    }
-
-    /**
-     * @param emisor the emisor to set
-     */
-    public void setEmisor(String emisor) {
-        this.emisor = emisor;
     }
 
     /**
@@ -94,18 +80,17 @@ public class Email {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.port", this.puerto);
-        String emisor = this.emisor;
-        String contrasenna = this.contrasenna;
 
         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(emisor, contrasenna);
+                return new PasswordAuthentication(EMISOR, PASSWORD);
             }
         });
         Message mensaje = new MimeMessage(session);
 
         try {
-            mensaje.setFrom(new InternetAddress(this.emisor));
+            mensaje.setFrom(new InternetAddress(EMISOR));
             mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(this.receptor));
             mensaje.setSubject(titulo);
             mensaje.setContent(contenido, "text/html; charset=utf-8");
