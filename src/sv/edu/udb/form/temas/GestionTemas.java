@@ -257,7 +257,7 @@ public class GestionTemas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtblTemasMouseClicked
     private boolean validarDatos(){
         
-        if(Validacion.validar("^[A-Z][a-z ,.'-]+$", txtDescripcion.getText(), "No puede ingresar numeros o simbolos!", "Agregar Tema")){
+        if(Validacion.validar("^[A-Z][A-Za-z áéíóúÑ&ñ-]*$", txtDescripcion.getText(), "No puede ingresar numeros o simbolos!", "Agregar Tema")){
             return true;
         }
         return false;    

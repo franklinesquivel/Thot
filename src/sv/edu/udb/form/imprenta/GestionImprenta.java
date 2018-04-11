@@ -302,8 +302,8 @@ public class GestionImprenta extends javax.swing.JInternalFrame {
         }*/
     }//GEN-LAST:event_txtNombreImprentaKeyTyped
     private boolean validarDatos(){
-        if(Validacion.validar("^[A-Z]([a-zA-Z0-9]|[- @\\.#&!])*$",txtNombreImprenta.getText(),"Ingrese un nombre válido","Agregar Imprenta")){
-            if(Validacion.validar("^([a-zA-Z0-9]|[@\\. -,#&!])*$",txtDireccionImprenta.getText(),"Algunos caracteres no estan permitidos, revise su direccion","Agregar Imprenta")){
+        if(Validacion.validar("^[A-Za-z0-9 áéíóú&Ññ-]*$",txtNombreImprenta.getText(),"Ingrese un nombre válido","Agregar Imprenta")){
+            if(Validacion.validar("^(?!\\s*$).+",txtDireccionImprenta.getText(),"Algunos caracteres no estan permitidos, revise su direccion","Agregar Imprenta")){
                 return true;
             }
         }
