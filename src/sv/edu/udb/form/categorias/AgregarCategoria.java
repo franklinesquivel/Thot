@@ -122,8 +122,8 @@ public class AgregarCategoria extends javax.swing.JInternalFrame {
     }
     
     private boolean validarCampos(){
-        if(Validacion.validar("^[A-Za-z áéíóúÑñ,]*$", txtNombre.getText(), "Ingresar un nombre válido!", "Agregar Categoría")
-           && Validacion.validar("^[A-Za-z áéíóúÑñ,0-9.-]*$", txtDescripcion.getText(), "Ingresar una descripción válida!", "Agregar Categoría")){
+        if(Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú,]*$", txtNombre.getText(), "Ingresar un nombre válido!", "Agregar Categoría")
+           && Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú,0-9.-]*$", txtDescripcion.getText(), "Ingresar una descripción válida!", "Agregar Categoría")){
             return true;
         }
         return false;

@@ -110,14 +110,13 @@ public class GestionAutor extends javax.swing.JInternalFrame {
     }
 
     private boolean validarCampos() {
-        if (Validacion.validar("^[\\p{L} .'-]+$", txtNombre.getText(), "Ingresar un nombre válido!", "Agregar Usuario")
-                && Validacion.validar("^[\\p{L} .'-]+", txtApellido.getText(), "Ingresar un apellido válido!", "Agregar Usuario")
-                && Validacion.validar("^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$", txtFecha.getText(), "Fecha Inválida (yyyy-MM-dd)", "Agregar Usuario")) {
+        if (Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú]*$", txtNombre.getText(), "Ingresar un nombre válido!", "Gestión Autor")
+                && Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú]*$", txtApellido.getText(), "Ingresar un apellido válido!", "Gestión Autor")
+                && Validacion.validar("^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$", txtFecha.getText(), "Fecha Inválida (yyyy-MM-dd)", "Gestión Autor")) {
             return true;
         }
         return false;
     }
-
     private boolean compararFecha(Date fecha) {
         Date fechaActual = new Date();
         if (fecha.compareTo(fechaActual) < 0) {

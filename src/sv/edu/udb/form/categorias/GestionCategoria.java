@@ -182,8 +182,8 @@ public class GestionCategoria extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if(
-            Validacion.validar("^[A-Za-z áéíóúÑñ,]*$", txtNombre.getText().trim(), "Ingresa un nombre válido!", "[Thot] - Gestión de Categorías") &&
-            Validacion.validar("(?s)(?!\\s*$).+", txtDescripcion.getText().trim(), "Ingresa una descripción válida!", "[Thot] - Gestión de Categorías")
+            Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú,]*$", txtNombre.getText().trim(), "Ingresa un nombre válido!", "[Thot] - Gestión de Categorías") &&
+            Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú,0-9.-]*$", txtDescripcion.getText().trim(), "Ingresa una descripción válida!", "[Thot] - Gestión de Categorías")
         ){
             Categoria c = new Categoria(categoriaSeleccionada, false);
             c.setNombre(txtNombre.getText().trim());

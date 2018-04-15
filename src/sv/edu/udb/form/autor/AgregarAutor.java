@@ -211,8 +211,8 @@ public class AgregarAutor extends javax.swing.JInternalFrame {
     }
 
     private boolean validarCampos() {
-        if (Validacion.validar("^[\\p{L} .'-]+$", txtNombre.getText(), "Ingresar un nombre válido!", "Agregar Autor")
-                && Validacion.validar("^[\\p{L} .'-]+", txtApellido.getText(), "Ingresar un apellido válido!", "Agregar Autor")
+        if (Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú]*$", txtNombre.getText(), "Ingresar un nombre válido!", "Agregar Autor")
+                && Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú]*$", txtApellido.getText(), "Ingresar un apellido válido!", "Agregar Autor")
                 && Validacion.validar("^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$", txtFechaNac.getText(), "Fecha Inválida (yyyy-MM-dd)", "Agregar Autor")) {
             return true;
         }
@@ -224,7 +224,7 @@ public class AgregarAutor extends javax.swing.JInternalFrame {
         if (fecha.compareTo(fechaActual) < 0) {
             return true;
         } else {
-            JOptionPane.showMessageDialog(null, "Ingresar una fecha válida", "Registro de Usuario", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ingresar una fecha válida", "Registro de Autor", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }

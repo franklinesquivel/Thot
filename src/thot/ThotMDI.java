@@ -279,7 +279,6 @@ public class ThotMDI extends javax.swing.JFrame {
     }//GEN-LAST:event_copyMenuItemActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-
         AgregarAutor autorForm = new AgregarAutor();
         desktopPane.add(autorForm);
         autorForm.setVisible(true);

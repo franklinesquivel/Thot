@@ -435,10 +435,10 @@ public class gestionUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private boolean validarCampos(){
-        if(Validacion.validar("^[\\p{L} .'-]+$", txtNombre.getText(), "Ingresar un nombre válido!", "Agregar Usuario")
-           && Validacion.validar("^[\\p{L} .'-]+", txtApellido.getText(), "Ingresar un apellido válido!", "Agregar Usuario")
+        if(Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú]*$", txtNombre.getText(), "Ingresar un nombre válido!", "Agregar Usuario")
+           && Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú]*$", txtApellido.getText(), "Ingresar un apellido válido!", "Agregar Usuario")
            && Validacion.validar("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", txtCorreo.getText(), "Correo Electrónico no válido", "Registro Usuario")
-           && Validacion.validar("^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$", txtFechaNacimiento.getText(), "Fecha Inválida (yyyy-MM-dd)", "Agregar Usuario")){
+           && Validacion.validar("^1[0-9]{3}-[0-9]{1,2}-[0-9]{1,2}$", txtFechaNacimiento.getText(), "Fecha Inválida (yyyy-MM-dd)", "Agregar Usuario")){
             return true;
         }
         return false;

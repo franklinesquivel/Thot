@@ -153,8 +153,8 @@ public class AgregarImprenta extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnAgregarImprentaActionPerformed
     private boolean validarDatos(){
-        if(Validacion.validar("^[A-Za-z0-9 áéíóú&Ññ-]*$",txtNombre.getText(),"Ingrese un nombre válido","Agregar Imprenta")){
-            if(Validacion.validar("^(?!\\s*$).+",txtDireccion.getText(),"Algunos caracteres no estan permitidos, revise su direccion","Agregar Imprenta")){
+        if(Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú0-9.-]*$",txtNombre.getText(),"Ingrese un nombre válido","Agregar Imprenta")){
+            if(Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú,0-9.#-]*$",txtDireccion.getText(),"Algunos caracteres no estan permitidos, revise su direccion","Agregar Imprenta")){
                 return true;
             }
         }

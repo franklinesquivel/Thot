@@ -247,7 +247,7 @@ public class cambiarContrasenna extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtblUsuariosMouseClicked
 
     private boolean validarCampos(){
-        if(Validacion.validar("^[a-zA-Z0-9]+$", txtContrasenna.getText(), "Ingresar solamente caracteres alfanúmericos!", "Cambiar Contraseña")){
+        if(Validacion.validar("^[a-zA-Z0-9 &_.]*$", txtContrasenna.getText(), "Ingresar solamente caracteres alfanúmericos!", "Cambiar Contraseña")){
             if(txtContrasenna.getText().length() >= 8){
                 return true;
             }else{
