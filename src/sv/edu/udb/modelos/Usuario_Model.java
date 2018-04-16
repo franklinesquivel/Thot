@@ -43,7 +43,44 @@ public class Usuario_Model{
             return false;
         }
     }
-    
+    public static Usuario obtenerUsuarioCorreo(String _e){
+        PreparedStatement obtenerSQL = DBConection.getStatement("SELECT * FROM usuario WHERE correo = ?;");
+        try {
+            obtenerSQL.setString(1, _e);
+            ResultSet data = obtenerSQL.executeQuery();
+            Usuario _u = null;
+            data.next();
+            boolean estado = (data.getInt("estado") == 1);
+            DateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaNacimiento = ft.parse(data.getString("fechaNacimiento"));    
+            _u = new Usuario(Integer.parseInt(data.getString("idUsuario")), data.getString("nombre"), data.getString("apellido"), data.getString("correo"), fechaNacimiento,data.getString("username") ,data.getString("password"), estado, data.getString("tipoUsuario"));
+            data.close();
+            return ((_u != null) ? _u : null);
+        } catch (SQLException | ParseException ex) {
+            Logger.getLogger(Usuario_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    public static Usuario buscarUsuario(String correo, String password){
+        PreparedStatement consulta = DBConection.getStatement("SELECT * FROM Usuario WHERE correo = ?");
+        try{
+            consulta.setString(1,correo);;
+            try (ResultSet data = consulta.executeQuery()) {
+                if(data != null){
+                    while(data.next()){
+                        return Usuario_Model.obtenerUsuario(data.getString("idUsuario"));
+                    }
+                }else{
+                    return null;
+                }
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(Usuario_Model.class.getName()).log(Level.SEVERE,null,ex);
+            return null;
+        }
+        return null;
+        
+    }
     public static Usuario obtenerUsuario(String id){
         PreparedStatement obtenerSQL = DBConection.getStatement("SELECT * FROM usuario WHERE idUsuario = ?;");
         try {

@@ -175,18 +175,22 @@ public class AgregarAutor extends javax.swing.JInternalFrame {
 
                 String idAutor = Autor.crearNombreAutor(Autor_Model.obtenerNumAutor());
                 String nombre = txtNombre.getText(),
-                        apellido = txtApellido.getText(); //Proba
+                apellido = txtApellido.getText(); //Proba
                 DateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
                 Date fechaNacimiento = new SimpleDateFormat("yyyy-MM-dd").parse(txtFechaNac.getText());
                 
                 //new SimpleDateFormat("yyyy-MM-dd").parse(txtFechaNac.getText())
                 
-                if (compararFecha(fechaNacimiento)) {//Comparamos que la fehca ingresada no sea mayor a la actual
-                    if (Autor_Model.insertar(new Autor(idAutor, nombre, apellido, fechaNacimiento, PaisString))) {
-                        JOptionPane.showMessageDialog(null, "Autor registrado correctamente", "Registro de Autor", JOptionPane.INFORMATION_MESSAGE);
-                        limpiarCampos();
-                    } else { //Esperame voy a buscar
-                        JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Registro de Autor", JOptionPane.ERROR_MESSAGE);
+                if (compararFecha(fechaNacimiento)) {//Comparamos que la fecha ingresada no sea mayor a la actual
+                    if(Autor_Model.verificarA(txtNombre.getText(),txtApellido.getText())){
+                        if (Autor_Model.insertar(new Autor(idAutor, nombre, apellido, fechaNacimiento, PaisString))) {
+                            JOptionPane.showMessageDialog(null, "Autor registrado correctamente", "Registro de Autor", JOptionPane.INFORMATION_MESSAGE);
+                            limpiarCampos();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Registro de Autor", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Este autor ya existe", "Registro de Autor", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }

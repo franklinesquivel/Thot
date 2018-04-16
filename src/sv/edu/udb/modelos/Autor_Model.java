@@ -73,7 +73,21 @@ public class Autor_Model {
             return null;
         }
     }
-
+    public static boolean verificarA(String nombre,String apellido) {
+        PreparedStatement query = DBConection.getStatement("SELECT COUNT(*) FROM Autor WHERE LOWER(nombres) = ? AND LOWER(apellidos) = ? ;");
+        try {
+            query.setString(1, nombre.toLowerCase());
+            query.setString(2, apellido.toLowerCase());
+            ResultSet data = query.executeQuery();
+            data.next();
+            int cuenta = data.getInt(1);
+            data.close();
+            return ((cuenta > 0) ? false : true);
+        }catch (SQLException ex) {
+            Logger.getLogger(Libro_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
     public static Autor obtenerAutor(String idAutor, boolean relaciones) {
         PreparedStatement obtenerAutor = DBConection.getStatement("SELECT * FROM autor WHERE idAutor = ?;");
         try {

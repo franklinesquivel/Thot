@@ -5,7 +5,6 @@
  */
 package sv.edu.udb.form.imprenta;
 
-import com.sun.glass.events.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sv.edu.udb.validacion.Validacion;
@@ -138,15 +137,19 @@ public class AgregarImprenta extends javax.swing.JInternalFrame {
             if(validarDatos()){
             if(txtNombre.getText().length() > 0 && !(txtNombre.getText().isEmpty()) && !(txtNombre.getText().equals(" "))){
                 if(txtDireccion.getText().length() > 0 && !(txtDireccion.getText().isEmpty()) && !(txtDireccion.getText().equals(" "))){
-                    if(Imprenta_Model.insertar(new Imprenta(Imprenta_Model.generarId(),txtNombre.getText(),txtDireccion.getText()))){
-                        JOptionPane.showMessageDialog(null, "Imprenta ingresada correctamente","Agregar Imprenta",JOptionPane.INFORMATION_MESSAGE);
-                        txtNombre.setText("");
-                        txtDireccion.setText("");
+                    if(Imprenta_Model.verificarI(txtNombre.getText())){
+                        if(Imprenta_Model.insertar(new Imprenta(Imprenta_Model.generarId(),txtNombre.getText(),txtDireccion.getText()))){
+                           JOptionPane.showMessageDialog(null, "Imprenta ingresada correctamente","Agregar Imprenta",JOptionPane.INFORMATION_MESSAGE);
+                            txtNombre.setText("");
+                            txtDireccion.setText("");
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Ha ocurrido un error","Agregar Imprenta",JOptionPane.ERROR_MESSAGE);
+                            }
                     }else{
-                        JOptionPane.showMessageDialog(null, "Ha ocurrido un error","Agregar Imprenta",JOptionPane.ERROR_MESSAGE);
-                        }
-                    }      
-                }
+                        JOptionPane.showMessageDialog(null, "La imprenta ya existe","Agregar Imprenta",JOptionPane.ERROR_MESSAGE);
+                        } 
+                    }
+                }     
             } 
         }catch(Exception ex){
             Logger.getLogger(AgregarImprenta.class.getName()).log(Level.SEVERE,null,ex);

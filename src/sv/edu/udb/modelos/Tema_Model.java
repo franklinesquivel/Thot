@@ -96,7 +96,7 @@ public class Tema_Model {
             }
             return null;
         } catch (SQLException ex) {    
-            Logger.getLogger(Libro_Model.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Tema_Model.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -108,7 +108,7 @@ public class Tema_Model {
             insertarSQL.executeUpdate();
             return true;
         }catch(SQLException ex){
-            Logger.getLogger(Libro_Model.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Tema_Model.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -121,11 +121,24 @@ public class Tema_Model {
             modificarSQL.executeUpdate();
             return true;
         }catch(SQLException ex){
-            Logger.getLogger(Libro_Model.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Tema_Model.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
-    
+    public static boolean verificarT(String descripcion){
+        PreparedStatement query = DBConection.getStatement("SELECT COUNT(*) FROM Tema WHERE LOWER(descripcion)=?");
+        try {
+            query.setString(1, descripcion.toLowerCase());
+            ResultSet data = query.executeQuery();
+            data.next();
+            int cuenta = data.getInt(1);
+            data.close();
+                return ((cuenta> 0) ? false : true);
+        } catch (SQLException ex) {    
+            Logger.getLogger(Tema_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
     public static boolean eliminar(Tema _t){
         PreparedStatement eliminarSQL = DBConection.getStatement("DELETE FROM Tema WHERE idTema = ?;");
         try{
@@ -133,7 +146,7 @@ public class Tema_Model {
             eliminarSQL.executeUpdate();
             return true;
         }catch(SQLException ex){
-            Logger.getLogger(Libro_Model.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Tema_Model.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

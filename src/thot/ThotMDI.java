@@ -31,11 +31,12 @@ import sv.edu.udb.form.libros.GestionLibro;
  * @author Leonardo
  */
 public class ThotMDI extends javax.swing.JFrame {
-
+    public static String tipoUsuario;
     /**
      * Creates new form ThotMDI
+     * @param user
      */
-    public ThotMDI() {
+    public ThotMDI(String user) {
         initComponents();
         setExtendedState(ThotMDI.MAXIMIZED_BOTH);
         
@@ -57,8 +58,23 @@ public class ThotMDI extends javax.swing.JFrame {
         }
         
         setIconImage(i);
+        tipoUsuario = user;
+        if(tipoUsuario.equals("B")){
+            fileMenu.setEnabled(false);
+            libroMenu.setEnabled(true);
+            jMenu1.setEnabled(true);
+            jmainImprentas.setEnabled(true);
+            categoriaMenuItem.setEnabled(true);
+            editMenu.setEnabled(true);
+        }else if(tipoUsuario.equals("A")){
+            fileMenu.setEnabled(true);
+            libroMenu.setEnabled(true);
+            jMenu1.setEnabled(true);
+            jmainImprentas.setEnabled(true);
+            categoriaMenuItem.setEnabled(true);
+            editMenu.setEnabled(true);
+        }
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -356,7 +372,7 @@ public class ThotMDI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ThotMDI().setVisible(true);
+                new Login().setVisible(true);
             }
         });
     }

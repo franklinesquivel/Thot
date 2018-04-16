@@ -52,7 +52,20 @@ public class Imprenta_Model {
             return null;
         }
     }
-    
+    public static boolean verificarI(String nombre){
+        PreparedStatement query = DBConection.getStatement("SELECT COUNT(*) FROM Imprenta WHERE LOWER(nombre)=?");
+        try {
+            query.setString(1, nombre.toLowerCase());
+            ResultSet data = query.executeQuery();
+            data.next();
+            int cuenta = data.getInt(1);
+            data.close();
+            return ((cuenta> 0) ? false : true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Imprenta_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
     public static List<Imprenta> BuscarImprenta(String campo,String busqueda){
         List<Imprenta> _Ilist = new ArrayList();
         PreparedStatement consultaSQL = DBConection.getStatement("SELECT idImprenta,nombre,direccion FROM imprenta WHERE "+ campo +" LIKE '%"+busqueda +"%'");

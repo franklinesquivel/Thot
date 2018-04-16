@@ -4,9 +4,6 @@
  * and open the template in the editor.
  */
 package sv.edu.udb.form.temas;
-import java.awt.HeadlessException;
-import java.awt.event.KeyEvent;
-import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -96,18 +93,21 @@ public class AgregarTema extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarTemaActionPerformed
-        try{
-            if(validarDatos() && txtDescripcion.getText().length() > 0 && !(txtDescripcion.getText().isEmpty()) && !(txtDescripcion.getText().equals(" "))){
-                String descripcion = txtDescripcion.getText();
-                if(Tema_Model.insertar(new Tema(txtDescripcion.getText()))){
-                JOptionPane.showMessageDialog(null, "Tema Ingresado correctamente", "Registro de Temas", JOptionPane.INFORMATION_MESSAGE);
-                txtDescripcion.setText("");
-            }else{
-                JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Registro de Temas", JOptionPane.ERROR_MESSAGE);
+        try {
+            if (validarDatos() && txtDescripcion.getText().length() > 0 && !(txtDescripcion.getText().isEmpty()) && !(txtDescripcion.getText().equals(" "))) {
+                if (Tema_Model.verificarT(txtDescripcion.getText())){
+                    if (Tema_Model.insertar(new Tema(txtDescripcion.getText()))) {
+                        JOptionPane.showMessageDialog(null, "Tema Ingresado correctamente", "Registro de Temas", JOptionPane.INFORMATION_MESSAGE);
+                        txtDescripcion.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "ha ocurrido un error", "Registro de Temas", JOptionPane.ERROR_MESSAGE);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "El tema ya existe", "Registro de Temas", JOptionPane.ERROR_MESSAGE);
+                }
             }
-            }
-        }catch(Exception ex){
-            Logger.getLogger(AgregarTema.class.getName()).log(Level.SEVERE,null,ex);
+        } catch (Exception ex) {
+            Logger.getLogger(AgregarTema.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAgregarTemaActionPerformed
     private boolean validarDatos(){
