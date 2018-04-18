@@ -159,7 +159,7 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
 
                 String password = Encriptar.encriptar(Usuario.crearContransenna());
                 String username = Usuario.crearNombreUsuario(tipo, Usuario_Model.obtenerNumUsuario(tipo));
-                String idUsuario = Usuario.crearIdUsuario(tipo, Usuario_Model.obtenerNumUsuario());
+                String idUsuario = username;
                 String nombre = txtNombre.getText(), 
                     apellido = txtApellido.getText(),
                     correo = txtCorreo.getText(),
