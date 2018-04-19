@@ -122,6 +122,38 @@ CREATE TABLE `ejemplar` (
   CONSTRAINT `FK_Ejemplar_Libro` FOREIGN KEY (`idLibro`) REFERENCES `libro` (`idLibro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `thot`.`ejemplar_generar_codigo` BEFORE INSERT ON `ejemplar` FOR EACH ROW
+BEGIN
+	SET @aux = 0;
+    SET @idLibro = NEW.idLibro;
+    SET @ejemplaresExistentes = 0;
+    
+    SELECT count(idEjemplar) INTO @ejemplaresExistentes FROM ejemplar WHERE idLibro = @idLibro;
+			
+	IF @ejemplaresExistentes >= 0 AND @ejemplaresExistentes < 9 THEN SET @aux = 1;
+	ELSEIF @ejemplaresExistentes >= 9 AND @ejemplaresExistentes < 99 THEN SET @aux = 2;
+	ELSEIF @ejemplaresExistentes >= 99 AND @ejemplaresExistentes < 999 THEN SET @aux = 3;
+	ELSEIF @ejemplaresExistentes >= 999 AND @ejemplaresExistentes < 9999 THEN SET @aux = 4;
+	END IF;
+
+	SET @idEjemplar = concat('E', @idLibro, repeat(0, 4 - @aux), (@ejemplaresExistentes + 1));
+	
+    SET NEW.idEjemplar = @idEjemplar;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `imprenta`
@@ -180,26 +212,13 @@ BEGIN
 	SET @idLibro = NEW.idLibro;
     SET @cantEjemplares = NEW.ejemplares;
     SET @c = 0;
-    SET @ejemplaresExistentes = 0;
-    
-    SELECT count(idEjemplar) INTO @ejemplaresExistentes FROM ejemplar WHERE idEjemplar LIKE concat('E', @idLibro, '%');
     
     IF NEW.fill = 0 THEN BEGIN
 		WHILE @c < @cantEjemplares DO
-			SET @aux = 0;
 			
-			IF @ejemplaresExistentes >= 0 AND @ejemplaresExistentes < 9 THEN SET @aux = 1;
-			ELSEIF @ejemplaresExistentes >= 9 AND @ejemplaresExistentes < 99 THEN SET @aux = 2;
-			ELSEIF @ejemplaresExistentes >= 99 AND @ejemplaresExistentes < 999 THEN SET @aux = 3;
-			ELSEIF @ejemplaresExistentes >= 999 AND @ejemplaresExistentes < 9999 THEN SET @aux = 4;
-			END IF;
-			
-			SET @idEjemplar = concat('E', @idLibro, repeat(0, 4 - @aux), (@ejemplaresExistentes + 1));
-			
-			INSERT INTO ejemplar(idEjemplar, codigo, observaciones, idLibro) 
-			VALUES (@idEjemplar,  @idEjemplar,'PENDIENTE', @idLibro);
-			
-			SET @ejemplaresExistentes = @ejemplaresExistentes + 1;
+			INSERT INTO ejemplar(codigo, observaciones, idLibro) 
+			VALUES ('PENDIENTE', 'PENDIENTE', @idLibro);
+            
 			SET @c = @c + 1;
 		END WHILE;
 	END; END IF;
@@ -471,7 +490,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `prestamo_libro`(IN idEjemplar varchar(10), IN idUsuario varchar(5), OUT out_res tinyint)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `prestamo_libro`(IN idEjemplar varchar(10), IN idUsuario varchar(5), OUT out_res tinyint, IN devolucion timestamp)
 BEGIN
 	SET @estadoE = '';
     SELECT e.estado INTO @estadoE FROM ejemplar e WHERE e.idEjemplar = idEjemplar;
@@ -492,8 +511,9 @@ BEGIN
         END IF;
         
         SET @idPrestamo = concat('P', idUsuario, idEjemplar, @y, repeat(0, 4 - @aux), (@prestamos + 1));
+        IF devolucion IS NULL THEN SET devolucion = '0000-00-00 00:00:00'; END IF;
         
-		INSERT INTO prestamo(idPrestamo, idEjemplar, idUsuario) VALUES(@idPrestamo, idEjemplar, idUsuario);        
+		INSERT INTO prestamo(idPrestamo, fecha_devolucion, idEjemplar, idUsuario) VALUES(@idPrestamo, devolucion, idEjemplar, idUsuario);        
         SET out_res = 1;
 	END; END IF;
     
@@ -516,7 +536,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `reserva_libro`(IN idEjemplar varchar(10), IN idUsuario varchar(5), OUT out_res tinyint)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reserva_libro`(IN idEjemplar varchar(10), IN idUsuario varchar(5), OUT out_res tinyint, IN vencimiento timestamp)
 BEGIN
     SET @estadoE = '';
     SELECT e.estado INTO @estadoE FROM ejemplar e WHERE e.idEjemplar = idEjemplar;
@@ -538,7 +558,9 @@ BEGIN
         
         SET @idReserva = concat('R', idUsuario, idEjemplar, @y, repeat(0, 4 - @aux), (@reservas + 1));
         
-		INSERT INTO reserva(idReserva, idEjemplar, idUsuario) VALUES(@idReserva, idEjemplar, idUsuario);        
+        IF vencimiento IS NULL THEN SET vencimiento = '0000-00-00 00:00:00'; END IF;
+        
+		INSERT INTO reserva(idReserva, fecha_vencimiento, idEjemplar, idUsuario) VALUES(@idReserva, vencimiento, idEjemplar, idUsuario);        
         SET out_res = 1;
 	END; END IF;
     
@@ -596,4 +618,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-18 19:11:12
+-- Dump completed on 2018-04-18 21:25:44
