@@ -38,6 +38,16 @@ INSERT INTO `categoria` VALUES (1,'Filosofia','Filosofia universal'),(2,'Realism
 UNLOCK TABLES;
 
 --
+-- Dumping data for table `config`
+--
+
+LOCK TABLES `config` WRITE;
+/*!40000 ALTER TABLE `config` DISABLE KEYS */;
+INSERT INTO `config` VALUES (1,0.25);
+/*!40000 ALTER TABLE `config` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping data for table `detalle_autorlibro`
 --
 
@@ -154,4 +164,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-17 23:11:45
+-- Dump completed on 2018-04-18 19:13:33
