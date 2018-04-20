@@ -50,12 +50,25 @@ public class Usuario_Model{
             obtenerSQL.setString(1, _e);
             ResultSet data = obtenerSQL.executeQuery();
             Usuario _u = null;
-            data.next();
-            boolean estado = (data.getInt("estado") == 1);
-            DateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-            Date fechaNacimiento = ft.parse(data.getString("fechaNacimiento"));    
-            _u = new Usuario(data.getString("idUsuario"), data.getString("nombre"), data.getString("apellido"), data.getString("correo"), fechaNacimiento,data.getString("username") ,data.getString("password"), estado, data.getString("tipoUsuario"));
-            data.close();
+            
+            if(data != null){
+                try {
+                    while(data.next()){
+                        boolean estado = (data.getInt("estado") == 1);
+                        DateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+                        Date fechaNacimiento = ft.parse(data.getString("fechaNacimiento"));
+                        _u = new Usuario(data.getString("idUsuario"), data.getString("nombre"), data.getString("apellido"), data.getString("correo"), fechaNacimiento, data.getString("username"), data.getString("password"), estado, data.getString("tipoUsuario"));
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Usuario_Model.class.getName()).log(Level.SEVERE, null, ex);
+                    return null;
+                }
+                
+                data.close();
+            }else{
+                return null;
+            }
+            
             return ((_u != null) ? _u : null);
         } catch (SQLException | ParseException ex) {
             Logger.getLogger(Usuario_Model.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,7 +78,7 @@ public class Usuario_Model{
     public static Usuario buscarUsuario(String correo, String password){
         PreparedStatement consulta = DBConection.getStatement("SELECT * FROM Usuario WHERE correo = ?");
         try{
-            consulta.setString(1,correo);;
+            consulta.setString(1,correo);
             try (ResultSet data = consulta.executeQuery()) {
                 if(data != null){
                     while(data.next()){

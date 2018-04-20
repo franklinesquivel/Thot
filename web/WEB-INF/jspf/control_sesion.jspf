@@ -1,0 +1,17 @@
+<%@page import="sv.edu.udb.libreria.Usuario"%>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+
+<c:if test="${sessionScope.logged == true}">
+    <% Usuario _u = (Usuario) session.getAttribute("userData"); %>
+    <%
+        String actualView = request.getRequestURI().split("/")[request.getRequestURI().split("/").length - 1].substring(0, 1);
+
+        if (!actualView.equals(_u.getTipoUsuario())) {
+            response.sendRedirect("/Thot/" + (_u.getTipoUsuario().equals("B") ? "Bibliotecario" : "Usuario") + "/");
+        }
+    %>
+</c:if>
+
+<c:if test="${sessionScope.logged != true}">
+    <c:redirect url = "/"/>
+</c:if>

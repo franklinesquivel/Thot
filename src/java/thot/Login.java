@@ -151,6 +151,7 @@ public class Login extends javax.swing.JFrame {
         Email email = new Email(correo);
         return email.enviar(mensaje, "[Thot] - Recuperación de Contraseña");
     }
+    
     private boolean validarCorreo(){
         if(Validacion.validar("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", txtCorreo.getText(), "Correo Electrónico no válido", "Registro Usuario")){
             return true;

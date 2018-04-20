@@ -5,6 +5,7 @@
  */
 package sv.edu.udb.connection;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -46,6 +47,20 @@ public class DBConection {
             Class.forName("com.mysql.jdbc.Driver");
             cn = DriverManager.getConnection("jdbc:mysql://" + HOST + "/" + BD, USER, PASS);
             return cn.prepareStatement(sql);
+        }catch(ClassNotFoundException cE){
+            System.out.println("ERROR: Clase no encontrada!: " + cE.getMessage());
+            return null;
+        }catch(SQLException sE){
+            System.out.println("ERROR: Fallo en SQL: " + sE.getMessage());
+            return null;
+        }
+    }
+    
+    public static CallableStatement setProcedure(String sql){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            cn = DriverManager.getConnection("jdbc:mysql://" + HOST + "/" + BD, USER, PASS);
+            return cn.prepareCall(sql);
         }catch(ClassNotFoundException cE){
             System.out.println("ERROR: Clase no encontrada!: " + cE.getMessage());
             return null;
