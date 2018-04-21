@@ -24,7 +24,7 @@ import sv.edu.udb.libreria.Reserva;
  */
 public class Reserva_Model {
     public static boolean insertar(Reserva _r){
-        CallableStatement reservar = DBConection.setProcedure("{CALL reserva_libro(?, ?, ?, ?)}");
+        CallableStatement reservar = DBConection.getProcedure("{CALL reserva_libro(?, ?, ?, ?)}");
         try {
             int res = 0;
             reservar.setString(1, _r.getEjemplar().getIdEjemplar());

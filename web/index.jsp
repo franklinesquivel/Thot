@@ -21,80 +21,64 @@
         <title>Thot - Sistema Bibliotecario</title>
     </head>
     <body>
-        <main class="container">
-            <div class="row" id="cont">
-                <form action="/Thot/Login" method="POST" name="frmLogin" id="frmLogin" class="col md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
-                    <h1 class="text-info center">Thot <span class="glyphicon glyphicon-book" aria-hidden="true"></span></h1>
-                    <h3 class="text-muted center">[Inicio de Sesión]</h3>
-                    
-                    <br><br>
+        <main class="row">
+            <form action="/Thot/Login" method="POST" name="frmLogin" id="frmLogin" class="col l10 offset-l1 m10 offset-m1 s10 offset-s1">
+                <h3 class="blue-text text-lighten-1 center" style="display: flex; justify-content: center;">Thot <i class="material-icons medium">book</i></h3>
+                <h5 class="grey-text center">[Inicio de Sesión]</h5>
+                
+                <br><br>
 
-                    <div id="mainAlertCont">
-                        <c:if test="${sessionScope.msg != null}">
-                            <div class="alert alert-${sessionScope.msg_type} alert-dismissible center" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <strong>${sessionScope.msg}</strong>
-                            </div>
-                            
-                            <c:remove var="msg_type" scope="session" />
-                            <c:remove var="msg" scope="session" />
-                        </c:if>
-                    </div>
-
-
-                    <div class="form-group col-md-8 col-md-offset-2 col-md-xs-12">
-                        <label for="txtUser">Correo / Nombre de usuario</label>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon">@</span>
-                            <input type="text" name="txtUser" class="form-control">
+                <div id="mainAlertCont" class="col m10 offset-m1 s12">
+                    <c:if test="${sessionScope.msg != null}">
+                        <div class="${sessionScope.msg_type} ${sessionScope.msg_type}-text text-darken-3 center alert">
+                            <strong>${sessionScope.msg}</strong>
                         </div>
-                    </div>
-                    <br>
-                    <div class="form-group col-md-8 col-md-offset-2 col-md-xs-12">
-                        <label for="txtPassword">Contraseña</label>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-                            <input type="password" name="txtPassword" class="form-control">
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-8 col-md-offset-2 col-md-xs-12">
-                        <a data-toggle="modal" data-target="#mdlRecover">He olvidado mi contraseña</a>
-                    </div>
+                        
+                        <c:remove var="msg_type" scope="session" />
+                        <c:remove var="msg" scope="session" />
+                    </c:if>
+                </div>
 
-                    <br><br>
-                    <div class="col-md-12" style="display: flex; justify-content: center;">
-                        <button type="submit" class="btn btn-info btn-lg">Iniciar Sesión</button>
+                <div class="input-field col m10 offset-m1 s12">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input type="text" name="txtUser" id="txtUser" class="">
+                    <label for="txtUser">Correo / Nombre de usuario</label>
+                </div>
+                <br>
+                <div class="input-field col m10 offset-m1 s12">
+                    <i class="material-icons prefix">vpn_key</i>
+                    <input type="password" name="txtPassword" id="txtPassword" class="">
+                    <label for="txtPassword">Contraseña</label>
+                </div>
+                
+                <div class="input-field col m10 offset-m1 s12">
+                    <a class="modal-trigger" href="#mdlRecover">He olvidado mi contraseña</a>
+                </div>
+
+                <br><br>
+                <div class="input-field col m10 offset-m1 s12" style="display: flex; justify-content: center;">
+                    <button type="submit" class="btn indigo waves-effect waves-light">Iniciar Sesión</button>
+                </div>
+            </form>
+        </main>
+
+        <div id="mdlRecover" class="modal">
+            <div class="modal-content">
+                <h4 class="center modal-title purple-text text-accent-2">Recuperar Contraseña</h4>
+                <p class="center grey-text">
+                    Ingresa tu correo o nombre de usuario para enviarte tu contraseña a tu correo electrónico!
+                </p>
+                <div id="frmAlertCont" class="col m8 offset-m2 s10 offset-s1"></div>
+                <form class="row" name="frmRecoverPass" id="frmRecoverPass">
+                    <div class="input-field col m10 offset-m1 s12">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input type="text" name="txtUser" class="form-control" placeholder="Correo / Nombre de usuario">
                     </div>
                 </form>
             </div>
-        </main>
-    
-        <div class="modal fade" id="mdlRecover" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h2 class="modal-title" id="myLargeModalLabel">Recuperar Contraseña</h2>
-                        <p class="text-muted">
-                            Ingresa tu correo o nombre de usuario para enviarte tu contraseña a tu correo electrónico!
-                        </p>
-                    </div>
-                    <div class="modal-body container-fluid">
-                        <div id="frmAlertCont"></div>
-                        <form action="" class="row" name="frmRecoverPass" id="frmRecoverPass">
-                            <div class="form-group col-md-8 col-md-offset-2 col-md-xs-12">
-                                <div class="input-group input-group-lg">
-                                    <span class="input-group-addon">@</span>
-                                    <input type="text" name="txtUser" class="form-control" placeholder="Correo / Nombre de usuario">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" id="btnRecover" class="btn btn-warning">Recuperar contraseña</button>    
-                    </div>
-                </div>
+            <div class="modal-footer">
+                <button class="modal-action modal-close waves-effect waves-light red darken-1 white-text btn">Cerrar</button>    
+                <button id="btnRecover" class="waves-effect waves-light amber white-text btn">Recuperar contraseña</button>    
             </div>
         </div>
         

@@ -6,31 +6,44 @@
 			// debug: true,
 			// success: "valid"
         });
+
+        $.validator.setDefaults({
+            errorClass: 'invalid',
+            // validClass: "valid",
+            errorPlacement: function(error, element) {
+                $(element).parent().find('span.helper-text').remove();
+                $(element).parent()
+                .append(`<span class='helper-text' data-error='${error.text()}'></span>`);
+            }
+          });
         
         $.validator.addMethod('email', function(value, element) {
 	        return this.optional(element) || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
-	    }, 'Ingrese un valor válido.');
+        }, 'Ingrese un correo válido.');
+        
+        $.validator.addMethod('codigo', function(value, element) {
+	        return this.optional(element) || /^[BU]\d{4}$/.test(value);
+        }, 'Ingrese un código válido.');
+        
+        $.validator.addMethod('correo_codigo', function(value, element) {
+	        return this.optional(element) || /^((([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))|[BU]\d{4})$/.test(value);
+	    }, 'Ingrese un correo o un nombre de usuario válido!');
 
         $(frmLogin).validate({
             rules: {
-                txtUser: 'required',
+                txtUser: {
+                    required: true,
+                    correo_codigo: true
+                },
                 txtPassword: 'required'
             },
             messages: {
-                txtUser: 'Este campo es requerido!',
+                txtUser: {
+                    required: 'Este campo es requerido!',
+                },
                 txtPassword: 'Este campo es requerido!'
             },
-            errorElement: "em",
-			errorPlacement: function ( error, element ) {
-                error.addClass("text-danger frm-error");
-
-                error.insertAfter(element.parent());
-                // if ( element.prop( "type" ) === "checkbox" ) {
-                //     error.insertAfter( element.parent( "label" ) );
-                // } else {
-                //     error.insertAfter(element);
-                // }
-            },
+            // errorElement : 'div',
             submitHandler: function(form) {
                 form.submit();
             }
@@ -38,15 +51,15 @@
 
         $(frmRecoverPass).validate({
             rules: {
-                txtUser: 'required'
+                txtUser: {
+                    required: true,
+                    correo_codigo: true
+                }
             },
             messages: {
-                txtUser: 'Este campo es requerido!',
-            },
-            errorElement : 'em',
-            errorPlacement: function(error, element) {
-                error.addClass("text-danger frm-error");
-                error.insertAfter(element.parent());
+                txtUser: {
+                    required: 'Este campo es requerido!',
+                }
             },
             submitHandler: function(form) {
                 // console.log(`${location.origin + location.pathname}RecuperarContra`);
@@ -62,7 +75,7 @@
                             alertCont = $(mainAlertCont);
                             msg = "El correo ha sido mandado éxitosamente!";
                             $(frmAlertCont).html("");
-                            $('#mdlRecover').modal('hide');
+                            $('#mdlRecover').close();
                             frmLogin.txtUser.value = frmRecoverPass.txtUser.value.trim();
                             frmRecoverPass.txtUser.value = "";
                         }else if(r == -1){
@@ -75,8 +88,7 @@
                         alertCont.html("");
 
                         alertCont.append(`
-                            <div class="alert alert-${r == 1 ? 'success' : 'warning'} alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <div class="alert center ${r == 1 ? 'green' : 'yellow'} ${r == 1 ? 'green' : 'yellow'}-text text-darken-3" >
                                 <strong>${msg}</strong>
                             </div>
                         `);

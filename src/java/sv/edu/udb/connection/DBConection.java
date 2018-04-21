@@ -12,6 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sv.edu.udb.libreria.Encriptar;
 
 /**
  *
@@ -56,7 +59,7 @@ public class DBConection {
         }
     }
     
-    public static CallableStatement setProcedure(String sql){
+    public static CallableStatement getProcedure(String sql){
         try{
             Class.forName("com.mysql.jdbc.Driver");
             cn = DriverManager.getConnection("jdbc:mysql://" + HOST + "/" + BD, USER, PASS);
@@ -68,5 +71,26 @@ public class DBConection {
             System.out.println("ERROR: Fallo en SQL: " + sE.getMessage());
             return null;
         }
+    }
+    
+    public static int login(String user, String pass){
+        try {
+            int r = -2;
+            
+            CallableStatement query = DBConection.getProcedure("{CALL login(?, ?, ?)}");
+            query.setString(1, user);
+            query.registerOutParameter(2, java.sql.Types.VARCHAR);
+            query.registerOutParameter(3, java.sql.Types.INTEGER);
+            
+            query.execute();
+            
+            r = pass.equals(Encriptar.desencriptar(query.getString(2))) ? 1 : 0;
+            r = query.getInt(3) != -1 ? r : -1;
+            
+            return r;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -2;
     }
 }

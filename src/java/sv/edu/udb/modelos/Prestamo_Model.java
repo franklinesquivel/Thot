@@ -24,7 +24,7 @@ import sv.edu.udb.libreria.Prestamo;
  */
 public class Prestamo_Model {
     public static boolean insertar(Prestamo _p){
-        CallableStatement prestamo = DBConection.setProcedure("{CALL prestamo_libro(?, ?, ?, ?)}");
+        CallableStatement prestamo = DBConection.getProcedure("{CALL prestamo_libro(?, ?, ?, ?)}");
         try {
             int res = 0;
             prestamo.setString(1, _p.getEjemplar().getIdEjemplar());

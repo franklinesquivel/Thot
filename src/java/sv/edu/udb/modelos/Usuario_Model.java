@@ -76,9 +76,11 @@ public class Usuario_Model{
         }
     }
     public static Usuario buscarUsuario(String correo, String password){
-        PreparedStatement consulta = DBConection.getStatement("SELECT * FROM Usuario WHERE correo = ?");
+        PreparedStatement consulta = DBConection.getStatement("SELECT * FROM Usuario WHERE correo = ? OR username = ?");
         try{
             consulta.setString(1,correo);
+            consulta.setString(2, correo);
+
             try (ResultSet data = consulta.executeQuery()) {
                 if(data != null){
                     while(data.next()){

@@ -461,19 +461,56 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `calculo_mora_prestamo`(IN _idPrestamo VARCHAR(25))
 BEGIN
-	
     SET @mora = 0;
+    SET @moraAcumulada = 0;
 	SET @dias = 0;
+    SET @diasCobrados = 0;
     SET @vencido = 0;
     
-    SELECT mora into @mora FROM config;
+    SELECT mora into @mora FROM config WHERE idConfig = 1;
     
-    SELECT datediff(date_add(p.fecha_devolucion, interval 2 day), current_timestamp()) INTO @dias FROM prestamo p WHERE p.idPrestamo = _idPrestamo;
+    SELECT datediff(current_timestamp(), p.fecha_devolucion) INTO @dias FROM prestamo p WHERE p.idPrestamo = _idPrestamo;
+    SELECT (mora / @mora), mora INTO @diasCobrados, @moraAcumulada FROM prestamo WHERE p.idPrestamo = _idPrestamo;
+    
+    SET @dias = @dias - @diasCobrados;
 	
     IF @dias > 0 THEN SET @vencido = 1;
     END IF;
     
-    UPDATE prestamo p SET mora = (@mora * @dias), vencido = @vencido WHERE p.idPrestamo = _idPrestamo;
+    UPDATE prestamo p SET mora = (@moraAcumulada + (@mora * @dias)), vencido = @vencido WHERE p.idPrestamo = _idPrestamo;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `login` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `login`(IN _user varchar(100), OUT _pass varchar(300), OUT _res int)
+BEGIN
+	SET @existe = 0;
+    SET @valido = 0;
+    
+	SELECT COUNT(idUsuario)INTO @existe FROM Usuario WHERE
+    idUsuario = _user OR username = _user OR correo = _user;
+
+	IF @existe > 0 THEN BEGIN
+		SELECT password INTO _pass FROM Usuario 
+		WHERE (idUsuario = _user OR username = _user OR correo = _user);
+        
+        SET _res = 1;
+	END; END IF;
+    
+    IF @existe = 0 THEN SET _res = -1;
+    END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -618,4 +655,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-18 21:25:44
+-- Dump completed on 2018-04-20 19:05:47

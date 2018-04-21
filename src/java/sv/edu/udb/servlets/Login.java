@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sv.edu.udb.connection.DBConection;
 import sv.edu.udb.libreria.Usuario;
 import sv.edu.udb.modelos.Usuario_Model;
 
@@ -43,18 +44,30 @@ public class Login extends HttpServlet {
 
             response.sendRedirect("/Thot/");
         } else {
-            Usuario u = Usuario_Model.buscarUsuario(user, pass);
-            if (u != null) {
-                _s.setAttribute("logged", true);
-                _s.setAttribute("userData", u);
-
-                response.sendRedirect("/Thot/" + (u.getTipoUsuario().equals("B") ? "Bibliotecario" : "Usuario") + "/");
-            } else {
-                _s.setAttribute("msg_type", "warning");
-                _s.setAttribute("msg", "Las credenciales ingresadas no son correctas...");
-
-                response.sendRedirect("/Thot/");
+            String redirect = "";
+            switch (DBConection.login(user, pass)) {
+                //Encontrado
+                case 1:
+                    Usuario u = Usuario_Model.buscarUsuario(user, pass);
+                    _s.setAttribute("logged", true);
+                    _s.setAttribute("userData", u);
+                    redirect = ("/Thot/" + (u.getTipoUsuario().equals("B") ? "Bibliotecario" : "Usuario") + "/");
+                    break;
+                //No encontrado : Contraseña incorrecta
+                case -1: case 0:
+                    _s.setAttribute("msg_type", "yellow");
+                    _s.setAttribute("msg", "El usuario ingresado no ha sido encontrado... ");
+                    redirect = ("/Thot/");
+                    break;
+                //Error
+                case -2:
+                    _s.setAttribute("msg_type", "red");
+                    _s.setAttribute("msg", "En este momento no se puede conectar a la plataforma. Intente más tarde...");
+                    redirect = ("/Thot/");
+                    break;
             }
+            
+            response.sendRedirect(redirect);
         }
         
 //        try(PrintWriter out = response.getWriter()) {

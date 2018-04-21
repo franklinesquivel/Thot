@@ -6,10 +6,10 @@
 
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="/Thot/css/materialize.min.css">
+
 <script src="/Thot/js/jquery.js"></script>
 <script src="/Thot/js/jquery.validate.min.js"></script>
-<script src="/Thot/js/bootstrap.min.js"></script>
-
+<script src="/Thot/js/materialize.min.js"></script>
 <script src="/Thot/js/init.js"></script>
-
-<link rel="stylesheet" href="/Thot/css/bootstrap.min.css">
