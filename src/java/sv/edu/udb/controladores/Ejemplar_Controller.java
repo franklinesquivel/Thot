@@ -28,10 +28,9 @@ public class Ejemplar_Controller {
         _db.open();
         if(_db.isOpen()){
             try {
-                try (PreparedStatement insertarSQL = _db.getStatement("INSERT INTO ejemplar VALUES(?, ?, ?)")) {
-                    insertarSQL.setString(1, _e.getCodigo());
-                    insertarSQL.setString(2, _e.getObservaciones());
-                    insertarSQL.setString(3, _e.getLibro().getIdLibro());
+                try (PreparedStatement insertarSQL = _db.getStatement("INSERT INTO ejemplar(observaciones, idLibro) VALUES(?, ?);")) {
+                    insertarSQL.setString(1, _e.getObservaciones());
+                    insertarSQL.setString(2, _e.getLibro().getIdLibro());
                     insertarSQL.executeUpdate();
                 }
                 _db.close();

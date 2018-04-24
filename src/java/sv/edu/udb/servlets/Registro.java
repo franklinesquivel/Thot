@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import sv.edu.udb.connection.Email;
 import sv.edu.udb.libreria.Encriptar;
 import sv.edu.udb.libreria.Usuario;
-import sv.edu.udb.modelos.Usuario_Model;
+import sv.edu.udb.controladores.Usuario_Controller;
 
 /**
  *
@@ -54,11 +54,11 @@ public class Registro extends HttpServlet {
                     lastName = request.getParameter("lastName"),
                     email = request.getParameter("email");
                 
-                if(Usuario_Model.verificarCorreo(email)){
+                if(Usuario_Controller.verificarCorreo(email)){
                     String pass = Encriptar.encriptar(Usuario.crearContransenna());
-                    String idUsuario = Usuario.crearIdUsuario("U", Usuario_Model.obtenerNumUsuario("U"));
+                    String idUsuario = Usuario.crearIdUsuario("U", Usuario_Controller.obtenerNumUsuario("U"));
 
-                    if(Usuario_Model.insertar(new Usuario(idUsuario, name, lastName, email, birthdate, idUsuario, pass, true, "U"))){
+                    if(Usuario_Controller.insertar(new Usuario(idUsuario, name, lastName, email, birthdate, idUsuario, pass, true, "U"))){
                         if(enviarCorreo(email, Encriptar.desencriptar(pass))){
                             res = "1"; //Exito
                         }else{

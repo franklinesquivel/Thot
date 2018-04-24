@@ -145,10 +145,11 @@
         
         
         <div id="mdlAumentarEjemplares" class="modal">
-            <div class="modal-content row">
-                <h4>Ingrese la cantidad de existencias que desea añadir</h4>
-                <form name="frmAdd">
-                    <div>
+            <div class="modal-content section">
+                <h5 class="grey-text text-darken-4 center">Ingrese la cantidad de existencias que desea añadir</h5>
+                <form name="frmAdd" class="row section">
+                    <input type="hidden" name="idLibro" value="${_l.getIdLibro()}">
+                    <div class="input-field col m8 offset-m2 s10 offset-s1">
                         <input type="text" name="txtCant" id="txtCant" />
                         <label for="txtCant">Cantidad a agregar</label>
                     </div>
@@ -156,7 +157,7 @@
             </div>
             <div class="modal-footer">
                 <a class="modal-action modal-close waves-effect waves-light red btn">Cancelar <i class="material-icons right">cancel</i></a>
-                <a id="btnAdd" class="waves-effect waves-light green btn">Agregar <i class="material-icons right">done</i></a>
+                <a id="btnAdd" class="waves-effect waves-light green btn">Confirmar <i class="material-icons right">done</i></a>
             </div>
         </div>
     </body>
