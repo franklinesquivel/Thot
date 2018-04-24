@@ -24,7 +24,7 @@ public class DB {
     public static final String HOST = "127.0.0.1";
     public static final String BD = "thot";
     public static final String USER = "root";
-    public static final String PASS = "20150126";
+    public static final String PASS = "";
     //pq4ktkXx
     private Connection cn;
     private ResultSet rs;
