@@ -132,7 +132,7 @@ public class Libro {
         this.ejemplares = ejemplares;
     }
     
-    public boolean ejemplaresPendientes(){
+    public int ejemplaresPorTipo(String estado){
         Libro _l;
         if(this.ejemplares == null){
             _l = this.cargarRelaciones(this);            
@@ -141,9 +141,13 @@ public class Libro {
         }
         
         int i = 0;
-        i = _l.ejemplares.stream().map((_e) -> _e.getEstado().equals("PM") ? 1 : 0).reduce(i, Integer::sum);
+        i = _l.ejemplares.stream().map((_e) -> _e.getEstado().equals(estado) ? 1 : 0).reduce(i, Integer::sum);
 
-        return i > 0;
+        return i;
+    }
+
+    public boolean esProcesable(){
+        return (this.cant_ejemplares == this.ejemplaresPorTipo("PM"));
     }
 
     public Libro(String idLibro, String titulo, String isbn, String edicion, String descripcion, String notas, String imagen, int cant_ejemplares, Imprenta imprenta, Categoria categoria, List<Autor> autores, List<Tema> temas, List<Ejemplar> ejemplares) {
@@ -185,8 +189,6 @@ public class Libro {
         this.imprenta = imprenta;
         this.categoria = categoria;
     }
-
-    
 
     public Libro(String idLibro, String titulo, String isbn, String edicion, String descripcion, String notas, String imagen, Imprenta imprenta, Categoria categoria, List<Autor> autores, List<Tema> temas) {
         this.idLibro = idLibro;

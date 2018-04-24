@@ -5,6 +5,7 @@
  */
 package sv.edu.udb.controladores;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sv.edu.udb.connection.DB;
+import sv.edu.udb.connection.DBConnection;
 import sv.edu.udb.libreria.Libro;
 import sv.edu.udb.libreria.Tema;
 
@@ -22,92 +23,80 @@ import sv.edu.udb.libreria.Tema;
  */
 public class Tema_Controller {
     
-    private final static DB _db = new DB();
-    
     public static List<Tema> obtenerTemas(){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             List<Tema> _tList = new ArrayList();
             try {
-                try (ResultSet data = _db.getData("SELECT * FROM Tema;")) {
+                try (ResultSet data = DBConnection.getData("SELECT * FROM Tema;", _cn)) {
                     while (data.next()) {
                         _tList.add(new Tema(data.getInt(1), data.getString(2)));
                     }
                 }
-                _db.close();
                 return _tList;
             } catch (SQLException ex) {
                 Logger.getLogger(Libro_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
     
     public static List<Tema> obtenerTemas(String filtros){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             List<Tema> _tList = new ArrayList();
             try {
-                try (ResultSet data = _db.getData("SELECT * FROM Tema " + filtros + ";")) {
+                try (ResultSet data = DBConnection.getData("SELECT * FROM Tema " + filtros + ";", _cn)) {
                     while (data.next()) {
                         _tList.add(new Tema(data.getInt(1), data.getString(2)));
                     }
                 }
-                _db.close();
                 return _tList;
             } catch (SQLException ex) {
                 Logger.getLogger(Libro_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
     
     public static List<Tema> buscarTemas(String cadena){
-        _db.open();
-        if(_db.isOpen()){
+        try (Connection _cn = DBConnection.getConnection()) {
             List<Tema> _t = new ArrayList();
 
             try {
-                try (PreparedStatement consultaSQL = _db.getStatement("SELECT idTema,descripcion FROM tema WHERE descripcion LIKE '%" + cadena + "%'"); ResultSet data = consultaSQL.executeQuery()) {
+                try (PreparedStatement consultaSQL = DBConnection.getStatement("SELECT idTema,descripcion FROM tema WHERE descripcion LIKE '%" + cadena + "%'", _cn); ResultSet data = consultaSQL.executeQuery()) {
                     while (data.next()) {
                         _t.add(new Tema(Integer.parseInt(data.getString("idTema")), data.getString("descripcion")));
                     }
                 }
 
-                _db.close();
                 return _t;
             } catch (SQLException ex) {
                 Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
     
     public static Tema obtenerTema(int idTema, boolean relaciones){
-        _db.open();
-        if(_db.isOpen()){
+        try (Connection _cn = DBConnection.getConnection()) {
             try {
-                Tema _t = null;
-                try (PreparedStatement obtenerTema = _db.getStatement("SELECT * FROM tema WHERE idTema = ?;")) {
+                Tema _t;
+                try (PreparedStatement obtenerTema = DBConnection.getStatement("SELECT * FROM tema WHERE idTema = ?;", _cn)) {
                     obtenerTema.setInt(1, idTema);
                     try (ResultSet data = obtenerTema.executeQuery()) {
                         if (data.next()) {
                             _t = new Tema(Integer.parseInt(data.getString(1)), data.getString(2));
 
                             if (relaciones) {
-                                try (PreparedStatement obtenerTemaLibro = _db.getStatement("SELECT dLT.idLibro FROM Tema t INNER JOIN Detalle_LibroTema dLT ON t.idTema = dLT.idTema WHERE t.idTema = ?;")) {
+                                try (PreparedStatement obtenerTemaLibro = DBConnection.getStatement("SELECT dLT.idLibro FROM Tema t INNER JOIN Detalle_LibroTema dLT ON t.idTema = dLT.idTema WHERE t.idTema = ?;", _cn)) {
                                     obtenerTemaLibro.setInt(1, idTema);
 
                                     ResultSet dataTL = obtenerTemaLibro.executeQuery();
@@ -124,118 +113,102 @@ public class Tema_Controller {
                                     _t.setLibros(libros);
                                 }
                             }
-                        }else{
+                        } else {
                             _t = null;
                         }
                     }
                 }
-                
-                _db.close();
+
                 return _t;
             } catch (SQLException ex) {
                 Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
     }
     
     public static boolean insertar(Tema _t){
-        _db.open();
-        if(_db.isOpen()){
+        try (Connection _cn = DBConnection.getConnection()) {
             try {
-                try (PreparedStatement insertarSQL = _db.getStatement("INSERT INTO Tema(descripcion) VALUES(?);")) {
+                try (PreparedStatement insertarSQL = DBConnection.getStatement("INSERT INTO Tema(descripcion) VALUES(?);", _cn)) {
                     insertarSQL.setString(1, _t.getDescripcion());
                     insertarSQL.executeUpdate();
                 }
-                
-                _db.close();
+
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return false;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        
     }
     
     public static boolean modificar(Tema _t){
-        _db.open();
-        if(_db.isOpen()){
+        try (Connection _cn = DBConnection.getConnection()) {
             try {
-                try (PreparedStatement modificarSQL = _db.getStatement("UPDATE Tema SET descripcion = ? WHERE idTema = ?;")) {
+                try (PreparedStatement modificarSQL = DBConnection.getStatement("UPDATE Tema SET descripcion = ? WHERE idTema = ?;", _cn)) {
                     modificarSQL.setString(1, _t.getDescripcion());
                     modificarSQL.setInt(2, _t.getIdTema());
                     modificarSQL.executeUpdate();
                 }
-                _db.close();
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return false;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        
     }
+    
     public static boolean verificarT(String descripcion){
-        _db.open();
-        if(_db.isOpen()){
+        try (Connection _cn = DBConnection.getConnection()) {
             try {
                 int cuenta;
-                try (PreparedStatement query = _db.getStatement("SELECT COUNT(*) FROM Tema WHERE LOWER(descripcion)=?")) {
+                try (PreparedStatement query = DBConnection.getStatement("SELECT COUNT(*) FROM Tema WHERE LOWER(descripcion)=?", _cn)) {
                     query.setString(1, descripcion.toLowerCase());
                     try (ResultSet data = query.executeQuery()) {
-                        if(data.next()){
+                        if (data.next()) {
                             cuenta = data.getInt(1);
-                        }else{
+                        } else {
                             cuenta = 1;
                         }
-                        
+
                     }
                 }
 
-                _db.close();
                 return !(cuenta > 0);
             } catch (SQLException ex) {
                 Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return false;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
     
     public static boolean eliminar(Tema _t){
-        _db.open();
-        if(_db.isOpen()){
+        try (Connection _cn = DBConnection.getConnection()) {
             try {
-                try (PreparedStatement eliminarSQL = _db.getStatement("DELETE FROM Tema WHERE idTema = ?;")) {
+                try (PreparedStatement eliminarSQL = DBConnection.getStatement("DELETE FROM Tema WHERE idTema = ?;", _cn)) {
                     eliminarSQL.setInt(1, _t.getIdTema());
                     eliminarSQL.executeUpdate();
                 }
-                _db.close();
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return false;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Tema_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

@@ -6,33 +6,32 @@
 $(document).ready(function(){
            $.ajax({
                 type: 'POST',
-                url: `${location.origin + location.pathname}/Libro`,
+                url: `${location.origin}/Thot/Libro`,
                 data: {id: 1},
                 success: function(r){
-                    var cards = ``;
-                    var libros = JSON.parse(r);
-                    console.log(libros);
-                    for(var i = 0; i < libros.length; i++){
+                    let cards = ``;
+                    let libros = JSON.parse(r);
+                    libros.forEach(function(_l){
                         cards = `
-                            <div class="card">
+                            <div class="card col m4 12">
                               <div class="card-image waves-effect waves-block waves-light">
-                                <img class="activator" src="/Thot/images/libros/${libros[i]["imagen"]}">
+                                <img class="activator" height="200px" src="/Thot/images/libros/${_l["imagen"]}">
                               </div>
                               <div class="card-content">
                                 <span class="card-title activator grey-text text-darken-4">
-                                    ${libros[i]["titulo"]}<i class="material-icons right">more_vert</i>
+                                    ${_l["titulo"]}<i class="material-icons right">more_vert</i>
                                 </span>
                                 <p><a href="#">This is a link</a></p>
                               </div>
                               <div class="card-reveal">
                                 <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                                <p>${libros[i]["descripcion"]}</p>
+                                <p>${_l["descripcion"]}</p>
                               </div>
                             </div>
                         `;
                         $(".row").append(cards);
-                    }
-                    console.log(cards);
+                    });
+//                    console.log(cards);
                     //$(".row").html(cards);
                 }
            }); 

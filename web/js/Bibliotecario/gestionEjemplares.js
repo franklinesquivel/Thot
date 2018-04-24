@@ -34,9 +34,7 @@
                             _o = {
                                 html: `Los ejemplares han sido ingresados éxitosamente! <i class="material-icons right">check_circle</i>`,
                                 classes: "green darken-1", displayLength: 1500,
-                                completeCallback: function () {
-                                    location.href = `${location.hostname}/Thot/gestionEjemplares?idLibro=${new URL(location.href).searchParams.get("idLibro")}`;
-                                }
+                                completeCallback: location.reload()
                             };
                         } else if (r === 0) {
                             _o = {

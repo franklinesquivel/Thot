@@ -5,6 +5,7 @@
  */
 package sv.edu.udb.controladores;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sv.edu.udb.connection.DB;
+import sv.edu.udb.connection.DBConnection;
 import sv.edu.udb.libreria.Usuario;
 
 /**
@@ -25,13 +26,11 @@ import sv.edu.udb.libreria.Usuario;
  */
 public class Usuario_Controller{
     
-    private final static DB _db = new DB();
     
     public static boolean insertar(Usuario _u){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
-                try (PreparedStatement insertarUsuario = _db.getStatement("INSERT INTO usuario(idUsuario, nombre, apellido, correo, fechaNacimiento, username, password, estado, tipoUsuario) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                try (PreparedStatement insertarUsuario = DBConnection.getStatement("INSERT INTO usuario(idUsuario, nombre, apellido, correo, fechaNacimiento, username, password, estado, tipoUsuario) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", _cn)) {
                     insertarUsuario.setString(1, _u.getIdUsuario());
                     insertarUsuario.setString(2, _u.getNombre());
                     insertarUsuario.setString(3, _u.getApellido());
@@ -44,24 +43,22 @@ public class Usuario_Controller{
                     insertarUsuario.setString(9, String.valueOf(tipo));
                     insertarUsuario.executeUpdate();
                 }
-                _db.close();
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return false;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
+    
     public static Usuario obtenerUsuarioCorreo(String _e){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
                 Usuario _u;
-                try (PreparedStatement obtenerSQL = _db.getStatement("SELECT * FROM usuario WHERE correo = ?;")) {
+                try (PreparedStatement obtenerSQL = DBConnection.getStatement("SELECT * FROM usuario WHERE correo = ?;", _cn)) {
                     obtenerSQL.setString(1, _e);
                     try (ResultSet data = obtenerSQL.executeQuery()) {
                         if (data != null) {
@@ -79,25 +76,22 @@ public class Usuario_Controller{
                     }
                 }
 
-                _db.close();
                 return _u;
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
     }
+
     public static Usuario buscarUsuario(String correo, String password){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
                 Usuario _u = null;
-                try (PreparedStatement consulta = _db.getStatement("SELECT * FROM Usuario WHERE correo = ? OR username = ?")) {
+                try (PreparedStatement consulta = DBConnection.getStatement("SELECT * FROM Usuario WHERE correo = ? OR username = ?", _cn)) {
                     consulta.setString(1, correo);
                     consulta.setString(2, correo);
                     try (ResultSet data = consulta.executeQuery()) {
@@ -114,25 +108,22 @@ public class Usuario_Controller{
                     }
                 }
                 
-                _db.close();
                 return _u;
             } catch (SQLException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
     
     public static Usuario obtenerUsuario(String id){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
                 Usuario _u;
-                try (PreparedStatement obtenerSQL = _db.getStatement("SELECT * FROM usuario WHERE idUsuario = ?;")) {
+                try (PreparedStatement obtenerSQL = DBConnection.getStatement("SELECT * FROM usuario WHERE idUsuario = ?;", _cn)) {
                     obtenerSQL.setString(1, id);
                     try (ResultSet data = obtenerSQL.executeQuery()) {
                         if (data != null) {
@@ -149,25 +140,22 @@ public class Usuario_Controller{
                         }
                     }
                 }
-                _db.close();
                 return _u;
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
     
     public static List<Usuario> obtenerUsuarios(){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
                 List<Usuario> _Ulist = new ArrayList();
-                try (PreparedStatement obtenerSQL = _db.getStatement("SELECT idUsuario, nombre, apellido, correo, fechaNacimiento, username, password, estado, tipoUsuario FROM usuario;"); ResultSet data = obtenerSQL.executeQuery()) {
+                try (PreparedStatement obtenerSQL = DBConnection.getStatement("SELECT idUsuario, nombre, apellido, correo, fechaNacimiento, username, password, estado, tipoUsuario FROM usuario;", _cn); ResultSet data = obtenerSQL.executeQuery()) {
                     while (data.next()) {
                         boolean estado = (data.getInt("estado") == 1);
                         DateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
@@ -177,26 +165,22 @@ public class Usuario_Controller{
                     }
                 }
                 
-                _db.close();
                 return _Ulist;
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
     }
     
     public static List<Usuario> BuscarUsuarios(String campo, String buscar){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
                 List<Usuario> _Ulist = new ArrayList();
-                try (PreparedStatement obtenerSQL = _db.getStatement("SELECT idUsuario, nombre, apellido, correo, fechaNacimiento, username, password, estado, tipoUsuario FROM usuario WHERE " + campo + " LIKE '%" + buscar + "%'"); ResultSet data = obtenerSQL.executeQuery()) {
+                try (PreparedStatement obtenerSQL = DBConnection.getStatement("SELECT idUsuario, nombre, apellido, correo, fechaNacimiento, username, password, estado, tipoUsuario FROM usuario WHERE " + campo + " LIKE '%" + buscar + "%'", _cn); ResultSet data = obtenerSQL.executeQuery()) {
                     while (data.next()) {
                         boolean estado = (data.getInt("estado") == 1);
                         DateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
@@ -205,25 +189,21 @@ public class Usuario_Controller{
                         _Ulist.add(new Usuario(data.getString("idUsuario"), data.getString("nombre"), data.getString("apellido"), data.getString("correo"), fechaNacimiento, data.getString("username"), data.getString("password"), estado, data.getString("tipoUsuario")));
                     }
                 }
-                _db.close();
                 return _Ulist;
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
     }
     
     public static boolean modificarUsuario(Usuario _u){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
-                try (PreparedStatement modificarSQL = _db.getStatement("UPDATE usuario SET nombre = ?, apellido = ?, correo = ?, fechaNacimiento = ?, estado = ? WHERE idUsuario = ?")) {
+                try (PreparedStatement modificarSQL = DBConnection.getStatement("UPDATE usuario SET nombre = ?, apellido = ?, correo = ?, fechaNacimiento = ?, estado = ? WHERE idUsuario = ?;", _cn)) {
                     modificarSQL.setString(1, _u.getNombre());
                     modificarSQL.setString(2, _u.getApellido());
                     modificarSQL.setString(3, _u.getCorreo());
@@ -232,68 +212,61 @@ public class Usuario_Controller{
                     modificarSQL.setString(6, _u.getIdUsuario());
                     modificarSQL.executeUpdate();
                 }
-                _db.close();
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return false;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
     
     public static boolean modificarContrasenna(Usuario _u){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
-                try (PreparedStatement modificarSQL = _db.getStatement("UPDATE usuario SET password = ? WHERE idUsuario = ?")) {
+                try (PreparedStatement modificarSQL = DBConnection.getStatement("UPDATE usuario SET password = ? WHERE idUsuario = ?;", _cn)) {
                     modificarSQL.setString(1, _u.getPassword());
                     modificarSQL.setString(2, _u.getIdUsuario());
                     modificarSQL.executeUpdate();
                 }
-                _db.close();
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return false;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+
     }
     
     public static boolean eliminarUsuario(String id){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
-                try (PreparedStatement modificarSQL = _db.getStatement("DELETE FROM usuario WHERE idUsuario = ?;")) {
+                try (PreparedStatement modificarSQL = DBConnection.getStatement("DELETE FROM usuario WHERE idUsuario = ?;", _cn)) {
                     modificarSQL.setString(1, id);
                     modificarSQL.executeUpdate();
                 }
-                _db.close();
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return false;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+
     }
     
     public static int obtenerNumUsuario(String tipo){ //Obtiene el numero de usuarios registrados según el tipo
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
                 int num;
-                try (PreparedStatement query = _db.getStatement("SELECT COUNT(*) FROM usuario WHERE tipoUsuario = ?")) {
+                try (PreparedStatement query = DBConnection.getStatement("SELECT COUNT(*) FROM usuario WHERE tipoUsuario = ?;", _cn)) {
                     query.setString(1, tipo);
                     try (ResultSet data = query.executeQuery()) {
                         if(data.next()){
@@ -303,25 +276,22 @@ public class Usuario_Controller{
                         }
                     }
                 }
-                _db.close();
                 return num;
             } catch (SQLException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return -1;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return -1;
         }
     }
     
     public static int obtenerNumUsuario(){//Todos los usuarios
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
                 int num;
-                try (PreparedStatement query = _db.getStatement("SELECT COUNT(*) FROM usuario")) {
+                try (PreparedStatement query = DBConnection.getStatement("SELECT COUNT(*) FROM usuario;", _cn)) {
                     try (ResultSet data = query.executeQuery()) {
                         if(data.next()){
                             num = data.getInt(1);
@@ -330,25 +300,22 @@ public class Usuario_Controller{
                         }
                     }
                 }
-                _db.close();
                 return num;
             } catch (SQLException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return -1;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return -1;
         }
     }
     
     public static boolean verificarUsuario(String username){ //Verifica si un username ya existe
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
                 int num;
-                try (PreparedStatement query = _db.getStatement("SELECT COUNT(*) FROM usuario WHERE username = ?")) {
+                try (PreparedStatement query = DBConnection.getStatement("SELECT COUNT(*) FROM usuario WHERE username = ?;", _cn)) {
                     query.setString(1, username);
                     try (ResultSet data = query.executeQuery()) {
                         if(data.next()){
@@ -359,25 +326,22 @@ public class Usuario_Controller{
                     }
                 }
                 
-                _db.close();
                 return !(num > 0);
             }catch (SQLException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return false;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
     
     public static boolean verificarCorreo(String correo){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
                 int num;
-                try (PreparedStatement query = _db.getStatement("SELECT COUNT(*) FROM usuario WHERE correo = ?")) {
+                try (PreparedStatement query = DBConnection.getStatement("SELECT COUNT(*) FROM usuario WHERE correo = ?", _cn)) {
                     query.setString(1, correo);
                     try (ResultSet data = query.executeQuery()) {
                         if(data.next()){
@@ -388,25 +352,22 @@ public class Usuario_Controller{
                     }
                 }
                 
-                _db.close();
                 return !(num > 0);
             } catch (SQLException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return false;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
     
     public static boolean verificarCorreo(String correo, String id){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
                 int num;
-                try (PreparedStatement query = _db.getStatement("SELECT COUNT(*) FROM usuario WHERE correo = ? AND idUsuario != ?")) {
+                try (PreparedStatement query = DBConnection.getStatement("SELECT COUNT(*) FROM usuario WHERE correo = ? AND idUsuario != ?", _cn)) {
                     query.setString(1, correo);
                     query.setString(2, id);
                     try (ResultSet data = query.executeQuery()) {
@@ -417,15 +378,13 @@ public class Usuario_Controller{
                         }
                     }
                 }
-                _db.close();
                 return !(num > 0);
             } catch (SQLException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return false;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

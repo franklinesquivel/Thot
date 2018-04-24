@@ -109,7 +109,7 @@ public class DB {
                 this.close();
                 return r;
             } catch (SQLException ex) {
-                Logger.getLogger(DBConection.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             this.close();

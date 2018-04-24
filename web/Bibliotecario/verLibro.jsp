@@ -160,7 +160,6 @@
                 <div class="col s12">
                     <h5>Notas</h5>
                     <p id="descripcion" style="text-align: justify;">${_l.getNotas()}</p>
-                    <a id="btnLeer" class="deep-purple darken-4 btn waves-effect waves-light"><i class="material-icons left">graphic_eq</i>Leer</a>
                     <hr>
                     <br><br>
                     <a href="${path}libros.jsp">Regresar</a> | 

@@ -6,6 +6,7 @@
 package sv.edu.udb.controladores;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sv.edu.udb.connection.DB;
+import sv.edu.udb.connection.DBConnection;
 import sv.edu.udb.libreria.Ejemplar;
 import sv.edu.udb.libreria.Prestamo;
 
@@ -24,14 +25,11 @@ import sv.edu.udb.libreria.Prestamo;
  */
 public class Prestamo_Controller {
     
-    private final static DB _db = new DB();
-    
-    public static boolean insertar(Prestamo _p){
-        _db.open();
-        if(_db.isOpen()){
+    public static boolean insertar(Prestamo _p) throws SQLException{
+        try(Connection _cn = DBConnection.getConnection()){
             try {
-                int res = 0;
-                try (CallableStatement prestamo = _db.getProcedure("{CALL prestamo_libro(?, ?, ?, ?)}")) {
+                int res;
+                try (CallableStatement prestamo = DBConnection.getProcedure("{CALL prestamo_libro(?, ?, ?, ?)}", _cn)) {
                     prestamo.setString(1, _p.getEjemplar().getIdEjemplar());
                     prestamo.setString(2, _p.getUsuario().getIdUsuario());
                     prestamo.registerOutParameter(3, java.sql.Types.INTEGER);
@@ -39,26 +37,19 @@ public class Prestamo_Controller {
                     prestamo.executeQuery();
                     res = prestamo.getInt(3);
                 }
-                _db.close();
                 return res == 1;
             } catch (SQLException ex) {
                 Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return false;
             }
-        }else{
-            _db.close();
-            return false;
         }
-        
     }
     
     public static Prestamo obtenerPrestamo(String idPrestamo, boolean relaciones){
-        _db.open();
-        if(_db.isOpen()){
+        try(Connection _cn = DBConnection.getConnection()){
             try {
-                Prestamo _p = null;
-                try (PreparedStatement obtener = _db.getStatement("SELECT * FROM prestamo WHERE idPrestamo = ?;")) {
+                Prestamo _p;
+                try (PreparedStatement obtener = DBConnection.getStatement("SELECT * FROM prestamo WHERE idPrestamo = ?;", _cn)) {
                     obtener.setString(1, idPrestamo);
                     try (ResultSet data = obtener.executeQuery()) {
                         if (data.next()) {
@@ -71,31 +62,28 @@ public class Prestamo_Controller {
                                 new Ejemplar(data.getString(4), relaciones),
                                 Usuario_Controller.obtenerUsuario(data.getString(5))
                             );
-                        }else{
+                        } else {
                             _p = null;
                         }
                     }
                 }
-                
-                _db.close();
+
                 return _p;
             } catch (SQLException e) {
                 Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, e);
-                _db.close();
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
     
     public static List<Prestamo> obtenerPrestamos(boolean relaciones){
-        _db.open();
-        if(_db.isOpen()){
+        try (Connection _cn = DBConnection.getConnection()) {
             try {
                 List<Prestamo> _p = new ArrayList<>();
-                try (PreparedStatement obtener = _db.getStatement("SELECT * FROM prestamo"); ResultSet data = obtener.executeQuery()) {
+                try (PreparedStatement obtener = DBConnection.getStatement("SELECT * FROM prestamo", _cn); ResultSet data = obtener.executeQuery()) {
                     while (data.next()) {
                         _p.add(
                             new Prestamo(
@@ -110,15 +98,13 @@ public class Prestamo_Controller {
                         );
                     }
                 }
-                _db.close();
                 return _p;
             } catch (SQLException e) {
                 Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, e);
-                _db.close();
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }

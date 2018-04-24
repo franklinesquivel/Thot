@@ -5,6 +5,7 @@
  */
 package sv.edu.udb.controladores;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sv.edu.udb.connection.DB;
+import sv.edu.udb.connection.DBConnection;
 import sv.edu.udb.libreria.Pais;
 
 /**
@@ -20,62 +21,53 @@ import sv.edu.udb.libreria.Pais;
  * @author Jasson
  */
 public class Pais_Controller{
-
-    private final static DB _db = new DB();
     
     public static List<Pais> obtenerPaises() {
-        _db.open();
-        if(_db.isOpen()){
+        try (Connection _cn = DBConnection.getConnection()) {
             List<Pais> _Ulist = new ArrayList();
-            
+
             try {
-                try (PreparedStatement obtenerSQL = _db.getStatement("SELECT * FROM pais;")) {
+                try (PreparedStatement obtenerSQL = DBConnection.getStatement("SELECT * FROM pais;", _cn)) {
                     ResultSet data = obtenerSQL.executeQuery();
                     while (data.next()) {
                         _Ulist.add(new Pais(data.getString("idPais"), data.getString("nombre")));
                     }
                 }
-                
-                _db.close();
+
                 return _Ulist;
             } catch (SQLException ex) {
-                Logger.getLogger(TipoUsuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
+                Logger.getLogger(Pais_Controller.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Pais_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
 
     public static String getPais(String idPais) {
-        _db.open();
-        if(_db.isOpen()){
-            String paisReturn = "";
+        try (Connection _cn = DBConnection.getConnection()) {
+            String paisReturn;
             try {
-                try (PreparedStatement obtenerSQL = _db.getStatement("SELECT * FROM pais WHERE idPais = ?")) {
+                try (PreparedStatement obtenerSQL = DBConnection.getStatement("SELECT * FROM pais WHERE idPais = ?", _cn)) {
                     obtenerSQL.setString(1, idPais);
                     try (ResultSet data = obtenerSQL.executeQuery()) {
                         if (data.next()) {
                             paisReturn = data.getString("nombre");
-                        }else{
+                        } else {
                             paisReturn = null;
                         }
                     }
                 }
-                _db.close();
                 return paisReturn;
             } catch (SQLException ex) {
                 Logger.getLogger(Pais_Controller.class.getName()).log(Level.SEVERE, null, ex);
-                _db.close();
                 return null;
             }
-        }else{
-            _db.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Pais_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
     }
 
 }
