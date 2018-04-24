@@ -6,7 +6,7 @@
 package sv.edu.udb.libreria;
 
 import java.util.List;
-import sv.edu.udb.modelos.Tema_Model;
+import sv.edu.udb.controladores.Tema_Controller;
 
 /**
  *
@@ -55,7 +55,7 @@ public class Tema {
         this.descripcion = descripcion;
     }
     public Tema(int idTema, boolean relaciones) {
-        Tema _t = Tema_Model.obtenerTema(idTema, relaciones);
+        Tema _t = Tema_Controller.obtenerTema(idTema, relaciones);
         if(_t != null){
             this.idTema = _t.getIdTema();
             this.descripcion = _t.getDescripcion();

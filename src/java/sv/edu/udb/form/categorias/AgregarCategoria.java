@@ -7,7 +7,7 @@ package sv.edu.udb.form.categorias;
 
 import javax.swing.JOptionPane;
 import sv.edu.udb.libreria.Categoria;
-import sv.edu.udb.modelos.Categoria_Model;
+import sv.edu.udb.controladores.Categoria_Controller;
 import sv.edu.udb.validacion.Validacion;
 
 /**
@@ -103,8 +103,8 @@ public class AgregarCategoria extends javax.swing.JInternalFrame {
     //Boton registrar
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         if(validarCampos()){
-            if(Categoria_Model.verificar(txtNombre.getText())){
-                if(Categoria_Model.insertar(new Categoria(txtNombre.getText(), txtDescripcion.getText()))){
+            if(Categoria_Controller.verificar(txtNombre.getText())){
+                if(Categoria_Controller.insertar(new Categoria(txtNombre.getText(), txtDescripcion.getText()))){
                     JOptionPane.showMessageDialog(null, "Categoría registrada correctamente. ", "Registro de Categoría", JOptionPane.INFORMATION_MESSAGE);
                     limpiarCampos();
                 }else{

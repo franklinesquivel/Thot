@@ -9,7 +9,12 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="/Thot/css/materialize.min.css">
 
+<link rel="stylesheet" href="/Thot/css/main.css">
+<link href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+
 <script src="/Thot/js/jquery.js"></script>
 <script src="/Thot/js/jquery.validate.min.js"></script>
 <script src="/Thot/js/materialize.min.js"></script>
+<script src="/Thot/js/Loader.js"></script>
 <script src="/Thot/js/init.js"></script>
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>

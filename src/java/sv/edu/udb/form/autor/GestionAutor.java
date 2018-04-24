@@ -16,8 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sv.edu.udb.libreria.Autor;
 import sv.edu.udb.libreria.Pais;
-import sv.edu.udb.modelos.Autor_Model;
-import sv.edu.udb.modelos.Pais_Model;
+import sv.edu.udb.controladores.Autor_Controller;
+import sv.edu.udb.controladores.Pais_Controller;
 import sv.edu.udb.validacion.Validacion;
 
 /**
@@ -64,11 +64,11 @@ public class GestionAutor extends javax.swing.JInternalFrame {
     }
 
     private void inicializarComponente() {
-        autores = Autor_Model.obtenerAutores();
+        autores = Autor_Controller.obtenerAutores();
         jcbPais.setEnabled(false);
 
         jcbPais.removeAllItems(); //Remover Items
-        items = Pais_Model.obtenerPaises();
+        items = Pais_Controller.obtenerPaises();
         for (Pais p : items) {
             jcbPais.addItem(p.getNombre());
         }
@@ -96,7 +96,7 @@ public class GestionAutor extends javax.swing.JInternalFrame {
             }
 
             if (compararFecha(fechaNacimiento)) {
-                if (Autor_Model.modificar(new Autor(idAutorSeleccionado, nombre, apellido, fechaNacimiento, PaisString))) {
+                if (Autor_Controller.modificar(new Autor(idAutorSeleccionado, nombre, apellido, fechaNacimiento, PaisString))) {
                     JOptionPane.showMessageDialog(null, "Usuario modificado correctamente", "Gestión de Usuario", JOptionPane.INFORMATION_MESSAGE);
                     return true;
                 } else {
@@ -364,7 +364,7 @@ public class GestionAutor extends javax.swing.JInternalFrame {
             int respuesta = JOptionPane.showConfirmDialog(null, "¿Estas seguro eliminar este autor?", "Gestion de autor", JOptionPane.WARNING_MESSAGE);
             if (respuesta == JOptionPane.OK_OPTION) { //Eliminar
 
-                if (Autor_Model.eliminar(new Autor(idAutorSeleccionado, "", "", new Date(), ""))) {
+                if (Autor_Controller.eliminar(new Autor(idAutorSeleccionado, "", "", new Date(), ""))) {
                     inicializarComponente();
                     cargarAutores();
                     JOptionPane.showMessageDialog(null, "Autor elimnado correctamente", "Gestión de Autor", JOptionPane.INFORMATION_MESSAGE);
@@ -380,15 +380,15 @@ public class GestionAutor extends javax.swing.JInternalFrame {
     //Txt Buscador
     private void txtBuscadorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscadorKeyReleased
         if (jcbBuscador.getSelectedItem().toString().equals("Nombre")) { //Buscar por nombre
-            autores = Autor_Model.obtenerAutores(" WHERE nombres LIKE '%" + txtBuscador.getText() + "%'");
+            autores = Autor_Controller.obtenerAutores(" WHERE nombres LIKE '%" + txtBuscador.getText() + "%'");
         } else if (jcbBuscador.getSelectedItem().toString().equals("Apellido")) {//Buscar por apellido
-            autores = Autor_Model.obtenerAutores(" WHERE apellidos LIKE '%" + txtBuscador.getText() + "%'");
+            autores = Autor_Controller.obtenerAutores(" WHERE apellidos LIKE '%" + txtBuscador.getText() + "%'");
         } else if (jcbBuscador.getSelectedItem().toString().equals("Pais")) { //Buscar por Correo
-            autores = Autor_Model.obtenerAutores(" WHERE idPais LIKE '%" + txtBuscador.getText() + "%'");
+            autores = Autor_Controller.obtenerAutores(" WHERE idPais LIKE '%" + txtBuscador.getText() + "%'");
         }
 
         if (txtBuscador.getText().length() == 1) {
-            autores = Autor_Model.obtenerAutores(); //Obtenemos el listado de autores (todos)
+            autores = Autor_Controller.obtenerAutores(); //Obtenemos el listado de autores (todos)
         }
         cargarAutores();
     }//GEN-LAST:event_txtBuscadorKeyReleased

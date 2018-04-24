@@ -13,7 +13,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <%@ include file="/WEB-INF/jspf/header.jspf" %>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="/Thot/css/materialize.min.css">
+
+        <script src="/Thot/js/jquery.js"></script>
+        <script src="/Thot/js/jquery.validate.min.js"></script>
+        <script src="/Thot/js/materialize.min.js"></script>
+        <script src="/Thot/js/Loader.js"></script>
+        <script src="/Thot/js/init.js"></script>
         
         <script src="/Thot/js/login.js"></script>
         <link rel="stylesheet" href="/Thot/css/login.css">

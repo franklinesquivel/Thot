@@ -9,7 +9,7 @@ import java.util.List;
 import sv.edu.udb.libreria.Imprenta;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
-import sv.edu.udb.modelos.Imprenta_Model;
+import sv.edu.udb.controladores.Imprenta_Controller;
 import sv.edu.udb.validacion.Validacion;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class GestionImprenta extends javax.swing.JInternalFrame {
     private DefaultTableModel modelo = null;
-    private List<Imprenta> imprentas = Imprenta_Model.obtenerImprentas();
+    private List<Imprenta> imprentas = Imprenta_Controller.obtenerImprentas();
     private String idImprentaSeleccionada = "";
     /**
      * Creates new form GestionImprenta
@@ -228,13 +228,13 @@ public class GestionImprenta extends javax.swing.JInternalFrame {
 
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
         if(cmbBuscador.getSelectedItem().toString().equals("Nombre")){
-            imprentas = Imprenta_Model.BuscarImprenta("nombre", txtBusqueda.getText());
+            imprentas = Imprenta_Controller.BuscarImprenta("nombre", txtBusqueda.getText());
         }else if(cmbBuscador.getSelectedItem().toString().equals("Dirección")){
-            imprentas = Imprenta_Model.BuscarImprenta("direccion", txtBusqueda.getText());
+            imprentas = Imprenta_Controller.BuscarImprenta("direccion", txtBusqueda.getText());
         }
         
         if(txtBusqueda.getText().length() == 1){
-            imprentas = Imprenta_Model.obtenerImprentas();
+            imprentas = Imprenta_Controller.obtenerImprentas();
         }
         cargarImprentas();
     }//GEN-LAST:event_txtBusquedaKeyReleased
@@ -244,7 +244,7 @@ public class GestionImprenta extends javax.swing.JInternalFrame {
             if(validarDatos()){
                 if(txtDireccionImprenta.getText().length() > 0 && !(txtDireccionImprenta.getText().isEmpty()) && !(txtDireccionImprenta.getText().equals(" "))){
                     if(txtNombreImprenta.getText().length() > 0 && !(txtNombreImprenta.getText().isEmpty()) && !(txtNombreImprenta.getText().equals(" "))){
-                        if(Imprenta_Model.modificar(new Imprenta(idImprentaSeleccionada,txtNombreImprenta.getText(),txtDireccionImprenta.getText()))){
+                        if(Imprenta_Controller.modificar(new Imprenta(idImprentaSeleccionada,txtNombreImprenta.getText(),txtDireccionImprenta.getText()))){
                              JOptionPane.showMessageDialog(null, "Imprenta modificada con éxito","Gestión de Imprentas",JOptionPane.INFORMATION_MESSAGE);
                              txtBusqueda.setText("");
                         }else{
@@ -264,10 +264,10 @@ public class GestionImprenta extends javax.swing.JInternalFrame {
                int confirmar = JOptionPane.showConfirmDialog(null, "¿Estas seguro que deseas eliminar esta imprenta?","Gestion de Imprentas",JOptionPane.WARNING_MESSAGE);
                if(confirmar == JOptionPane.OK_OPTION){
                    Imprenta _i = new Imprenta(idImprentaSeleccionada, false);
-                   if(Imprenta_Model.verificarRegistros(_i.getIdImprenta())){
-                       if(Imprenta_Model.eliminar(new Imprenta(idImprentaSeleccionada, txtNombreImprenta.getText(), txtDireccionImprenta.getText()))){
+                   if(Imprenta_Controller.verificarRegistros(_i.getIdImprenta())){
+                       if(Imprenta_Controller.eliminar(new Imprenta(idImprentaSeleccionada, txtNombreImprenta.getText(), txtDireccionImprenta.getText()))){
                             inicializarComponentes();
-                            imprentas = Imprenta_Model.obtenerImprentas();
+                            imprentas = Imprenta_Controller.obtenerImprentas();
                             cargarImprentas();
                             JOptionPane.showMessageDialog(null, "Imprenta Eliminada con exito","Gestión de Imprentas",JOptionPane.INFORMATION_MESSAGE);
                             txtBusqueda.setText("");
@@ -286,7 +286,7 @@ public class GestionImprenta extends javax.swing.JInternalFrame {
         if(!(idImprentaSeleccionada.isEmpty())){
             modificartema();
             inicializarComponentes();
-            imprentas = Imprenta_Model.obtenerImprentas();
+            imprentas = Imprenta_Controller.obtenerImprentas();
             cargarImprentas();
         }
     }//GEN-LAST:event_btnModificarImprentaActionPerformed

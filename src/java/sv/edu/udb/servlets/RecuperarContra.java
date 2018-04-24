@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import sv.edu.udb.connection.Email;
 import sv.edu.udb.libreria.Encriptar;
 import sv.edu.udb.libreria.Usuario;
-import sv.edu.udb.modelos.Usuario_Model;
+import sv.edu.udb.controladores.Usuario_Controller;
 
 /**
  *
@@ -42,7 +42,7 @@ public class RecuperarContra extends HttpServlet {
                 out.println("0");
             }else{
                 String email = request.getParameter("email"), res;
-                Usuario u = Usuario_Model.obtenerUsuarioCorreo(email);
+                Usuario u = Usuario_Controller.obtenerUsuarioCorreo(email);
                 if (u != null) {
                     String pass = Encriptar.desencriptar(u.getPassword());
                     if (enviarCorreo(email, pass)) {

@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sv.edu.udb.libreria.TipoUsuario;
 import sv.edu.udb.libreria.Usuario;
-import sv.edu.udb.modelos.TipoUsuario_Model;
-import sv.edu.udb.modelos.Usuario_Model;
+import sv.edu.udb.controladores.TipoUsuario_Controller;
+import sv.edu.udb.controladores.Usuario_Controller;
 import sv.edu.udb.validacion.Validacion;
 
 /**
@@ -60,13 +60,13 @@ public class gestionUsuario extends javax.swing.JInternalFrame {
     }
     
     private void inicializarComponente(){
-        usuarios = Usuario_Model.obtenerUsuarios(); //Obtenemos el listado de usuario
+        usuarios = Usuario_Controller.obtenerUsuarios(); //Obtenemos el listado de usuario
         txtNombreUsuario.setEnabled(false);
         cmbTipoUsuario.setEnabled(false);
         
         //Cargamos los tipos de usuario
         cmbTipoUsuario.removeAllItems(); //Remover Items
-        tipos = TipoUsuario_Model.obtenerTiposUsuarios();
+        tipos = TipoUsuario_Controller.obtenerTiposUsuarios();
         for(TipoUsuario t : tipos){
             cmbTipoUsuario.addItem(t.getNombre());
         }
@@ -353,7 +353,7 @@ public class gestionUsuario extends javax.swing.JInternalFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         if(idUsuarioSeleccionado.length() > 0){
             if(validarCampos()){
-                if(Usuario_Model.verificarCorreo(txtCorreo.getText(), idUsuarioSeleccionado)){
+                if(Usuario_Controller.verificarCorreo(txtCorreo.getText(), idUsuarioSeleccionado)){
                     if(modificarUsuario()){
                         inicializarComponente();
                         cargarUsuarios();
@@ -376,7 +376,7 @@ public class gestionUsuario extends javax.swing.JInternalFrame {
             DateFormat ft = new SimpleDateFormat("yyyy-MM-dd");  
             Date fechaNacimiento = ft.parse(txtFechaNacimiento.getText());
             if(compararFecha(fechaNacimiento)){
-                if(Usuario_Model.modificarUsuario(new Usuario(idUsuarioSeleccionado, nombre, apellido, correo, fechaNacimiento, estado))){
+                if(Usuario_Controller.modificarUsuario(new Usuario(idUsuarioSeleccionado, nombre, apellido, correo, fechaNacimiento, estado))){
                     JOptionPane.showMessageDialog(null, "Usuario modificado correctamente", "Gestión de Usuario", JOptionPane.INFORMATION_MESSAGE);
                     return true;
                 }else{
@@ -394,7 +394,7 @@ public class gestionUsuario extends javax.swing.JInternalFrame {
             int respuesta = JOptionPane.showConfirmDialog(null,"¿Estas seguro eliminar este usuario?", "Gestión de Usuario", JOptionPane.WARNING_MESSAGE);
             if(respuesta == JOptionPane.OK_OPTION){ //Eliminar
                 
-                if(Usuario_Model.eliminarUsuario(String.valueOf(idUsuarioSeleccionado))){
+                if(Usuario_Controller.eliminarUsuario(String.valueOf(idUsuarioSeleccionado))){
                     inicializarComponente();
                     cargarUsuarios();
                     JOptionPane.showMessageDialog(null, "Usuario elimnado correctamente", "Gestión de Usuario", JOptionPane.INFORMATION_MESSAGE);
@@ -419,17 +419,17 @@ public class gestionUsuario extends javax.swing.JInternalFrame {
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         if(cmbBuscador.getSelectedItem().toString().equals("Nombre")){ //Buscar por nombre
-            usuarios = Usuario_Model.BuscarUsuarios("nombre", txtBuscar.getText());
+            usuarios = Usuario_Controller.BuscarUsuarios("nombre", txtBuscar.getText());
         }else if(cmbBuscador.getSelectedItem().toString().equals("Apellido")){//Buscar por apellido
-            usuarios = Usuario_Model.BuscarUsuarios("apellido", txtBuscar.getText());
+            usuarios = Usuario_Controller.BuscarUsuarios("apellido", txtBuscar.getText());
         }else if(cmbBuscador.getSelectedItem().toString().equals("Correo Electrónico")){ //Buscar por Correo
-            usuarios = Usuario_Model.BuscarUsuarios("correo", txtBuscar.getText());
+            usuarios = Usuario_Controller.BuscarUsuarios("correo", txtBuscar.getText());
         }else if(cmbBuscador.getSelectedItem().toString().equals("Nombre de Usuario")){//Buscar por nombre
-            usuarios = Usuario_Model.BuscarUsuarios("username", txtBuscar.getText());
+            usuarios = Usuario_Controller.BuscarUsuarios("username", txtBuscar.getText());
         }
         
         if(txtBuscar.getText().length() == 1){
-            usuarios = Usuario_Model.obtenerUsuarios(); //Obtenemos el listado de usuario (todos)
+            usuarios = Usuario_Controller.obtenerUsuarios(); //Obtenemos el listado de usuario (todos)
         }
         cargarUsuarios();
     }//GEN-LAST:event_txtBuscarKeyReleased

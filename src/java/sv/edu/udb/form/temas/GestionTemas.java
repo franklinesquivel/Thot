@@ -11,7 +11,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sv.edu.udb.libreria.Tema;
-import sv.edu.udb.modelos.Tema_Model;
+import sv.edu.udb.controladores.Tema_Controller;
 import sv.edu.udb.validacion.Validacion;
 /**
  *
@@ -19,7 +19,7 @@ import sv.edu.udb.validacion.Validacion;
  */
 public class GestionTemas extends javax.swing.JInternalFrame {
     private DefaultTableModel model = null;
-    private List<Tema> temas = Tema_Model.obtenerTemas();
+    private List<Tema> temas = Tema_Controller.obtenerTemas();
     private int idTemaSeleccionado = -1;
     /**
      * Creates new form GestionTemas
@@ -195,7 +195,7 @@ public class GestionTemas extends javax.swing.JInternalFrame {
         if(idTemaSeleccionado > -1){
                modificarTema();
                inicializarComponente();
-               temas = Tema_Model.obtenerTemas();
+               temas = Tema_Controller.obtenerTemas();
                cargarTemas();
         }else{
             JOptionPane.showMessageDialog(null, "Seleccione un tema","Gestión de Temas",JOptionPane.ERROR_MESSAGE);
@@ -205,7 +205,7 @@ public class GestionTemas extends javax.swing.JInternalFrame {
     private void modificarTema(){
         try{
             if(validarDatos() && txtDescripcion.getText().length() > 0 && !(txtDescripcion.getText().isEmpty()) && !(txtDescripcion.getText().equals(" "))){
-                if(Tema_Model.modificar(new Tema(idTemaSeleccionado,txtDescripcion.getText()))){
+                if(Tema_Controller.modificar(new Tema(idTemaSeleccionado,txtDescripcion.getText()))){
                 JOptionPane.showMessageDialog(null,"Tema modificado con éxito", "Gestión de Temas",JOptionPane.INFORMATION_MESSAGE);
                 txtBusqueda.setText("");
                 }else{
@@ -220,10 +220,10 @@ public class GestionTemas extends javax.swing.JInternalFrame {
         if(idTemaSeleccionado > -1){
             int confirmar = JOptionPane.showConfirmDialog(null, "¿Estas seguro que deseas eliminar este tema?","Gestión de Temas",JOptionPane.WARNING_MESSAGE);
             if(confirmar == JOptionPane.OK_OPTION){
-                if(Tema_Model.eliminar(new Tema(idTemaSeleccionado,txtDescripcion.getText()))){
+                if(Tema_Controller.eliminar(new Tema(idTemaSeleccionado,txtDescripcion.getText()))){
                 
                     inicializarComponente();
-                    temas = Tema_Model.obtenerTemas();
+                    temas = Tema_Controller.obtenerTemas();
                     cargarTemas();
                     JOptionPane.showMessageDialog(null, "Tema eliminado con éxito","Gestión de Temas",JOptionPane.INFORMATION_MESSAGE);
                     txtBusqueda.setText("");
@@ -237,9 +237,9 @@ public class GestionTemas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEliminarTemaActionPerformed
 
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
-       temas = Tema_Model.buscarTemas(txtBusqueda.getText());
+       temas = Tema_Controller.buscarTemas(txtBusqueda.getText());
         if(txtBusqueda.getText().length() == 1){
-           temas = Tema_Model.obtenerTemas();
+           temas = Tema_Controller.obtenerTemas();
        }
         cargarTemas();
     }//GEN-LAST:event_txtBusquedaKeyReleased

@@ -20,11 +20,11 @@ import sv.edu.udb.libreria.Categoria;
 import sv.edu.udb.libreria.Imprenta;
 import sv.edu.udb.libreria.Libro;
 import sv.edu.udb.libreria.Tema;
-import sv.edu.udb.modelos.Autor_Model;
-import sv.edu.udb.modelos.Categoria_Model;
-import sv.edu.udb.modelos.Imprenta_Model;
-import sv.edu.udb.modelos.Libro_Model;
-import sv.edu.udb.modelos.Tema_Model;
+import sv.edu.udb.controladores.Autor_Controller;
+import sv.edu.udb.controladores.Categoria_Controller;
+import sv.edu.udb.controladores.Imprenta_Controller;
+import sv.edu.udb.controladores.Libro_Controller;
+import sv.edu.udb.controladores.Tema_Controller;
 import sv.edu.udb.validacion.Validacion;
 
 /**
@@ -318,7 +318,7 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         if(imgFile != null){
-            String img = Libro_Model.nuevoId() + "." + getFileExtension(imgFile);
+            String img = Libro_Controller.nuevoId() + "." + getFileExtension(imgFile);
             int[] idAutores = listAutores.getSelectedIndices();
             int[] idTemas = listTemas.getSelectedIndices();
 
@@ -332,7 +332,7 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
                 && Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú,0-9.-]*$", txtDescripcion.getText().trim(), "Ingresa una descripción válida!", "[Thot] - Registro de Libro")
                 && Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú,0-9.-]*$", txtNotas.getText().trim(), "Ingresa notas válidos!", "[Thot] - Registro de Libro")
             ) {
-                if(Libro_Model.validarIsbn(txtIsbn.getText())){
+                if(Libro_Controller.validarIsbn(txtIsbn.getText())){
                     JOptionPane.showMessageDialog(this, "El ISBN que quieres ingresar ya se encuentra registrado en nuestro sistema!", "[Thot] - Registro de Libro", JOptionPane.ERROR_MESSAGE);
                 }else{
                     if (
@@ -361,7 +361,7 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
                                 _auxA, _auxT
                         );
 
-                        if (Libro_Model.insertar(_l)) {
+                        if (Libro_Controller.insertar(_l)) {
                             if (saveImage(_l.getIdLibro())) {
                                 JOptionPane.showMessageDialog(this, "El libro ha sido registrado éxitosamente!", "[Thot] - Registro de Libro", JOptionPane.DEFAULT_OPTION);
                                 initData();
@@ -437,10 +437,10 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
     }
     
     private void initData(){
-        _a = Autor_Model.obtenerAutores("ORDER BY apellidos ASC");
-        _c = Categoria_Model.obtenerCategorias("ORDER BY nombre ASC");
-        _t = Tema_Model.obtenerTemas("ORDER BY descripcion ASC");
-        _i = Imprenta_Model.obtenerImprentas("ORDER BY nombre ASC");
+        _a = Autor_Controller.obtenerAutores("ORDER BY apellidos ASC");
+        _c = Categoria_Controller.obtenerCategorias("ORDER BY nombre ASC");
+        _t = Tema_Controller.obtenerTemas("ORDER BY descripcion ASC");
+        _i = Imprenta_Controller.obtenerImprentas("ORDER BY nombre ASC");
 
         if (_a.size() > 0) {
             String[] auxAutores = new String[_a.size()];

@@ -24,11 +24,11 @@ import sv.edu.udb.libreria.Categoria;
 import sv.edu.udb.libreria.Imprenta;
 import sv.edu.udb.libreria.Libro;
 import sv.edu.udb.libreria.Tema;
-import sv.edu.udb.modelos.Autor_Model;
-import sv.edu.udb.modelos.Categoria_Model;
-import sv.edu.udb.modelos.Imprenta_Model;
-import sv.edu.udb.modelos.Libro_Model;
-import sv.edu.udb.modelos.Tema_Model;
+import sv.edu.udb.controladores.Autor_Controller;
+import sv.edu.udb.controladores.Categoria_Controller;
+import sv.edu.udb.controladores.Imprenta_Controller;
+import sv.edu.udb.controladores.Libro_Controller;
+import sv.edu.udb.controladores.Tema_Controller;
 import sv.edu.udb.validacion.Validacion;
 
 /**
@@ -58,11 +58,11 @@ public class GestionLibro extends javax.swing.JInternalFrame {
     }
     
     private void initData(){
-        libros = Libro_Model.obtenerLibros();
-        _a = Autor_Model.obtenerAutores("ORDER BY apellidos ASC");
-        _c = Categoria_Model.obtenerCategorias("ORDER BY nombre ASC");
-        _t = Tema_Model.obtenerTemas("ORDER BY descripcion ASC");
-        _i = Imprenta_Model.obtenerImprentas("ORDER BY nombre ASC");
+        libros = Libro_Controller.obtenerLibros();
+        _a = Autor_Controller.obtenerAutores("ORDER BY apellidos ASC");
+        _c = Categoria_Controller.obtenerCategorias("ORDER BY nombre ASC");
+        _t = Tema_Controller.obtenerTemas("ORDER BY descripcion ASC");
+        _i = Imprenta_Controller.obtenerImprentas("ORDER BY nombre ASC");
         
         if (_a.size() > 0) {
             String[] auxAutores = new String[_a.size()];
@@ -644,15 +644,15 @@ public class GestionLibro extends javax.swing.JInternalFrame {
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         if(cmbBuscador.getSelectedItem().toString().equals("Título")){
-            libros = Libro_Model.BuscarLibros("titulo", txtBuscar.getText());
+            libros = Libro_Controller.BuscarLibros("titulo", txtBuscar.getText());
         }else if(cmbBuscador.getSelectedItem().toString().equals("ISBN")){
-            libros = Libro_Model.BuscarLibros("isbn", txtBuscar.getText());
+            libros = Libro_Controller.BuscarLibros("isbn", txtBuscar.getText());
         }else if(cmbBuscador.getSelectedItem().toString().equals("Edición")){
-            libros = Libro_Model.BuscarLibros("edicion", txtBuscar.getText());
+            libros = Libro_Controller.BuscarLibros("edicion", txtBuscar.getText());
         }
         
         if(txtBuscar.getText().length() == 1){
-            libros = Libro_Model.obtenerLibros();
+            libros = Libro_Controller.obtenerLibros();
         }
         
         cargarDatos();
@@ -772,7 +772,7 @@ public class GestionLibro extends javax.swing.JInternalFrame {
                         _auxA, _auxT
                 );
 
-                if (Libro_Model.modificar(_l)) {
+                if (Libro_Controller.modificar(_l)) {
                     JOptionPane.showMessageDialog(this, "El libro ha sido modificado éxitosamente!", "[Thot] - Gestión de Libro", JOptionPane.DEFAULT_OPTION);
                     initData();
                     cargarDatos();
@@ -789,7 +789,7 @@ public class GestionLibro extends javax.swing.JInternalFrame {
         int r = JOptionPane.showConfirmDialog(this, "Estás seguro que deseas eliminar este libro?", "[Thot] - Gestión de Libro", JOptionPane.INFORMATION_MESSAGE);
         
         if(r == JOptionPane.YES_OPTION){
-            if (Libro_Model.eliminar(new Libro(idLibroSeleccionado, false))) {
+            if (Libro_Controller.eliminar(new Libro(idLibroSeleccionado, false))) {
                 JOptionPane.showMessageDialog(this, "El libro ha sido eliminado éxitosamente!", "[Thot] - Gestión de Libro", JOptionPane.DEFAULT_OPTION);
                 initData();
                 cargarDatos();

@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import sv.edu.udb.validacion.Validacion;
 import javax.swing.JOptionPane;
-import sv.edu.udb.modelos.Imprenta_Model;
+import sv.edu.udb.controladores.Imprenta_Controller;
 import sv.edu.udb.libreria.Imprenta;
 /**
  *
@@ -137,8 +137,8 @@ public class AgregarImprenta extends javax.swing.JInternalFrame {
             if(validarDatos()){
             if(txtNombre.getText().length() > 0 && !(txtNombre.getText().isEmpty()) && !(txtNombre.getText().equals(" "))){
                 if(txtDireccion.getText().length() > 0 && !(txtDireccion.getText().isEmpty()) && !(txtDireccion.getText().equals(" "))){
-                    if(Imprenta_Model.verificarI(txtNombre.getText())){
-                        if(Imprenta_Model.insertar(new Imprenta(Imprenta_Model.generarId(),txtNombre.getText(),txtDireccion.getText()))){
+                    if(Imprenta_Controller.verificarI(txtNombre.getText())){
+                        if(Imprenta_Controller.insertar(new Imprenta(Imprenta_Controller.generarId(),txtNombre.getText(),txtDireccion.getText()))){
                            JOptionPane.showMessageDialog(null, "Imprenta ingresada correctamente","Agregar Imprenta",JOptionPane.INFORMATION_MESSAGE);
                             txtNombre.setText("");
                             txtDireccion.setText("");

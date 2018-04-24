@@ -16,7 +16,7 @@ import sv.edu.udb.connection.Email;
 import sv.edu.udb.libreria.Encriptar;
 import sv.edu.udb.libreria.TipoUsuario;
 import sv.edu.udb.libreria.Usuario;
-import sv.edu.udb.modelos.Usuario_Model;
+import sv.edu.udb.controladores.Usuario_Controller;
 import sv.edu.udb.validacion.Validacion;
 
 /**
@@ -62,7 +62,7 @@ public class cambiarContrasenna extends javax.swing.JInternalFrame {
         idUsuarioSeleccionado = "";
         txtContrasenna.setText("");
         filaSeleccionada = -1;
-        usuarios = Usuario_Model.obtenerUsuarios(); //Cargamos TODOS los usuarios
+        usuarios = Usuario_Controller.obtenerUsuarios(); //Cargamos TODOS los usuarios
     }
 
     /**
@@ -202,17 +202,17 @@ public class cambiarContrasenna extends javax.swing.JInternalFrame {
     //Txt Buscador
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         if(cmbFiltro.getSelectedItem().toString().equals("Nombre")){ //Buscar por nombre
-            usuarios = Usuario_Model.BuscarUsuarios("nombre", txtBuscar.getText());
+            usuarios = Usuario_Controller.BuscarUsuarios("nombre", txtBuscar.getText());
         }else if(cmbFiltro.getSelectedItem().toString().equals("Apellido")){//Buscar por apellido
-            usuarios = Usuario_Model.BuscarUsuarios("apellido", txtBuscar.getText());
+            usuarios = Usuario_Controller.BuscarUsuarios("apellido", txtBuscar.getText());
         }else if(cmbFiltro.getSelectedItem().toString().equals("Correo Electrónico")){ //Buscar por Correo
-            usuarios = Usuario_Model.BuscarUsuarios("correo", txtBuscar.getText());
+            usuarios = Usuario_Controller.BuscarUsuarios("correo", txtBuscar.getText());
         }else if(cmbFiltro.getSelectedItem().toString().equals("Nombre de Usuario")){//Buscar por nombre
-            usuarios = Usuario_Model.BuscarUsuarios("username", txtBuscar.getText());
+            usuarios = Usuario_Controller.BuscarUsuarios("username", txtBuscar.getText());
         }
         
         if(txtBuscar.getText().length() == 1){
-            usuarios = Usuario_Model.obtenerUsuarios(); //Obtenemos el listado de usuario (todos)
+            usuarios = Usuario_Controller.obtenerUsuarios(); //Obtenemos el listado de usuario (todos)
         }
         cargarUsuarios();
     }//GEN-LAST:event_txtBuscarKeyReleased
@@ -220,7 +220,7 @@ public class cambiarContrasenna extends javax.swing.JInternalFrame {
     private void btnProcesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcesarActionPerformed
         if(idUsuarioSeleccionado.length() > 0){
             if(validarCampos()){
-                if(Usuario_Model.modificarContrasenna(new Usuario(idUsuarioSeleccionado, Encriptar.encriptar(txtContrasenna.getText().trim())))){
+                if(Usuario_Controller.modificarContrasenna(new Usuario(idUsuarioSeleccionado, Encriptar.encriptar(txtContrasenna.getText().trim())))){
                     if (enviarCorreo(usuarios.get(filaSeleccionada).getCorreo(), (txtContrasenna.getText().trim()))) {
                         JOptionPane.showMessageDialog(null, "Contraseña modificada!", "Cambiar Contraseña", JOptionPane.INFORMATION_MESSAGE);
                         cargarUsuarios();

@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import sv.edu.udb.connection.Email;
 import sv.edu.udb.libreria.Encriptar;
 import sv.edu.udb.libreria.Usuario;
-import sv.edu.udb.modelos.Usuario_Model;
+import sv.edu.udb.controladores.Usuario_Controller;
 import sv.edu.udb.validacion.Validacion;
 
 /**
@@ -135,7 +135,7 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnIniciarActionPerformed
     public static boolean iniciarSesion(String correo,String pass){
-        Usuario u = Usuario_Model.buscarUsuario(correo, pass);
+        Usuario u = Usuario_Controller.buscarUsuario(correo, pass);
         if(u != null){
             typeU = u.getTipoUsuario();
             JOptionPane.showMessageDialog(null, "Bienvenido a Thot!!","[Thot] - Iniciar Sesión",JOptionPane.INFORMATION_MESSAGE);
@@ -180,7 +180,7 @@ public class Login extends javax.swing.JFrame {
             }
         } while (f);
 
-        Usuario u = Usuario_Model.obtenerUsuarioCorreo(_e);
+        Usuario u = Usuario_Controller.obtenerUsuarioCorreo(_e);
         if(u != null){
             String pass = Encriptar.desencriptar(u.getPassword());
             if (enviarCorreo(_e, pass)) {

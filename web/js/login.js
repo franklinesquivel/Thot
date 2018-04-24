@@ -1,33 +1,17 @@
 (function(){
 
     $(document).ready(function(){
-
-        jQuery.validator.setDefaults({
-			// debug: true,
-			// success: "valid"
-        });
-
-        $.validator.setDefaults({
-            errorClass: 'invalid',
-            // validClass: "valid",
-            errorPlacement: function(error, element) {
-                $(element).parent().find('span.helper-text').remove();
-                $(element).parent()
-                .append(`<span class='helper-text' data-error='${error.text()}'></span>`);
-            }
-          });
-        
         $.validator.addMethod('email', function(value, element) {
-	        return this.optional(element) || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
+            return this.optional(element) || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
         }, 'Ingrese un correo válido.');
         
         $.validator.addMethod('codigo', function(value, element) {
-	        return this.optional(element) || /^[BU]\d{4}$/.test(value);
+            return this.optional(element) || /^[BU]\d{4}$/.test(value);
         }, 'Ingrese un código válido.');
         
         $.validator.addMethod('correo_codigo', function(value, element) {
-	        return this.optional(element) || /^((([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))|[BU]\d{4})$/.test(value);
-	    }, 'Ingrese un correo o un nombre de usuario válido!');
+            return this.optional(element) || /^((([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))|[BU]\d{4})$/.test(value);
+	}, 'Ingrese un correo o un nombre de usuario válido!');
 
         $(frmLogin).validate({
             rules: {
@@ -62,12 +46,14 @@
                 }
             },
             submitHandler: function(form) {
-                // console.log(`${location.origin + location.pathname}RecuperarContra`);
+                let _loader = new Loader();
+                _loader.in();
                 $.ajax({
                     type: 'POST',
                     url: `${location.origin + location.pathname}RecuperarContra`,
                     data: {email: frmRecoverPass.txtUser.value.trim()},
                     success: function(r){
+                        _loader.out();
                         r = parseInt(r);
                         let alertCont;
 
@@ -103,8 +89,6 @@
         $("#btnRecover").click(function(){
             $(frmRecoverPass).submit();
         })
-
     })
-
 })
 ();

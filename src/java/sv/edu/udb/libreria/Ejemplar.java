@@ -5,6 +5,8 @@
  */
 package sv.edu.udb.libreria;
 
+import sv.edu.udb.controladores.Ejemplar_Controller;
+
 /**
  *
  * @author Frank
@@ -13,7 +15,7 @@ public class Ejemplar {
     private String idEjemplar;
     private String codigo;
     private String observaciones;
-private String estado;
+    private String estado;
     private Libro libro;
 
     public String getIdEjemplar() {
@@ -57,7 +59,13 @@ private String estado;
     }
 
     public Ejemplar(String idEjemplar, boolean relaciones) {
-        this.idEjemplar = idEjemplar;
+        Ejemplar _e = Ejemplar_Controller.obtenerEjemplar(idEjemplar);
+        if (_e != null) {
+            this.idEjemplar = _e.getIdEjemplar();
+            this.codigo  = _e.getCodigo();
+            this.observaciones = _e.getObservaciones();
+            this.estado = _e.getEstado();
+        }
     }
 
     public Ejemplar(String codigo, String observaciones, String estado, Libro libro) {
@@ -74,4 +82,13 @@ private String estado;
         this.estado = estado;
         this.libro = libro;
     }
+
+    public Ejemplar(String idEjemplar, String codigo, String observaciones, String estado) {
+        this.idEjemplar = idEjemplar;
+        this.codigo = codigo;
+        this.observaciones = observaciones;
+        this.estado = estado;
+    }
+    
+    
 }

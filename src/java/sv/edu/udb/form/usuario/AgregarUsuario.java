@@ -18,8 +18,8 @@ import sv.edu.udb.connection.Email;
 import sv.edu.udb.libreria.Encriptar;
 import sv.edu.udb.libreria.TipoUsuario;
 import sv.edu.udb.libreria.Usuario;
-import sv.edu.udb.modelos.TipoUsuario_Model;
-import sv.edu.udb.modelos.Usuario_Model;
+import sv.edu.udb.controladores.TipoUsuario_Controller;
+import sv.edu.udb.controladores.Usuario_Controller;
 import sv.edu.udb.validacion.Validacion;
 /**
  *
@@ -158,7 +158,7 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
                 }
 
                 String password = Encriptar.encriptar(Usuario.crearContransenna());
-                String username = Usuario.crearNombreUsuario(tipo, Usuario_Model.obtenerNumUsuario(tipo));
+                String username = Usuario.crearNombreUsuario(tipo, Usuario_Controller.obtenerNumUsuario(tipo));
                 String idUsuario = username;
                 String nombre = txtNombre.getText(), 
                     apellido = txtApellido.getText(),
@@ -168,8 +168,8 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
                 Date fechaNacimiento = ft.parse(txtFechaNacimiento.getText());
                 //Este es el de Leo :v
                 if(compararFecha(fechaNacimiento)){//Comparamos que la fehca ingresada no sea mayor a la actual
-                    if(Usuario_Model.verificarCorreo(correo)){
-                        if(Usuario_Model.insertar(new Usuario(idUsuario, nombre, apellido, correo, fechaNacimiento, username, password, true, tipo))){
+                    if(Usuario_Controller.verificarCorreo(correo)){
+                        if(Usuario_Controller.insertar(new Usuario(idUsuario, nombre, apellido, correo, fechaNacimiento, username, password, true, tipo))){
                             if(enviarCorreo(correo, Encriptar.desencriptar(password))){
                                 JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.\n ", "Registro de Usuario", JOptionPane.INFORMATION_MESSAGE); 
                                 iniciarCampos(); //Se reinician campos
@@ -192,7 +192,7 @@ public class AgregarUsuario extends javax.swing.JInternalFrame {
     //Carga los tipos de usuario en el cmb
     private void cargarTipoUsuario(){
         cmbTipoUsuario.removeAllItems(); //Remover Items
-        tipos = TipoUsuario_Model.obtenerTiposUsuarios();
+        tipos = TipoUsuario_Controller.obtenerTiposUsuarios();
         for(TipoUsuario t : tipos){
             cmbTipoUsuario.addItem(t.getNombre());
         }

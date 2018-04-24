@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.modelos;
+package sv.edu.udb.controladores;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,14 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sv.edu.udb.connection.DBConection;
+import sv.edu.udb.connection.DB;
 import sv.edu.udb.libreria.TipoUsuario;
 
 /**
  *
  * @author Leonardo
  */
-public class TipoUsuario_Model {
+public class TipoUsuario_Controller {
+    
+    private final static DB _db = new DB();
+    
     /*public static boolean insertar(TipoUsuario _t){
         PreparedStatement insertarUsuario = LibraryConnection.getStatement("INSERT INTO usuarios(nombre, apellido, correo, fechaNacimiento, nombreUsuario, contrasenna, estado, tipoUsuario) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
         try {
@@ -35,37 +38,61 @@ public class TipoUsuario_Model {
             LibraryConnection.cn.close(); //Se cierra conexion
             return true;
         } catch (SQLException ex) {    
-            Logger.getLogger(Usuario_Model.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }*/
     
     public static TipoUsuario obtenerTipoUsuario(String id){
-        PreparedStatement obtenerSQL = DBConection.getStatement("SELECT * FROM tipos_usuario WHERE idTipoUsuario = ?;");
-        try {
-            obtenerSQL.setString(1, id);
-            ResultSet data = obtenerSQL.executeQuery();
-            while(data.next()){
-                return new TipoUsuario(data.getString("idTipoUsuario").charAt(0), data.getString("nombre"), data.getString("descripcion"));
+        _db.open();
+        if(_db.isOpen()){
+            try {
+                TipoUsuario _t = null;
+                try (PreparedStatement obtenerSQL = _db.getStatement("SELECT * FROM tipos_usuario WHERE idTipoUsuario = ?;")) {
+                    obtenerSQL.setString(1, id);
+                    try (ResultSet data = obtenerSQL.executeQuery()) {
+                        if (data.next()) {
+                            _t = new TipoUsuario(data.getString("idTipoUsuario").charAt(0), data.getString("nombre"), data.getString("descripcion"));
+                        }else{
+                            _t = null;
+                        }
+                    }
+                }
+                _db.close();
+                return _t;
+            } catch (SQLException ex) {
+                Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
+                _db.close();
+                return null;
             }
-            return null;
-        } catch (SQLException ex) {    
-            Logger.getLogger(Usuario_Model.class.getName()).log(Level.SEVERE, null, ex);
+        }else{
+            _db.close();
             return null;
         }
+        
     }
     
     public static List<TipoUsuario> obtenerTiposUsuarios(){
-        List<TipoUsuario> _Ulist = new ArrayList();
-        PreparedStatement obtenerSQL = DBConection.getStatement("SELECT * FROM tipos_usuario;");
-        try {
-            ResultSet data = obtenerSQL.executeQuery();
-            while(data.next()){
-                _Ulist.add(new TipoUsuario(data.getString("idTipoUsuario").charAt(0), data.getString("nombre"), data.getString("descripcion")));
+        _db.open();
+        if(_db.isOpen()){
+            List<TipoUsuario> _Ulist = new ArrayList();
+
+            try {
+                try (PreparedStatement obtenerSQL = _db.getStatement("SELECT * FROM tipos_usuario;"); ResultSet data = obtenerSQL.executeQuery()) {
+                    while (data.next()) {
+                        _Ulist.add(new TipoUsuario(data.getString("idTipoUsuario").charAt(0), data.getString("nombre"), data.getString("descripcion")));
+                    }
+                }
+                
+                _db.close();
+                return _Ulist;
+            } catch (SQLException ex) {
+                Logger.getLogger(TipoUsuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
+                _db.close();
+                return null;
             }
-            return _Ulist;
-        } catch (SQLException ex) {    
-            Logger.getLogger(TipoUsuario_Model.class.getName()).log(Level.SEVERE, null, ex);
+        }else{
+            _db.close();
             return null;
         }
     }
@@ -80,7 +107,7 @@ public class TipoUsuario_Model {
             LibraryConnection.cn.close(); //Se cierra conexion
             return true;
         }catch(SQLException ex){
-            Logger.getLogger(Usuario_Model.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -93,7 +120,7 @@ public class TipoUsuario_Model {
             LibraryConnection.cn.close(); //Se cierra conexion
             return true;
         }catch(SQLException ex){
-            Logger.getLogger(Usuario_Model.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }*/

@@ -6,7 +6,7 @@
 package sv.edu.udb.libreria;
 
 import java.util.List;
-import sv.edu.udb.modelos.Imprenta_Model;
+import sv.edu.udb.controladores.Imprenta_Controller;
 
 /**
  *
@@ -63,7 +63,7 @@ public class Imprenta {
     }
 
     public Imprenta(String idImprenta, boolean relaciones) {
-        Imprenta _i = Imprenta_Model.obtenerImprenta(idImprenta, relaciones);
+        Imprenta _i = Imprenta_Controller.obtenerImprenta(idImprenta, relaciones);
         if(_i != null){
             this.idImprenta = _i.getIdImprenta();
             this.nombre = _i.getNombre();

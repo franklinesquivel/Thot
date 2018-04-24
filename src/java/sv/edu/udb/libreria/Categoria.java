@@ -6,7 +6,7 @@
 package sv.edu.udb.libreria;
 
 import java.util.List;
-import sv.edu.udb.modelos.Categoria_Model;
+import sv.edu.udb.controladores.Categoria_Controller;
 
 /**
  *
@@ -69,7 +69,7 @@ public class Categoria {
     }
     
     public Categoria(int _id, boolean relaciones){
-        Categoria _c = Categoria_Model.obtenerCategoria(_id, relaciones);
+        Categoria _c = Categoria_Controller.obtenerCategoria(_id, relaciones);
         if(_c != null){
             this.idCategoria = _c.getIdCategoria();
             this.nombre = _c.getNombre();

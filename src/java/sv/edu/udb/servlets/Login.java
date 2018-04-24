@@ -6,16 +6,15 @@
 package sv.edu.udb.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sv.edu.udb.connection.DBConection;
+import sv.edu.udb.connection.DB;
 import sv.edu.udb.libreria.Usuario;
-import sv.edu.udb.modelos.Usuario_Model;
+import sv.edu.udb.controladores.Usuario_Controller;
 
 /**
  *
@@ -37,7 +36,8 @@ public class Login extends HttpServlet {
         
         String user = request.getParameter("txtUser"), pass = request.getParameter("txtPassword");
         HttpSession _s = request.getSession(true);
-
+        DB _db = new DB();
+        
         if (user == null || pass == null) {
             _s.setAttribute("msg_type", "danger");
             _s.setAttribute("msg", "Ingrese datos válidos!");
@@ -45,10 +45,10 @@ public class Login extends HttpServlet {
             response.sendRedirect("/Thot/");
         } else {
             String redirect = "";
-            switch (DBConection.login(user, pass)) {
+            switch (_db.login(user, pass)) {
                 //Encontrado
                 case 1:
-                    Usuario u = Usuario_Model.buscarUsuario(user, pass);
+                    Usuario u = Usuario_Controller.buscarUsuario(user, pass);
                     _s.setAttribute("logged", true);
                     _s.setAttribute("userData", u);
                     redirect = ("/Thot/" + (u.getTipoUsuario().equals("B") ? "Bibliotecario" : "Usuario") + "/");

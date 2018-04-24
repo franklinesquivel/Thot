@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sv.edu.udb.libreria.Tema;
 import sv.edu.udb.validacion.Validacion;
-import sv.edu.udb.modelos.Tema_Model;
+import sv.edu.udb.controladores.Tema_Controller;
 /**
  *
  * @author Pazzuelo02
@@ -95,8 +95,8 @@ public class AgregarTema extends javax.swing.JInternalFrame {
     private void btnAgregarTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarTemaActionPerformed
         try {
             if (validarDatos() && txtDescripcion.getText().length() > 0 && !(txtDescripcion.getText().isEmpty()) && !(txtDescripcion.getText().equals(" "))) {
-                if (Tema_Model.verificarT(txtDescripcion.getText())){
-                    if (Tema_Model.insertar(new Tema(txtDescripcion.getText()))) {
+                if (Tema_Controller.verificarT(txtDescripcion.getText())){
+                    if (Tema_Controller.insertar(new Tema(txtDescripcion.getText()))) {
                         JOptionPane.showMessageDialog(null, "Tema Ingresado correctamente", "Registro de Temas", JOptionPane.INFORMATION_MESSAGE);
                         txtDescripcion.setText("");
                     } else {

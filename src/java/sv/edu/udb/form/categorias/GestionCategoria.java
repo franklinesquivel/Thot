@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sv.edu.udb.libreria.Categoria;
-import sv.edu.udb.modelos.Categoria_Model;
+import sv.edu.udb.controladores.Categoria_Controller;
 import sv.edu.udb.validacion.Validacion;
 
 /**
@@ -17,7 +17,7 @@ import sv.edu.udb.validacion.Validacion;
  * @author Frank
  */
 public class GestionCategoria extends javax.swing.JInternalFrame {
-    List<Categoria> _c = Categoria_Model.obtenerCategorias();
+    List<Categoria> _c = Categoria_Controller.obtenerCategorias();
     DefaultTableModel modelo = null;
     int categoriaSeleccionada;
     /**
@@ -29,7 +29,7 @@ public class GestionCategoria extends javax.swing.JInternalFrame {
     }
     
     public void loadData(){
-        _c = Categoria_Model.obtenerCategorias();
+        _c = Categoria_Controller.obtenerCategorias();
         
         Object[][] datos = null;
         String[] columns = {"Nombre"};
@@ -189,7 +189,7 @@ public class GestionCategoria extends javax.swing.JInternalFrame {
             c.setNombre(txtNombre.getText().trim());
             c.setDescripcion(txtDescripcion.getText().trim());
 
-            if(Categoria_Model.modificarCategoria(c)){
+            if(Categoria_Controller.modificarCategoria(c)){
                 JOptionPane.showMessageDialog(this, "La categoría ha sido modificada éxitosamente!", "[Thot] - Gestión de Categorías", JOptionPane.DEFAULT_OPTION);
                 loadData();
             }else{
@@ -206,7 +206,7 @@ public class GestionCategoria extends javax.swing.JInternalFrame {
         int r = JOptionPane.showConfirmDialog(this, "Estás seguro que deseas eliminar este libro?", "[Thot] - Gestión de Libro", JOptionPane.INFORMATION_MESSAGE);
         
         if(r == JOptionPane.YES_OPTION){
-            if (Categoria_Model.eliminarCategoria(categoriaSeleccionada)) {
+            if (Categoria_Controller.eliminarCategoria(categoriaSeleccionada)) {
                 JOptionPane.showMessageDialog(this, "La categoría ha sido eliminada éxitosamente!", "[Thot] - Gestión de Categorías", JOptionPane.DEFAULT_OPTION);
                 loadData();
             }else{

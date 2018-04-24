@@ -5,7 +5,7 @@
  */
 package sv.edu.udb.libreria;
 
-import sv.edu.udb.modelos.Libro_Model;
+import sv.edu.udb.controladores.Libro_Controller;
 import java.util.List;
 
 /**
@@ -20,10 +20,13 @@ public class Libro {
     private String descripcion;
     private String notas;
     private String imagen;
+    private int cant_ejemplares;
     private Imprenta imprenta;
     private Categoria categoria;
     private List<Autor> autores;
     private List<Tema> temas;
+    private List<Ejemplar> ejemplares;
+    
     
     public String getIdLibro() {
         return idLibro;
@@ -80,6 +83,14 @@ public class Libro {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
+    
+    public int getCant_ejemplares() {
+        return cant_ejemplares;
+    }
+
+    public void setCant_ejemplares(int cant_ejemplares) {
+        this.cant_ejemplares = cant_ejemplares;
+    }
 
     public Imprenta getImprenta() {
         return imprenta;
@@ -112,6 +123,70 @@ public class Libro {
     public void setTemas(List<Tema> temas) {
         this.temas = temas;
     }
+    
+    public List<Ejemplar> getEjemplares() {
+        return ejemplares;
+    }
+
+    public void setEjemplares(List<Ejemplar> ejemplares) {
+        this.ejemplares = ejemplares;
+    }
+    
+    public boolean ejemplaresPendientes(){
+        Libro _l;
+        if(this.ejemplares == null){
+            _l = this.cargarRelaciones(this);            
+        }else{
+            _l = this;
+        }
+        
+        int i = 0;
+        i = _l.ejemplares.stream().map((_e) -> _e.getEstado().equals("PM") ? 1 : 0).reduce(i, Integer::sum);
+
+        return i > 0;
+    }
+
+    public Libro(String idLibro, String titulo, String isbn, String edicion, String descripcion, String notas, String imagen, int cant_ejemplares, Imprenta imprenta, Categoria categoria, List<Autor> autores, List<Tema> temas, List<Ejemplar> ejemplares) {
+        this.idLibro = idLibro;
+        this.titulo = titulo;
+        this.isbn = isbn;
+        this.edicion = edicion;
+        this.descripcion = descripcion;
+        this.notas = notas;
+        this.imagen = imagen;
+        this.cant_ejemplares = cant_ejemplares;
+        this.imprenta = imprenta;
+        this.categoria = categoria;
+        this.autores = autores;
+        this.temas = temas;
+        this.ejemplares = ejemplares;
+    }
+
+    public Libro(String idLibro, String titulo, String isbn, String edicion, String descripcion, String notas, String imagen, int cant_ejemplares) {
+        this.idLibro = idLibro;
+        this.titulo = titulo;
+        this.isbn = isbn;
+        this.edicion = edicion;
+        this.descripcion = descripcion;
+        this.notas = notas;
+        this.imagen = imagen;
+        this.cant_ejemplares = cant_ejemplares;
+    }
+
+    public Libro(String idLibro, String titulo, String isbn, String edicion, String descripcion, String notas, String imagen, int cant_ejemplares, Imprenta imprenta, Categoria categoria) {
+        this.idLibro = idLibro;
+        this.titulo = titulo;
+        this.isbn = isbn;
+        this.edicion = edicion;
+        this.descripcion = descripcion;
+        this.notas = notas;
+        this.imagen = imagen;
+        this.cant_ejemplares = cant_ejemplares;
+        this.imprenta = imprenta;
+        this.categoria = categoria;
+    }
+
+    
 
     public Libro(String idLibro, String titulo, String isbn, String edicion, String descripcion, String notas, String imagen, Imprenta imprenta, Categoria categoria, List<Autor> autores, List<Tema> temas) {
         this.idLibro = idLibro;
@@ -150,7 +225,7 @@ public class Libro {
     }
     
     public Libro cargarRelaciones(Libro _l){
-        _l = Libro_Model.obtenerLibro(_l.getIdLibro(), true);
+        _l = Libro_Controller.obtenerLibro(_l.getIdLibro(), true);
 //        _l.setCategoria(new Categoria(_l.getCategoria().getIdCategoria(), false));
 //        _l.setImprenta(new Imprenta(_l.getImprenta().getIdImprenta(), false));
         
@@ -158,7 +233,7 @@ public class Libro {
     }
     
     public Libro(String _id, boolean relaciones){
-        Libro _l = Libro_Model.obtenerLibro(_id, relaciones);
+        Libro _l = Libro_Controller.obtenerLibro(_id, relaciones);
         if(_l != null){
             this.idLibro = _l.getIdLibro();
             this.titulo = _l.getTitulo();
@@ -167,10 +242,12 @@ public class Libro {
             this.descripcion = _l.getDescripcion();
             this.notas = _l.getNotas();
             this.imagen = _l.getImagen();
+            this.cant_ejemplares = _l.getCant_ejemplares();
             this.imprenta = _l.getImprenta();
             this.categoria = _l.getCategoria();
             this.autores = _l.getAutores();
             this.temas = _l.getTemas();
+            this.ejemplares = _l.getEjemplares();
         }
     }
 }

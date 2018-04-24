@@ -7,7 +7,7 @@ package sv.edu.udb.libreria;
 
 import java.util.Date;
 import java.util.List;
-import sv.edu.udb.modelos.Autor_Model;
+import sv.edu.udb.controladores.Autor_Controller;
 
 /**
  *
@@ -69,6 +69,10 @@ public class Autor {
     public void setLibros(List<Libro> libros) {
         this.libros = libros;
     }
+    
+    public String getDisplayName(){
+        return this.nombres + " " + this.apellidos;
+    }
 
     public Autor(String idAutor, String nombres, String apellidos, Date fechaNac, String pais, List<Libro> libros) {
         this.idAutor = idAutor;
@@ -112,7 +116,7 @@ public class Autor {
     }
 
     public Autor(String idAutor, boolean relaciones) {
-        Autor _a = Autor_Model.obtenerAutor(idAutor, relaciones);
+        Autor _a = Autor_Controller.obtenerAutor(idAutor, relaciones);
         if (_a != null) {
             this.idAutor = _a.getIdAutor();
             this.nombres = _a.getNombres();

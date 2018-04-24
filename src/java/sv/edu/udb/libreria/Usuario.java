@@ -95,6 +95,10 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
     
+    public String getDisplayName(){
+        return this.nombre.split(" ")[0] + " " + this.apellido.split(" ")[0];
+    }
+    
     public Usuario(String idUsuario, String nombre, String apellido, String correo, Date fechaNacimiento, String username, String password, boolean estado, String tipoUsuario) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
@@ -130,6 +134,10 @@ public class Usuario {
         this.password = password;
         this.estado = estado;
         this.tipoUsuario = tipoUsuario;
+    }
+
+    public Usuario() {
+    
     }
     
     public static String crearContransenna(){ //Crea contraseñas aleatorias de 8 caracteres

@@ -16,8 +16,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sv.edu.udb.libreria.Autor;
 import sv.edu.udb.libreria.Pais;
-import sv.edu.udb.modelos.Autor_Model;
-import sv.edu.udb.modelos.Pais_Model;
+import sv.edu.udb.controladores.Autor_Controller;
+import sv.edu.udb.controladores.Pais_Controller;
 import sv.edu.udb.validacion.Validacion;
 
 /**
@@ -173,7 +173,7 @@ public class AgregarAutor extends javax.swing.JInternalFrame {
                     }
                 }
 
-                String idAutor = Autor.crearNombreAutor(Autor_Model.obtenerNumAutor());
+                String idAutor = Autor.crearNombreAutor(Autor_Controller.obtenerNumAutor());
                 String nombre = txtNombre.getText(),
                 apellido = txtApellido.getText(); //Proba
                 DateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
@@ -182,8 +182,8 @@ public class AgregarAutor extends javax.swing.JInternalFrame {
                 //new SimpleDateFormat("yyyy-MM-dd").parse(txtFechaNac.getText())
                 
                 if (compararFecha(fechaNacimiento)) {//Comparamos que la fecha ingresada no sea mayor a la actual
-                    if(Autor_Model.verificarA(txtNombre.getText(),txtApellido.getText())){
-                        if (Autor_Model.insertar(new Autor(idAutor, nombre, apellido, fechaNacimiento, PaisString))) {
+                    if(Autor_Controller.verificarA(txtNombre.getText(),txtApellido.getText())){
+                        if (Autor_Controller.insertar(new Autor(idAutor, nombre, apellido, fechaNacimiento, PaisString))) {
                             JOptionPane.showMessageDialog(null, "Autor registrado correctamente", "Registro de Autor", JOptionPane.INFORMATION_MESSAGE);
                             limpiarCampos();
                         } else {
@@ -208,7 +208,7 @@ public class AgregarAutor extends javax.swing.JInternalFrame {
     
     public void cargarPais() {
         jcbPais.removeAllItems();
-        items = Pais_Model.obtenerPaises();
+        items = Pais_Controller.obtenerPaises();
         for (Pais t : items) {
             jcbPais.addItem(t.getNombre());
         }
