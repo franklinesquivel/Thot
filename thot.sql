@@ -112,12 +112,11 @@ DROP TABLE IF EXISTS `ejemplar`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ejemplar` (
   `idEjemplar` varchar(25) COLLATE utf8_spanish2_ci NOT NULL,
-  `codigo` varchar(225) COLLATE utf8_spanish2_ci NOT NULL,
+  `codigo` varchar(225) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `observaciones` mediumtext COLLATE utf8_spanish2_ci NOT NULL,
   `estado` enum('PM','D','R','P') COLLATE utf8_spanish2_ci NOT NULL DEFAULT 'PM' COMMENT 'PM: Pendiente de modificación\nD: Disponible\nR: Reservado\nP: Prestado',
   `idLibro` varchar(5) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`idEjemplar`),
-  UNIQUE KEY `U_Ejemplar_Codigo` (`codigo`),
   KEY `FK_Ejemplar_Libro` (`idLibro`),
   CONSTRAINT `FK_Ejemplar_Libro` FOREIGN KEY (`idLibro`) REFERENCES `libro` (`idLibro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
@@ -655,4 +654,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-20 19:05:47
+-- Dump completed on 2018-04-23 23:55:24

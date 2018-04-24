@@ -25,8 +25,8 @@
                 _loader.in();
                 $.ajax({
                     type: 'POST',
-                    url: ``,
-                    data: {add: form.txtCant.value},
+                    url: `${location.origin}/Thot/Ejemplares/Aumentar`,
+                    data: {idLibro: form.idLibro.value, add: form.txtCant.value},
                     success: function (res) {
                         r = parseInt(res);
                         let _o = {};
@@ -58,6 +58,10 @@
                     finally: _loader.out()
                 })
             }
+        });
+        
+        $("#btnAdd").click(function(){
+            $(frmAdd).submit();
         })
     });
     

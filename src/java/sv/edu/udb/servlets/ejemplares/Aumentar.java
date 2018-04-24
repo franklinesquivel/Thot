@@ -5,29 +5,24 @@
  */
 package sv.edu.udb.servlets.ejemplares;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Type;
-import com.google.gson.reflect.TypeToken;
 import sv.edu.udb.controladores.Ejemplar_Controller;
+import sv.edu.udb.controladores.Libro_Controller;
 import sv.edu.udb.libreria.Ejemplar;
+import sv.edu.udb.libreria.Libro;
 
 /**
  *
  * @author Frank
  */
-@WebServlet(name = "Ejemplares.Habilitar", urlPatterns = {"/Ejemplares/Habilitar"})
-public class Habilitar extends HttpServlet {
+@WebServlet(name = "Ejemplares.Aumentar", urlPatterns = {"/Ejemplares/Aumentar"})
+public class Aumentar extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -41,26 +36,21 @@ public class Habilitar extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            Gson gson = new GsonBuilder().create();
-            String res = "";
-            if (request.getParameter("ejemplares") != null) {
-                try {
-                    Type listType = new TypeToken<ArrayList<Ejemplar>>() {
-                    }.getType();
-                    List<Ejemplar> ejemplares = gson.fromJson(request.getParameter("ejemplares"), listType);
-
-                    if (ejemplares.size() > 0) {
-                        for (Ejemplar _e : ejemplares) {
-                            _e.setEstado("D");
-                            if (!Ejemplar_Controller.modificar(_e)) {
-                                res = "0";
-                            }
-                        }
+            String res = "1";
+            if (request.getParameter("add") != null && request.getParameter("idLibro") != null) {
+                Libro _l = Libro_Controller.obtenerLibro(request.getParameter("idLibro"), true);
+                int cant = Integer.parseInt(request.getParameter("add"));
+                
+                for (int i = 0; i < cant; i++) {
+                    if(!Ejemplar_Controller.insertar(new Ejemplar("", "", "PENDIENTE", "PM", _l))){
+                        res = "0";
+                        break;
                     }
-                    
-                    res = res.equals("0") ? "0" : "1";
-                } catch (JsonSyntaxException e) {
-                    res = "-1";
+                }
+                
+                _l.setCant_ejemplares(_l.getCant_ejemplares() + cant);
+                if(!Libro_Controller.modificar(_l)){
+                    res = "0";
                 }
             } else {
                 res = "-1";

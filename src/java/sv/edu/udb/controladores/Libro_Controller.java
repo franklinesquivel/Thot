@@ -307,10 +307,10 @@ public class Libro_Controller {
                     modificarSQL.setString(4, _l.getDescripcion());
                     modificarSQL.setString(5, _l.getNotas());
                     modificarSQL.setString(6, _l.getImagen());
-                    modificarSQL.setString(7, _l.getImprenta().getIdImprenta());
-                    modificarSQL.setInt(8, _l.getCant_ejemplares());
-                    modificarSQL.setInt(8, _l.getCategoria().getIdCategoria());
-                    modificarSQL.setString(9, _l.getIdLibro());
+                    modificarSQL.setInt(7, _l.getCant_ejemplares());
+                    modificarSQL.setString(8, _l.getImprenta().getIdImprenta());
+                    modificarSQL.setInt(9, _l.getCategoria().getIdCategoria());
+                    modificarSQL.setString(10, _l.getIdLibro());
                     modificarSQL.executeUpdate();
                 }
 
