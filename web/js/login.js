@@ -11,7 +11,11 @@
         
         $.validator.addMethod('correo_codigo', function(value, element) {
             return this.optional(element) || /^((([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))|[BU]\d{4})$/.test(value);
-	}, 'Ingrese un correo o un nombre de usuario válido!');
+	    }, 'Ingrese un correo o un nombre de usuario válido!');
+        
+        $.validator.addMethod('nombre', function(value, element) {
+	    return this.optional(element) || /^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú]*$/.test(value);
+        }, 'Ingrese un nombre/apellido válido.');
 
         $(frmLogin).validate({
             rules: {
@@ -89,6 +93,61 @@
         $("#btnRecover").click(function(){
             $(frmRecoverPass).submit();
         })
+        
+        //Registro
+        $(frmRegister).validate({
+            rules: {
+                txtName: {
+                    required: true,
+                    nombre: true
+                },
+                txtLastName: {
+                    required: true,
+                    nombre: true
+                },
+                txtEmail: {
+                    required: true,
+                    email: true
+                },
+                txtBirthdate: {
+                    required: true
+                }
+            },
+            messages: {
+                txtName: 'Este campo es requerido!',
+                txtLastName: 'Este campo es requerido!',
+                txtEmail: 'Este campo es requerido!',
+                txtBirthdate: 'Este campo es requerido!'
+            },
+            submitHandler: function(form) {
+                $.ajax({
+                    type: 'POST',
+                    url: `${location.origin + location.pathname}Registro`,
+                    data: {
+                        name: frmRegister.txtName.value.trim(),
+                        lastName: frmRegister.txtLastName.value.trim(),
+                        email: frmRegister.txtEmail.value.trim(),
+                        birthdate: frmRegister.txtBirthdate.value.trim()
+                    },
+                    success: function(r){
+                        r = parseInt(r);
+                        if(r == 1){
+                            frmLogin.txtUser.value = frmRegister.txtEmail.value.trim();
+                            $('#mdlRegister').modal('close');
+                            $(frmRegister)[0].reset();
+                            M.toast({html: 'Credenciales enviada al email!'})
+                        }else if(r == -1){
+                            M.toast({html: 'Correo existente en el sitio!'})
+                        }else if(r == -2){
+                            M.toast({html: 'Algunos datos no son válidos!'})
+                        }
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                })//Fin ajax
+            }
+        });
     })
 })
 ();

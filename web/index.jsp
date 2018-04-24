@@ -66,7 +66,9 @@
                 <div class="input-field col m10 offset-m1 s12">
                     <a class="modal-trigger" href="#mdlRecover">He olvidado mi contraseña</a>
                 </div>
-
+                <div class="input-field col m10 offset-m1 s12">
+                    <a class="modal-trigger" href="#mdlRegister">Registrarme</a>
+                </div>      
                 <br><br>
                 <div class="input-field col m10 offset-m1 s12" style="display: flex; justify-content: center;">
                     <button type="submit" class="btn indigo waves-effect waves-light">Iniciar Sesión</button>
@@ -90,7 +92,42 @@
             </div>
             <div class="modal-footer">
                 <button class="modal-action modal-close waves-effect waves-light red darken-1 white-text btn">Cerrar</button>    
-                <button id="btnRecover" class="waves-effect waves-light amber white-text btn">Recuperar contraseña</button>    
+                <button id="btnRecover" class="waves-effect waves-light amber white-text btn">Recuperar contraseña</button>  
+            </div>
+        </div>
+        
+        <div id="mdlRegister" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4 class="center modal-title purple-text text-accent-2">Registro</h4>
+                <p class="center grey-text">
+                    Registrate y disfruta del todo conocimiento y entretenimiento!
+                </p>
+                <div id="frmAlertCont" class="col m8 offset-m2 s10 offset-s1"></div>
+                <form class="row" name="frmRegister" id="frmRegister">
+                    <div class="input-field col m10 offset-m1 s12">
+                        <input type="text" name="txtName" id="txtName" class="form-control">
+                        <label for="txtUser">Nombre</label>
+                    </div>
+                    <div class="input-field col m10 offset-m1 s12">
+                        <input type="text" name="txtLastName" id="txtLastName" class="form-control">
+                        <label for="txtLastName">Apellido</label>
+                    </div>
+                    <div class="input-field col m10 offset-m1 s12">
+                        <input type="date" name="txtBirthdate" id="txtBirthdate" class="form-control">
+                        <label for="txtBirthdate" class="active">Fecha de Nacimiento</label>
+                    </div>
+                    <div class="input-field col m10 offset-m1 s12">
+                        <input type="text" name="txtEmail" id="txtEmail" class="form-control">
+                        <label for="txtEmail" class="active">Email</label>
+                    </div>
+                    
+                    <div class="input-field col m10 offset-m1 s12 center-align">
+                        <button id="btnRegister" class="waves-effect waves-light amber white-text btn">Registrar</button> 
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-action modal-close waves-effect waves-light red darken-1 white-text btn">Cerrar</button>    
             </div>
         </div>
         
