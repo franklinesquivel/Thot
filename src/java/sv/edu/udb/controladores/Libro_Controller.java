@@ -226,6 +226,81 @@ public class Libro_Controller {
         }
     }
     
+    public static List<Libro> obtenerLibros(boolean relaciones){
+        try(Connection _cn = DBConnection.getConnection()){
+            List<Libro> _lList = new ArrayList();
+
+            try {
+                try (PreparedStatement obtenerLibros = DBConnection.getStatement("SELECT * FROM Libro;", _cn); ResultSet data = obtenerLibros.executeQuery()) {
+                    if (data != null) {
+                        while (data.next()) {
+                            PreparedStatement obtenerLibroAutor = DBConnection.getStatement("SELECT dAL.idAutor FROM Libro l INNER JOIN Detalle_AutorLibro dAL ON l.idLibro = dAL.idLibro WHERE l.idLibro = ?;", _cn);
+                            PreparedStatement obtenerLibroTema = DBConnection.getStatement("SELECT dLT.idTema FROM Libro l INNER JOIN Detalle_LibroTema dLT ON l.idLibro = dLT.idLibro WHERE l.idLibro = ?;", _cn);
+                            obtenerLibroAutor.setString(1, data.getString(1));
+                            obtenerLibroTema.setString(1, data.getString(1));
+
+                            ResultSet dataAL = obtenerLibroAutor.executeQuery();
+                            ResultSet dataLT = obtenerLibroTema.executeQuery();
+
+                            List<Autor> autores = new ArrayList();
+                            List<Tema> temas = new ArrayList();
+
+                            if (dataAL != null) {
+                                while (dataAL.next()) {
+                                    autores.add(new Autor(dataAL.getString(1), false));
+                                }
+                            }
+
+                            if (dataLT != null) {
+                                while (dataLT.next()) {
+                                    temas.add(new Tema(dataLT.getInt(1), false));
+                                }
+                            }
+
+                            if (dataAL != null) {
+                                dataAL.close();
+                            }
+                            if (dataLT != null) {
+                                dataLT.close();
+                            }
+
+
+                            obtenerLibroAutor.close();
+                            obtenerLibroTema.close();
+                            _lList.add(
+                                new Libro(
+                                    data.getString(1), //idLibro
+                                    data.getString(2), //Titulo
+                                    data.getString(3), //ISBN
+                                    data.getString(4), //Edición
+                                    data.getString(5), //Descripción
+                                    data.getString(6), //Notas
+                                    data.getString(7), //Imagen
+                                    new Imprenta(data.getString(9), false), //Imprenta
+                                    new Categoria(data.getInt(10), false), //Categoria
+                                    autores,//Autores
+                                    temas//Temas
+                                )
+                            );
+                        }
+                    } else {
+                        data.close();
+                        obtenerLibros.close();
+                        return null;
+                    }
+                }
+
+                return _lList;
+            } catch (SQLException ex) {
+                Logger.getLogger(Libro_Controller.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Libro_Controller.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
     public static List<Libro> BuscarLibros(String campo, String buscar){
         try(Connection _cn = DBConnection.getConnection()){
             List<Libro> _l = new ArrayList();

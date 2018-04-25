@@ -35,7 +35,7 @@ public class Libro extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {//Obtener Libros
-            out.println(new Gson().toJson(Libro_Controller.obtenerLibros()));
+            out.println(new Gson().toJson(Libro_Controller.obtenerLibros(true)));
         }
     }
 
