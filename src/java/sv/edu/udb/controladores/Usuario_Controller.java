@@ -140,6 +140,7 @@ public class Usuario_Controller{
                         }
                     }
                 }
+                
                 return _u;
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(Usuario_Controller.class.getName()).log(Level.SEVERE, null, ex);

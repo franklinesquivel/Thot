@@ -25,7 +25,7 @@ import sv.edu.udb.libreria.Prestamo;
  */
 public class Prestamo_Controller {
     
-    public static boolean insertar(Prestamo _p) throws SQLException{
+    public static boolean insertar(Prestamo _p){
         try(Connection _cn = DBConnection.getConnection()){
             try {
                 int res;
@@ -33,7 +33,7 @@ public class Prestamo_Controller {
                     prestamo.setString(1, _p.getEjemplar().getIdEjemplar());
                     prestamo.setString(2, _p.getUsuario().getIdUsuario());
                     prestamo.registerOutParameter(3, java.sql.Types.INTEGER);
-                    prestamo.setDate(4, (Date) _p.getFecha_devolucion());
+                    prestamo.setTimestamp(4, new java.sql.Timestamp(_p.getFecha_devolucion().getTime()));
                     prestamo.executeQuery();
                     res = prestamo.getInt(3);
                 }
@@ -42,6 +42,9 @@ public class Prestamo_Controller {
                 Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
     
@@ -59,8 +62,8 @@ public class Prestamo_Controller {
                                 data.getDate(3),
                                 data.getFloat(4),
                                 data.getInt(5) == 1,
-                                new Ejemplar(data.getString(4), relaciones),
-                                Usuario_Controller.obtenerUsuario(data.getString(5))
+                                new Ejemplar(data.getString(6), relaciones),
+                                Usuario_Controller.obtenerUsuario(data.getString(7))
                             );
                         } else {
                             _p = null;

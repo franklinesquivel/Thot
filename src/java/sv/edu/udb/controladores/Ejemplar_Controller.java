@@ -67,7 +67,7 @@ public class Ejemplar_Controller {
         try (Connection _cn = DBConnection.getConnection()) {
             try {
                 Ejemplar _e;
-                try (PreparedStatement obtenerEjemplar = DBConnection.getStatement("SELECT * FROM ejemplar WHERE idEjemplar= ?;", _cn)) {
+                try (PreparedStatement obtenerEjemplar = DBConnection.getStatement("SELECT * FROM ejemplar WHERE idEjemplar = ?;", _cn)) {
                     obtenerEjemplar.setString(1, idEjemplar);
                     try (ResultSet DataEjemplar = obtenerEjemplar.executeQuery()) {
                         if (DataEjemplar.next()) {
@@ -75,7 +75,8 @@ public class Ejemplar_Controller {
                                 DataEjemplar.getString(1),
                                 DataEjemplar.getString(2),
                                 DataEjemplar.getString(3),
-                                DataEjemplar.getString(4)
+                                DataEjemplar.getString(4),
+                                new Libro(DataEjemplar.getString(5), false)
                             );
                         } else {
                             _e = null;
@@ -122,6 +123,7 @@ public class Ejemplar_Controller {
     }
     
     public static Ejemplar obtenerEjemplarParaProceso(Libro _l){
+        if(_l == null) {return null;}
         try (Connection _cn = DBConnection.getConnection()) {
             try {
                 Ejemplar _e;

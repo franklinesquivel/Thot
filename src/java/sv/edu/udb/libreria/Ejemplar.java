@@ -65,6 +65,7 @@ public class Ejemplar {
             this.codigo  = _e.getCodigo();
             this.observaciones = _e.getObservaciones();
             this.estado = _e.getEstado();
+            this.libro = _e.getLibro();
         }
     }
 

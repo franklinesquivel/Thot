@@ -469,12 +469,12 @@ BEGIN
     SELECT mora into @mora FROM config WHERE idConfig = 1;
     
     SELECT datediff(current_timestamp(), p.fecha_devolucion) INTO @dias FROM prestamo p WHERE p.idPrestamo = _idPrestamo;
-    SELECT (mora / @mora), mora INTO @diasCobrados, @moraAcumulada FROM prestamo WHERE p.idPrestamo = _idPrestamo;
+    SELECT (mora / @mora), mora INTO @diasCobrados, @moraAcumulada FROM prestamo p WHERE p.idPrestamo = _idPrestamo;
     
     SET @dias = @dias - @diasCobrados;
 	
-    IF @dias > 0 THEN SET @vencido = 1;
-    END IF;
+    IF @dias > 0 THEN SET @vencido = 1; END IF;
+    IF @dias <= 0 THEN SET @dias = 0; END IF;
     
     UPDATE prestamo p SET mora = (@moraAcumulada + (@mora * @dias)), vencido = @vencido WHERE p.idPrestamo = _idPrestamo;
 END ;;
@@ -654,4 +654,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-23 23:55:24
+-- Dump completed on 2018-04-24 23:06:39

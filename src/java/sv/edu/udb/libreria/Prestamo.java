@@ -6,6 +6,7 @@
 package sv.edu.udb.libreria;
 
 import java.util.Date;
+import sv.edu.udb.utilidades.Formatos;
 
 /**
  *
@@ -74,6 +75,18 @@ public class Prestamo {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+    
+    public double getMoraDecimales(int _p) {
+        return Formatos.roundDbl(Double.parseDouble("" + this.mora), _p);
+    }
+    
+    public String getFechaPrestamoFormato(){
+        return Formatos.formatearFecha(fecha_prestamo, "dd-MM-yyyy");
+    }
+    
+    public String getFechaDevolucionFormato() {
+        return Formatos.formatearFecha(fecha_devolucion, "dd-MM-yyyy");
     }
 
     public Prestamo(String idPrestamo, Date fecha_prestamo, Date fecha_devolucion, float mora, boolean vencido, Ejemplar ejemplar, Usuario usuario) {

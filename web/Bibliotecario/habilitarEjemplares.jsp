@@ -105,16 +105,6 @@
         </header>
 
         <main class="">
-            <div class="fixed-action-btn">
-                <a class="btn-floating btn-large grey darken-4">
-                    <i class="large material-icons">menu</i>
-                </a>
-                <ul>
-                    <li><a id="btnLimpiar" title="Limpiar todos los campos" class="btn-floating red"><i class="material-icons">cached</i></a></li>
-                    <li><a id="btnGuardar" title="Guardar cambios" class="btn-floating green"><i class="material-icons">done_all</i></a></li>
-                </ul>
-            </div>
-            
             <h5 class="center grey-text text-darken-4"><b>Libro:</b> ${_l.getTitulo()}</h5><br>
             
             <div class="section row">
@@ -139,6 +129,17 @@
                     Este libro no posee ejemplares para habilitar...
                 </div>
             </c:if>
+
+            <div class="fixed-action-btn">
+                <a class="btn-floating btn-large grey darken-4 ${_i == 0 ? 'disabled' : ''}">
+                    <i class="large material-icons">menu</i>
+                </a>
+                <ul>
+                    <li><a id="btnLimpiar" ${_i == 0 ? 'disabled' : ''} title="Limpiar todos los campos" class="btn-floating red"><i class="material-icons">cached</i></a></li>
+                    <li><a id="btnGuardar" ${_i == 0 ? 'disabled' : ''} title="Guardar cambios" class="btn-floating green"><i class="material-icons">done_all</i></a></li>
+                </ul>
+            </div>
+
             </div>
             <a href="${path}gestionEjemplares.jsp?idLibro=${_l.getIdLibro()}">Regresar</a> |
             <a href="${path}verLibro.jsp?idLibro=${_l.getIdLibro()}">Ver libro</a>

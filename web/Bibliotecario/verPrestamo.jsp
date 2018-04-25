@@ -1,27 +1,30 @@
 <%-- 
-    Document   : verLibro
-    Created on : 04-22-2018, 04:55:52 PM
+    Document   : verPrestamo
+    Created on : 04-24-2018, 10:24:54 PM
     Author     : Frank
+
 --%>
-
 <%@ include file="/WEB-INF/jspf/control_sesion.jspf" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
-<%@page import="sv.edu.udb.libreria.Libro"%>
-<%@page import="sv.edu.udb.controladores.Libro_Controller"%>
+<%@page import="sv.edu.udb.controladores.Prestamo_Controller"%>
+<%@page import="sv.edu.udb.libreria.Prestamo"%>
+<%@page import="java.util.List"%>
+
 <c:set scope="page" var="path" value="/Thot/Bibliotecario/"></c:set>
 
-<c:if test="${param.idLibro == null}">
-    <c:redirect url="libros.jsp">
-        <c:set scope="session"  var="msg" value="Selecciona un libro para visualizar.." />
+<c:if test="${param.idPrestamo == null}">
+    <c:redirect url="prestamos.jsp">
+        <c:set scope="session"  var="msg" value="Selecciona un préstamo para visualizar.." />
         <c:set scope="session" var="msg_type" value="yellow" />
     </c:redirect>
 </c:if>
     
-<% pageContext.setAttribute("_l", Libro_Controller.obtenerLibro(request.getParameter("idLibro"), true)); %>
+<% pageContext.setAttribute("_p", Prestamo_Controller.obtenerPrestamo(request.getParameter("idPrestamo"), true)); %>
 
-<c:if test="${_l == null}">
-    <c:redirect url="libros.jsp">
-        <c:set scope="session"  var="msg" value="El libro que deseas visualizar no existe..." />
+<c:if test="${_p == null}">
+    <c:redirect url="prestamos.jsp">
+        <c:set scope="session"  var="msg" value="El préstamo que deseas visualizar no existe..." />
         <c:set scope="session" var="msg_type" value="yellow" />
     </c:redirect>
 </c:if>
@@ -32,15 +35,17 @@
     <head>
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
         <link rel="stylesheet" href="/Thot/css/bibliotecario.css">
+        <script src="/Thot/js/Bibliotecario/libros.js"></script>
+
         <title>[Thot] - Bibliotecario</title>
     </head>
     <body>
-        <form action="/Thot/Logout" name="frmLogout" method="POST"></form>        
+        <form action="/Thot/Logout" name="frmLogout" method="POST"></form>
         <header>
             <nav class="grey darken-4">
                 <div class="container">
                     <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
-                    <div class="nav-wrapper"><a class="brand-logo center">Libro</a></div>
+                    <div class="nav-wrapper"><a class="brand-logo center">Préstamo</a></div>
                     </div>
                 </nav>
 
@@ -69,11 +74,11 @@
 
                 <li class="no-padding">
                     <ul class="collapsible collapsible-accordion">
-                        <li>
+                        <li class="">
                             <a class="collapsible-header waves-effect">Libros <i class="material-icons">book</i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li class="waves-effect"><a href="${path}libros.jsp" class="">Listar <i class="material-icons">remove_red_eye</i></a></li>
+                                    <li class=" waves-effect"><a href="${path}libros.jsp" class="">Listar <i class="material-icons">remove_red_eye</i></a></li>
                                     <li class="waves-effect"><a href="${path}registrarLibro.jsp" class="">Registrar <i class="material-icons">add</i></a></li>
                                 </ul>
                             </div>
@@ -105,66 +110,21 @@
         
         <main class="">
             <div class="row">
-                <div class="img col s12 m6 l6">
-                    <img id="_img" src="/Thot/images/libros/${_l.getImagen()}" class="responsive-img materialboxed" data-caption="${_l.getTitulo()}">
-                </div>
-                <div class="img col s12 m6 l6">
-                    <h5>Título</h5>
-                    <p>${_l.getTitulo()}</p>
-                    <hr>
-                    <h5>ISBN</h5>
-                    <p>${_l.getIsbn()}</p>
-                    <hr>
-                    <div class="row">
-                        <div class="col m6 s12">
-                            <h5>Edición</h5>
-                            <span>${_l.getEdicion()}</span>
-                        </div>
-                        <div class="col m6 s12">
-                            <h5>Categoría</h5>
-                            <span>${_l.getCategoria().getNombre()}</span>
-                        </div>                        
-                    </div>
-                    <hr>
-                    <h5>Imprenta</h5>
-                    <p>${_l.getImprenta().getNombre()}</p>
-                    <hr>
-                    <h5>Autores</h5>
-                    <p style="text-align: justify;">
-                    <c:forEach items="${_l.getAutores()}" var="_a">
-                        <li>${_a.getDisplayName()}</li>
-                    </c:forEach>
-                    </p>
-                    <hr>
-                    <h5>Cantidad de ejemplares</h5>
-                    <p>${_l.getCant_ejemplares()}</p>
-                    <hr>
-                    <h5>Temas</h5>
-                    <p>
-                    <c:forEach items="${_l.getTemas()}" var="_t">
-                        <div class="chip">
-                            ${_t.getDescripcion()}
-                        </div>
-                    </c:forEach>
-                    </p>
-                    <hr>
-                </div>
-                <div class="col s12">
-                    <h5>Descripción</h5>
-                    <p id="descripcion" style="text-align: justify;">${_l.getDescripcion()}</p>
-                    <a id="btnLeer" class="deep-purple darken-4 btn waves-effect waves-light"><i class="material-icons left">graphic_eq</i>Leer</a>
-                    <hr>
-                </div>
-                <div class="col s12">
-                    <h5>Notas</h5>
-                    <p id="descripcion" style="text-align: justify;">${_l.getNotas()}</p>
-                    <hr>
-                    <br><br>
-                    <a href="${path}libros.jsp">Regresar</a> | 
-                    <a href="${path}editarLibro.jsp?idLibro=${_l.getIdLibro()}">Editar</a> | 
-                    <a href="${path}gestionEjemplares.jsp?idLibro=${_l.getIdLibro()}">Administrar ejemplares</a>
+                <div class="col s12 m8 offset-m2">
+                    <h5><b>Libro:</b> ${_p.getEjemplar().getLibro().getTitulo()}</h5>
+                    <h5><b>Usuario:</b> ${_p.getUsuario().getDisplayName()}</h5>
+                    <h5><b>Fecha de préstamo:</b> ${_p.getFechaPrestamoFormato()}</h5>
+                    <h5><b>Fecha de devolución:</b> ${_p.getFechaDevolucionFormato()}</h5>
+                    <h5><b>Mora acumulada:</b> $${_p.getMora()}</h5>    
+                    <h5><b>Estado:</b> <span class="${_p.isVencido() ? 'red-text' : ''}">${_p.isVencido() ? 'Vencido' : 'En proceso'}</span></h5>    
                 </div>
             </div>
+            <div class="btn-cont">
+                <a class="btn grey darken-4 waves-effect waves-light" href="${path}verLibro.jsp?idLibro=${_p.getEjemplar().getLibro().getIdLibro()}">Ver libro <i class="material-icons right">book</i></a>
+                <a class="btn grey darken-4 waves-effect waves-light" href="${path}verUsuario.jsp?idUsuario=${_p.getUsuario().getIdUsuario()}">Ver usuario <i class="material-icons right">person</i></a>
+            </div>
+            <br>
+            <a href="${path}prestamos.jsp">Préstamos</a>
         </main>
     </body>
 </html>

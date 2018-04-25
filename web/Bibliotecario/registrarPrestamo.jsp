@@ -4,6 +4,11 @@
     Author     : Leonardo
 --%>
 
+<%@page import="sv.edu.udb.utilidades.Fechas"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Date"%>
+<%@page import="sv.edu.udb.controladores.Usuario_Controller"%>
 <%@page import="sv.edu.udb.controladores.Ejemplar_Controller"%>
 <%@ include file="/WEB-INF/jspf/control_sesion.jspf" %>
 
@@ -20,15 +25,27 @@
 
 <%
     Libro __l = Libro_Controller.obtenerLibro(request.getParameter("idLibro"), true);
+    List<Usuario> __u = Usuario_Controller.BuscarUsuarios("tipoUsuario", "U");
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     pageContext.setAttribute("_l", __l);
     pageContext.setAttribute("_e", Ejemplar_Controller.obtenerEjemplarParaProceso(__l));
+    pageContext.setAttribute("_u", __u);
 %>
 
 <c:if test="${_l == null}">
     <c:redirect url="libros.jsp">
-        <c:set scope="session"  var="msg" value="El libro que prestar no existe..." />
+        <c:set scope="session"  var="msg" value="El libro que solicitas prestar no existe..." />
         <c:set scope="session" var="msg_type" value="yellow" />
     </c:redirect>
+</c:if>
+
+<c:if test="${_l != null}">
+    <c:if test="${_e == null}">
+        <c:redirect url="libros.jsp">
+            <c:set scope="session"  var="msg" value="El libro que solicitas prestar no posee ejemplares en el estado óptimo (Disponible) para realizar un préstamo..." />
+            <c:set scope="session" var="msg_type" value="yellow" />
+        </c:redirect>
+    </c:if>
 </c:if>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -37,6 +54,7 @@
     <head>
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
         <link rel="stylesheet" href="/Thot/css/bibliotecario.css">
+        <script src="/Thot/js/Bibliotecario/registrarPrestamo.js"></script>
         <title>[Thot] - Bibliotecario</title>
     </head>
     <body>
@@ -109,8 +127,69 @@
         </header>
 
         <main class="row">
-            <h4>${_l.getTitulo()}</h4>
-            ${_e.getIdEjemplar()}
+            <div class="col s12">
+                <h6><b>Libro a prestar: </b>${_l.getTitulo()}</h6>
+                <h6><b>Ejemplar asignado: </b>${_e.getIdEjemplar()}</h6>
+                <h6><b>Observaciones del ejemplar: </b></h6>
+                <p style="text-align: justify;">${_e.getObservaciones()}</p>
+                <hr><br><br>
+            </div>
+            <h5 class="center"><b>Selecciona el usuario al que se le asignará el préstamo</b></h5><br>
+            <div class="col s10 offset-s1 ">
+                <c:if test="${_u.size() > 0}">
+                    <table class="center" id="tblUsers">
+                        <thead>
+                        <th>Nombre completo</th>
+                        <th>Correo electrónico</th>
+                        <th>Seleccionar</th>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${_u}" var="_user">
+                                <tr data="${_user.getIdUsuario()}">
+                                    <td>${_user.getNombre()} ${_user.getApellido()}</td>
+                                    <td>${_user.getCorreo()}</td>
+                                    <td>
+                                        <label>
+                                            <input class="with-gap" value="${_user.getIdUsuario()}" name="rdbUser" type="radio"  />
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    <div class="col s12 btn-cont">
+                        <a href="#mdlConfirm" disabled class="modal-trigger btn-large waves-effect waves-light grey darken-4" id="btnConfirm">Siguiente <i class="material-icons right">check</i></a>
+                    </div>
+                </c:if>
+                <c:if test="${_u.size() == 0}">
+                    <div class="alert yellow yellow-text text-darken-4 center">
+                        No hay usuarios disponibles para registrar un préstamo
+                    </div>
+                </c:if>
+            </div>
         </main>
+                
+        <div class="modal" id="mdlConfirm">
+            <div class="modal-content row">
+                <h5 class="center modal-title">Confirmar préstamo</h5>
+                <form name="frmPrestamo" class="col s10 offset-s1">
+                    <input type="hidden" name="idUsuario" id="idUsuario">
+                    <input type="hidden" name="idEjemplar" value="${_e.getIdEjemplar()}">
+                    <div><b>Usuario</b>: <span id="userDataCont"></span></div>
+                    <div><b>Libro</b>: <span>${_l.getTitulo()}</span></div>
+                    <div><b>Ejemplar</b>: <span>${_e.getIdEjemplar()}</span></div><br>
+                    <div class="input-field">
+                        <input type="date" name="txtFin" id="txtFin" value="<%= format.format(Fechas.sumarDias(new Date(), 1)) %>" class="">
+                        <label for="txtFin">Fecha de fin del préstamo</label>
+                    </div>
+                    <br>
+                    <div class="btn-cont">
+                        <a class="modal-action modal-close waves-effect waves-light red btn">Cancelar <i class="material-icons right">cancel</i></a>
+                        <button class="waves-effect waves-light green btn">Confirmar <i class="material-icons right">done</i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </body>
 </html>
