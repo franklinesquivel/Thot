@@ -69,12 +69,12 @@ public class DBConnection {
         }
     }
     
-    public static int login(String user, String pass, Connection cn){
+    public static int login(String user, String pass){
         try {
-            int r = -2;
+            int r;
             
             try (Connection _d = DBConnection.getConnection()) {
-                CallableStatement query = DBConnection.getProcedure("{CALL login(?, ?, ?)}", cn);
+                CallableStatement query = DBConnection.getProcedure("{CALL login(?, ?, ?)}", _d);
                 query.setString(1, user);
                 query.registerOutParameter(2, java.sql.Types.VARCHAR);
                 query.registerOutParameter(3, java.sql.Types.INTEGER);
@@ -84,10 +84,11 @@ public class DBConnection {
                 r = pass.equals(Encriptar.desencriptar(query.getString(2))) ? 1 : 0;
                 r = query.getInt(3) != -1 ? r : -1;
             }
+            
             return r;
         } catch (SQLException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return -2;
         }
-        return -2;
     }
 }

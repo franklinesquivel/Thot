@@ -57,6 +57,10 @@ public class Ejemplar {
     public void setLibro(Libro libro) {
         this.libro = libro;
     }
+    
+    public String getDisplayEstado(){
+        return this.estado.equals("P") ? "Prestado" : this.estado.equals("R") ? "Reservado" : this.estado.equals("D") ? "Disponible" : "Pendiente de modificación";
+    }
 
     public Ejemplar(String idEjemplar, boolean relaciones) {
         Ejemplar _e = Ejemplar_Controller.obtenerEjemplar(idEjemplar);

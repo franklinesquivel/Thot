@@ -19,8 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
+import javax.servlet.http.HttpSession;
 import sv.edu.udb.controladores.Ejemplar_Controller;
 import sv.edu.udb.libreria.Ejemplar;
+import sv.edu.udb.libreria.Usuario;
 
 /**
  *
@@ -43,28 +45,40 @@ public class Habilitar extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new GsonBuilder().create();
             String res = "";
-            if (request.getParameter("ejemplares") != null) {
-                try {
-                    Type listType = new TypeToken<ArrayList<Ejemplar>>() {
-                    }.getType();
-                    List<Ejemplar> ejemplares = gson.fromJson(request.getParameter("ejemplares"), listType);
+            HttpSession _s = request.getSession(true);
+            
+            if((Boolean) _s.getAttribute("logged")){
+                Usuario _u = (Usuario) _s.getAttribute("userData");
+                if(_u.getTipoUsuario().equals("B")){
+                    if (request.getParameter("ejemplares") != null) {
+                        try {
+                            Type listType = new TypeToken<ArrayList<Ejemplar>>() {}.getType();
+                            List<Ejemplar> ejemplares = gson.fromJson(request.getParameter("ejemplares"), listType);
 
-                    if (ejemplares.size() > 0) {
-                        for (Ejemplar _e : ejemplares) {
-                            _e.setEstado("D");
-                            if (!Ejemplar_Controller.modificar(_e)) {
-                                res = "0";
+                            if (ejemplares.size() > 0) {
+                                for (Ejemplar _e : ejemplares) {
+                                    _e.setEstado("D");
+                                    if (!Ejemplar_Controller.modificar(_e)) {
+                                        res = "0"; //Error al insertar la iteración
+                                    }
+                                }
+                                res = res.equals("0") ? "0" : "1";
+                            }else{
+                                res = "-3"; //No hay ejemplares
                             }
+                        } catch (JsonSyntaxException e) {
+                            res = "-1"; //Cuerpo incorrecto
                         }
+                    } else {
+                        res = "-1"; //Cuerpo incorrecto
                     }
-                    
-                    res = res.equals("0") ? "0" : "1";
-                } catch (JsonSyntaxException e) {
-                    res = "-1";
+                }else{
+                    res = "-2"; //No autenticado
                 }
-            } else {
-                res = "-1";
+            }else{
+                res = "-2"; //No autenticado
             }
+            
             
             out.println(res);
         }

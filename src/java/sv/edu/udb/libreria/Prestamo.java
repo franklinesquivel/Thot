@@ -17,7 +17,7 @@ public class Prestamo {
     private Date fecha_prestamo;
     private Date fecha_devolucion;
     private float mora;
-    private boolean vencido;
+    private String estado;
     private Ejemplar ejemplar;
     private Usuario usuario;
 
@@ -53,12 +53,12 @@ public class Prestamo {
         this.mora = mora;
     }
 
-    public boolean isVencido() {
-        return vencido;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setVencido(boolean vencido) {
-        this.vencido = vencido;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public Ejemplar getEjemplar() {
@@ -88,22 +88,32 @@ public class Prestamo {
     public String getFechaDevolucionFormato() {
         return Formatos.formatearFecha(fecha_devolucion, "dd-MM-yyyy");
     }
+    
+    public String getDisplayEstado(){
+        return this.estado.equals("VO") ? "Vencido" : this.estado.equals("EP") ? "En proceso" : "Finalizado";
+    }
 
-    public Prestamo(String idPrestamo, Date fecha_prestamo, Date fecha_devolucion, float mora, boolean vencido, Ejemplar ejemplar, Usuario usuario) {
+    public Prestamo(String idPrestamo, Date fecha_prestamo, Date fecha_devolucion, float mora, String estado, Ejemplar ejemplar, Usuario usuario) {
         this.idPrestamo = idPrestamo;
         this.fecha_prestamo = fecha_prestamo;
         this.fecha_devolucion = fecha_devolucion;
         this.mora = mora;
-        this.vencido = vencido;
+        this.estado = estado;
         this.ejemplar = ejemplar;
         this.usuario = usuario;
     }
 
-    public Prestamo(Date fecha_prestamo, Date fecha_devolucion, float mora, boolean vencido, Ejemplar ejemplar, Usuario usuario) {
+    public Prestamo(Date fecha_prestamo, Date fecha_devolucion, float mora, String estado, Ejemplar ejemplar, Usuario usuario) {
         this.fecha_prestamo = fecha_prestamo;
         this.fecha_devolucion = fecha_devolucion;
         this.mora = mora;
-        this.vencido = vencido;
+        this.estado = estado;
+        this.ejemplar = ejemplar;
+        this.usuario = usuario;
+    }
+
+    public Prestamo(Date fecha_devolucion, Ejemplar ejemplar, Usuario usuario) {
+        this.fecha_devolucion = fecha_devolucion;
         this.ejemplar = ejemplar;
         this.usuario = usuario;
     }

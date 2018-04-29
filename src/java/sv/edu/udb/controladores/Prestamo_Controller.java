@@ -7,7 +7,6 @@ package sv.edu.udb.controladores;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,7 +60,7 @@ public class Prestamo_Controller {
                                 data.getDate(2),
                                 data.getDate(3),
                                 data.getFloat(4),
-                                data.getInt(5) == 1,
+                                data.getString(5),
                                 new Ejemplar(data.getString(6), relaciones),
                                 Usuario_Controller.obtenerUsuario(data.getString(7))
                             );
@@ -94,7 +93,7 @@ public class Prestamo_Controller {
                                 data.getDate(2),
                                 data.getDate(3),
                                 data.getFloat(4),
-                                data.getInt(5) == 1,
+                                data.getString(5),
                                 new Ejemplar(data.getString(4), relaciones),
                                 Usuario_Controller.obtenerUsuario(data.getString(5))
                             )
@@ -109,6 +108,50 @@ public class Prestamo_Controller {
         } catch (SQLException ex) {
             Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        }
+    }
+    
+    public static boolean renovarPrestamo(Prestamo _p){
+        try (Connection _cn = DBConnection.getConnection()) {
+            try {
+                int res;
+                try (CallableStatement renovar = DBConnection.getProcedure("{CALL renovar_prestamo(?, ?)}", _cn)) {
+                    renovar.setString(1, _p.getEjemplar().getIdEjemplar());
+                    renovar.registerOutParameter(2, java.sql.Types.INTEGER);
+                    renovar.executeQuery();
+                    res = renovar.getInt(2);
+                }
+                
+                return res == 1;
+            } catch (SQLException ex) {
+                Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    public static boolean finalizarPrestamo(Prestamo _p) {
+        try (Connection _cn = DBConnection.getConnection()) {
+            try {
+                int res;
+                try (CallableStatement renovar = DBConnection.getProcedure("{CALL finalizar_prestamo(?, ?)}", _cn)) {
+                    renovar.setString(1, _p.getIdPrestamo());
+                    renovar.registerOutParameter(2, java.sql.Types.INTEGER);
+                    renovar.executeQuery();
+                    res = renovar.getInt(2);
+                }
+
+                return res == 1;
+            } catch (SQLException ex) {
+                Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
 }

@@ -1,9 +1,9 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.servlets.ejemplares;
+package sv.edu.udb.servlets.prestamos;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,18 +13,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sv.edu.udb.controladores.Ejemplar_Controller;
-import sv.edu.udb.controladores.Libro_Controller;
-import sv.edu.udb.libreria.Ejemplar;
-import sv.edu.udb.libreria.Libro;
+import sv.edu.udb.controladores.Reserva_Controller;
+import sv.edu.udb.libreria.Reserva;
 import sv.edu.udb.libreria.Usuario;
 
 /**
  *
  * @author Frank
  */
-@WebServlet(name = "Ejemplares.Aumentar", urlPatterns = {"/Ejemplares/Aumentar"})
-public class Aumentar extends HttpServlet {
+@WebServlet(name = "Prestamos.Efectuar", urlPatterns = {"/Prestamos/Efectuar"})
+public class Efectuar extends HttpServlet {
+
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -36,40 +36,36 @@ public class Aumentar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String res = "1";
+            String res;
             HttpSession _s = request.getSession(true);
             
             if((Boolean) _s.getAttribute("logged")){
                 Usuario _u = (Usuario) _s.getAttribute("userData");
                 
                 if(_u.getTipoUsuario().equals("B")){
-                    if (request.getParameter("add") != null && request.getParameter("idLibro") != null) {
-                        Libro _l = Libro_Controller.obtenerLibro(request.getParameter("idLibro"), true);
-                        int cant = Integer.parseInt(request.getParameter("add"));
+                    if (request.getParameter("idReserva") != null) {
+                        Reserva _r = Reserva_Controller.obtenerReserva(request.getParameter("idReserva"), true);
 
-                        if(_l != null){
-                            for (int i = 0; i < cant; i++) {
-                                if (!Ejemplar_Controller.insertar(new Ejemplar("", "", "PENDIENTE", "PM", _l))) {
-                                    res = "0"; //Error interno
-                                    break;
-                                }
+                        if (_r != null) {
+                            if (_r.getEstado().equals("VE")) {
+                                res = Reserva_Controller.efectuarReserva(_r) ? "1" : "0";
+                            } else {
+                                res = "-3"; //La reserva no se encuentra en el estado óptimo (En proceso)
                             }
 
-                            _l.setCant_ejemplares(_l.getCant_ejemplares() + cant);
-                            if (!Libro_Controller.modificar(_l)) {
-                                res = "0"; //Error interno
-                            } 
-                        }else{
-                            res = "-3"; //El libro no existe
+                        } else {
+                            res = "-1"; //Cuerpo incorrecto o reserva no encontrada 
                         }
                     } else {
-                        res = "-1"; //Cuerpo incorrecto
-                    }
+                        res = "-1"; //Cuerpo incorrecto o reserva no encontrada
+                    } 
                 }else{
                     res = "-2"; //No autenticado
                 }
+                
             }else{
                 res = "-2"; //No autenticado
             }
