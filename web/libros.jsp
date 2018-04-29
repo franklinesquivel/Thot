@@ -16,7 +16,8 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         
         <link rel="stylesheet" href="/Thot/css/materialize.min.css">
-
+        <link rel="stylesheet" href="/Thot/css/main.css">
+        
         <script src="/Thot/js/jquery.js"></script>
         <script src="/Thot/js/jquery.validate.min.js"></script>
         <script src="/Thot/js/materialize.min.js"></script>
@@ -28,42 +29,6 @@
         <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>   
         
         <title>Thot - Libros</title>
-        <style>
-            .grid-sizer,
-.grid-item {
-    width: 33.333%;
-}
-
-.grid-item{
-    padding: 10px;
-}
-
-.grid-item.g2 {
-    width: 66.666%;
-}
-
-.grid-item img {
-	display: block;
-	max-width: 100%;
-}
-@media(max-width: 70em) and (min-width: 30em){
-	.grid-sizer,
-	.grid-item {
-		width: 50%;
-    }
-    
-    .grid-item.g2{
-        width: 100%;
-    }
-}
-
-@media(max-width: 30em){
-	.grid-sizer,
-	.grid-item, .grid-item.g2 {
-		width: 100%;
-	}
-}
-        </style>
     </head>
     <body>
         <main class="container">

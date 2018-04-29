@@ -11,7 +11,10 @@
 <html>
     <head>
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
-        <title>[Thot] - Bibliotecario</title>
+        <title>[Thot] - Usuario</title>
+        <script src="/Thot/js/libros.js"></script>
+        <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>  
     </head>
     <body>
 
@@ -30,16 +33,16 @@
                             <div class="background teal darken-1">
                             </div>
                             <a>
-                                <img class="circle" src="">
+                                <img class="circle" src="/favicon.png">
                             </a>
                             <a>
-                                <span class="white-text name">Jasson</span>
+                                <span class="white-text name"><c:out value="${user.getDisplayName()}"></c:out></span>
+                            </a>    
+                            <a>
+                                <span style="font-weight: bold;" class="white-text email">${user.getTipoUsuario().equals("B") ? "Bibliotecario" : "Usuario"}</span>
                             </a>
                             <a>
-                                <span style="font-weight: bold;" class="white-text email">Usuario</span>
-                            </a>
-                            <a>
-                                <span class="white-text email">micorreo@algo.com</span>
+                                <span class="white-text email"><c:out value="${user.getCorreo()}"></c:out></span>
                             </a>
                         </div>
                     </li>
@@ -57,7 +60,7 @@
                                             <a href="">Ver Autores</a>
                                         </li>
                                         <li>
-                                            <a href="">PAdministrar perfil</a>
+                                            <a href="">Administrar perfil</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -68,7 +71,53 @@
             </header>
             
             <div class="Contenido">
-                
+                <div class="col s6 offset-s3">
+                    <div class="input-field col s8">
+                        <input id="txtSearch" type="text">
+                        <label for="txtSearch">Buscar [Título, Descripción, ISBN]</label>
+                    </div>
+                    <div class="input-field col s2 center-align">
+                        <a class="waves-effect waves-light btn modal-trigger" href="#mdlSearch">Búsqueda Avanzada</a>
+                    </div>
+                </div>
+            
+                <div class="row col s6 offset-s3 red darken-4" id="result">
+
+                </div>
+
+                <div class="grid">
+                    <div class="grid-sizer"></div>
+                </div>
+             
+                <div id="mdlSearch" class="modal">
+                    <div class="modal-content">
+                        <h4 class="center-align">Búsqueda avanzada</h4>
+                        <div class="row ">
+                            <div class="input-field col s10 offset-s1">
+                                <input id="category" class="txtSearch" type="text">
+                                <label for="category">Categoria</label>
+                            </div>
+                            <div class="input-field col s10 offset-s1">
+                                <input id="printing" class="txtSearch" type="text">
+                                <label for="printing">Imprenta</label>
+                            </div>
+                            <div class="input-field col s10 offset-s1">
+                                <input id="author" class="txtSearch" type="text">
+                                <label for="author">Autor</label>
+                            </div>
+                            <div class="input-field col s10 offset-s1">
+                                <input id="subject" class="txtSearch" type="text">
+                                <label for="subject">Tema</label>
+                            </div>
+                            <div class="input-field col s10 offset-s1 center-align">
+                                <button id="btnSearch" class="waves-effect waves-light btn">Buscar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cerrar</a>
+                    </div>
+                </div>
             </div>
     </body>
 </html>

@@ -50,3 +50,38 @@ table.center td, table.center th{
         padding-left: 0;
     }
 }
+
+.grid-sizer,
+.grid-item {
+    width: 33.333%;
+}
+
+.grid-item{
+    padding: 10px;
+}
+
+.grid-item.g2 {
+    width: 66.666%;
+}
+
+.grid-item img {
+    display: block;
+    max-width: 100%;
+}
+@media(max-width: 70em) and (min-width: 30em){
+    .grid-sizer,
+    .grid-item {
+        width: 50%;
+    }
+
+    .grid-item.g2{
+        width: 100%;
+    }
+}
+
+@media(max-width: 30em){
+    .grid-sizer,
+    .grid-item, .grid-item.g2 {
+        width: 100%;
+    }
+}
