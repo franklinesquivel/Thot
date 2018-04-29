@@ -5,14 +5,11 @@
  */
 package sv.edu.udb.servlets.prestamos;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -20,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import sv.edu.udb.controladores.Ejemplar_Controller;
 import sv.edu.udb.controladores.Prestamo_Controller;
 import sv.edu.udb.controladores.Usuario_Controller;
@@ -47,33 +45,45 @@ public class Registrar extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String res;
-            if (request.getParameter("fecha_devolucion") != null && request.getParameter("idEjemplar") != null && request.getParameter("idUsuario") != null) {
-                Ejemplar _e = Ejemplar_Controller.obtenerEjemplar(request.getParameter("idEjemplar"));
-                Usuario _u = Usuario_Controller.obtenerUsuario(request.getParameter("idUsuario"));
- 
-                DateFormat _f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                
-                Prestamo _p;
-                try {
-                    if (_e != null && _u != null) {
-                        if(_e.getEstado().equals("D")){
-                            _p = new Prestamo(null, _f.parse(request.getParameter("fecha_devolucion")), 0, true, _e, _u);
-                            res = Prestamo_Controller.insertar(_p) ? "1" : "0";
-                        }else{
-                            res = "-2";
+            HttpSession _s = request.getSession(true);
+            
+            if((Boolean) _s.getAttribute("logged")){
+                Usuario _au = (Usuario) _s.getAttribute("userData");
+
+                if (_au.getTipoUsuario().equals("B")) {
+                    if (request.getParameter("fecha_devolucion") != null && request.getParameter("idEjemplar") != null && request.getParameter("idUsuario") != null) {
+                        Ejemplar _e = Ejemplar_Controller.obtenerEjemplar(request.getParameter("idEjemplar"));
+                        Usuario _u = Usuario_Controller.obtenerUsuario(request.getParameter("idUsuario"));
+
+                        DateFormat _f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                        Prestamo _p;
+                        try {
+                            if (_e != null && _u != null) {
+                                if (_e.getEstado().equals("D") && _u.isEstado()) {
+                                    _p = new Prestamo(_f.parse(request.getParameter("fecha_devolucion")), _e, _u);
+                                    res = Prestamo_Controller.insertar(_p) ? "1" : "0";
+                                } else {
+                                    res = "-3"; //El ejemplar seleccionado o el usuario no se encuentran en estado óptimo para ejecutar un préstamo...
+                                }
+                            } else {
+                                res = "-1"; //Cuerpo incorrecto o (ejemplar | usuario) no encontrado
+                            }
+                        } catch (ParseException ex) {
+                            Logger.getLogger(Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                            res = "0"; //Error de servidor
                         }
                     } else {
-                        res = "0";
+                        res = "-1"; //Cuerpo incorrecto o (ejemplar | usuario) no encontrado
                     }
-                } catch (ParseException ex) {
-                    Logger.getLogger(Registrar.class.getName()).log(Level.SEVERE, null, ex);
-                    res = "0";
+                } else {
+                    res = "-2"; //No autenticado
                 }
-            } else {
-                res = "-1";
+            }else{
+                res = "-2"; //No autenticado
             }
             
-            out.println("1");
+            out.println(res);
         }
     }
 

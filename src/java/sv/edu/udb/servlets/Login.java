@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sv.edu.udb.connection.DB;
+import sv.edu.udb.connection.DBConnection;
 import sv.edu.udb.libreria.Usuario;
 import sv.edu.udb.controladores.Usuario_Controller;
 
@@ -36,7 +36,6 @@ public class Login extends HttpServlet {
         
         String user = request.getParameter("txtUser"), pass = request.getParameter("txtPassword");
         HttpSession _s = request.getSession(true);
-        DB _db = new DB();
         
         if (user == null || pass == null) {
             _s.setAttribute("msg_type", "danger");
@@ -45,7 +44,7 @@ public class Login extends HttpServlet {
             response.sendRedirect("/Thot/");
         } else {
             String redirect = "";
-            switch (_db.login(user, pass)) {
+            switch (DBConnection.login(user, pass)) {
                 //Encontrado
                 case 1:
                     Usuario u = Usuario_Controller.buscarUsuario(user, pass);
@@ -69,9 +68,6 @@ public class Login extends HttpServlet {
             
             response.sendRedirect(redirect);
         }
-        
-//        try(PrintWriter out = response.getWriter()) {
-//        }
     }
 
     /**

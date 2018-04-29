@@ -136,6 +136,7 @@
             </div>
             <h5 class="center"><b>Selecciona el usuario al que se le asignará el préstamo</b></h5><br>
             <div class="col s10 offset-s1 ">
+                <c:set scope="page" var="_i" value="${0}"/>
                 <c:if test="${_u.size() > 0}">
                     <table class="center" id="tblUsers">
                         <thead>
@@ -145,16 +146,19 @@
                         </thead>
                         <tbody>
                             <c:forEach items="${_u}" var="_user">
-                                <tr data="${_user.getIdUsuario()}">
-                                    <td>${_user.getNombre()} ${_user.getApellido()}</td>
-                                    <td>${_user.getCorreo()}</td>
-                                    <td>
-                                        <label>
-                                            <input class="with-gap" value="${_user.getIdUsuario()}" name="rdbUser" type="radio"  />
-                                            <span></span>
-                                        </label>
-                                    </td>
-                                </tr>
+                                <c:if test="${_user.isEstado()}">
+                                    <c:set scope="page" var="_i" value="${_i + 1}"/>
+                                    <tr data="${_user.getIdUsuario()}">
+                                        <td>${_user.getNombre()} ${_user.getApellido()}</td>
+                                        <td>${_user.getCorreo()}</td>
+                                        <td>
+                                            <label>
+                                                <input class="with-gap" value="${_user.getIdUsuario()}" name="rdbUser" type="radio"  />
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </c:if>
                             </c:forEach>
                         </tbody>
                     </table>
@@ -163,6 +167,11 @@
                     </div>
                 </c:if>
                 <c:if test="${_u.size() == 0}">
+                    <div class="alert yellow yellow-text text-darken-4 center">
+                        No hay usuarios disponibles para registrar un préstamo
+                    </div>
+                </c:if>
+                <c:if test="${_i == 0}">
                     <div class="alert yellow yellow-text text-darken-4 center">
                         No hay usuarios disponibles para registrar un préstamo
                     </div>

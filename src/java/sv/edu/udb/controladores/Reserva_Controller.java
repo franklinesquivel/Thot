@@ -7,7 +7,6 @@ package sv.edu.udb.controladores;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,13 +29,36 @@ public class Reserva_Controller {
         try(Connection _cn = DBConnection.getConnection()){
             try {
                 int res;
-                try (CallableStatement reservar = DBConnection.getProcedure("{CALL reserva_libro(?, ?, ?, ?)}", _cn)) {
+                try (CallableStatement reservar = DBConnection.getProcedure("{CALL reserva_libro(?, ?, ?, ?, ?)}", _cn)) {
                     reservar.setString(1, _r.getEjemplar().getIdEjemplar());
                     reservar.setString(2, _r.getUsuario().getIdUsuario());
                     reservar.registerOutParameter(3, java.sql.Types.INTEGER);
-                    reservar.setDate(4, (Date) _r.getFecha_vencimiento());
+                    reservar.setTimestamp(4, new java.sql.Timestamp(_r.getFecha_reserva().getTime()));
+                    reservar.setTimestamp(5, new java.sql.Timestamp(_r.getFecha_vencimiento().getTime()));
                     reservar.executeQuery();
                     res = reservar.getInt(3);
+                }
+                return res == 1;
+            } catch (SQLException ex) {
+
+                Logger.getLogger(Reserva_Controller.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Reserva_Controller.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    public static boolean efectuarReserva(Reserva _r){
+        try (Connection _cn = DBConnection.getConnection()) {
+            try {
+                int res;
+                try (CallableStatement reservar = DBConnection.getProcedure("{CALL efectuar_reserva(?, ?)}", _cn)) {
+                    reservar.setString(1, _r.getIdReserva());
+                    reservar.registerOutParameter(2, java.sql.Types.INTEGER);
+                    reservar.executeQuery();
+                    res = reservar.getInt(2);
                 }
                 return res == 1;
             } catch (SQLException ex) {
@@ -62,8 +84,9 @@ public class Reserva_Controller {
                                 data.getString(1),
                                 data.getDate(2),
                                 data.getDate(3),
-                                new Ejemplar(data.getString(4), relaciones),
-                                Usuario_Controller.obtenerUsuario(data.getString(5))
+                                data.getString(4),
+                                new Ejemplar(data.getString(5), relaciones),
+                                Usuario_Controller.obtenerUsuario(data.getString(6))
                             );
                         } else {
                             _r = null;
@@ -93,8 +116,9 @@ public class Reserva_Controller {
                                 data.getString(1),
                                 data.getDate(2),
                                 data.getDate(3),
-                                new Ejemplar(data.getString(4), relaciones),
-                                Usuario_Controller.obtenerUsuario(data.getString(5))
+                                data.getString(4),
+                                new Ejemplar(data.getString(5), relaciones),
+                                Usuario_Controller.obtenerUsuario(data.getString(6))
                             )
                         );
                     }

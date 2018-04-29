@@ -116,7 +116,7 @@
                     <h5><b>Fecha de préstamo:</b> ${_p.getFechaPrestamoFormato()}</h5>
                     <h5><b>Fecha de devolución:</b> ${_p.getFechaDevolucionFormato()}</h5>
                     <h5><b>Mora acumulada:</b> $${_p.getMora()}</h5>    
-                    <h5><b>Estado:</b> <span class="${_p.isVencido() ? 'red-text' : ''}">${_p.isVencido() ? 'Vencido' : 'En proceso'}</span></h5>    
+                    <h5><b>Estado:</b> <span class="${_p.getEstado().equals("VO") ? 'red-text' : ''}">${_p.getDisplayEstado()}</span></h5>    
                 </div>
             </div>
             <div class="btn-cont">

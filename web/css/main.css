@@ -45,6 +45,10 @@ table.center td, table.center th{
     margin: 0 1%;
 }
 
+#toast-container{
+    z-index: 100002 !important;
+}
+
 @media only screen and (max-width : 992px) {
     header, main, footer {
         padding-left: 0;

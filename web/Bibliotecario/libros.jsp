@@ -118,7 +118,7 @@
                                 <td>
                                     <a title="Ver libro" href="${path}verLibro.jsp?idLibro=${_l.getIdLibro()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">visibility</i></a>
                                     <a title="Administrar ejemplares" href="${path}gestionEjemplares.jsp?idLibro=${_l.getIdLibro()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">chrome_reader_mode</i></a>
-                                    <a ${_l.esProcesable() ? 'disabled' : ''} title="Registrar Reserva" href="${path}registrarReserva.jsp?idLibro=${_l.getIdLibro()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">https</i></a>
+                                    <!--<a ${_l.esProcesable() ? 'disabled' : ''} title="Registrar Reserva" href="${path}registrarReserva.jsp?idLibro=${_l.getIdLibro()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">https</i></a>-->
                                     <a ${_l.esProcesable() ? 'disabled' : ''} title="Registrar Préstamo" href="${path}registrarPrestamo.jsp?idLibro=${_l.getIdLibro()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">assignment</i></a>
                                 </td>
                             </tr>

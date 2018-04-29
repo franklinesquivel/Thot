@@ -90,7 +90,7 @@ public class Usuario_Controller{
     public static Usuario buscarUsuario(String correo, String password){
         try(Connection _cn = DBConnection.getConnection()){
             try {
-                Usuario _u = null;
+                Usuario _u;
                 try (PreparedStatement consulta = DBConnection.getStatement("SELECT * FROM Usuario WHERE correo = ? OR username = ?", _cn)) {
                     consulta.setString(1, correo);
                     consulta.setString(2, correo);

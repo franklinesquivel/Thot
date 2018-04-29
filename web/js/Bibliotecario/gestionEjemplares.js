@@ -46,6 +46,18 @@
                                 html: `El cuerpo de la petición no es válido para ser procesado...<i class="material-icons right">block</i>`,
                                 classes: "red darken-4", displayLength: 2000
                             };
+                        } else if (r === -2) {
+                            _loader.out();
+                            _o = {
+                                html: `No te encuentras autenticado para efectuar esta operación<i class="material-icons right">lock</i>`,
+                                classes: "red darken-4", displayLength: 2000, completeCallback: location.reload()
+                            };
+                        } else if (r === -3) {
+                            _loader.out();
+                            _o = {
+                                html: `El libro al que quieres añadir ejemplares no existe...<i class="material-icons right">find_replace</i>`,
+                                classes: "red darken-4", displayLength: 2000, completeCallback: location.reload()
+                            };
                         }
 
                         M.toast(_o);

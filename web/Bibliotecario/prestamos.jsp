@@ -54,16 +54,16 @@
                     </div>
                 </li>
                 <li class="nav-item waves-effect"><a href="${path}">Inicio <i class="material-icons">home</i></a></li>
-                <li class="nav-item waves-effect"><a href="${path}prestamos.jsp">Préstamos <i class="material-icons">assignment</i></a></li>
+                <li class="active nav-item waves-effect"><a href="${path}prestamos.jsp">Préstamos <i class="material-icons">assignment</i></a></li>
                 <li class="nav-item waves-effect"><a href="${path}reservas.jsp">Reservas <i class="material-icons">https</i></a></li>
 
                 <li class="no-padding">
                     <ul class="collapsible collapsible-accordion">
-                        <li class="active">
+                        <li class="">
                             <a class="collapsible-header waves-effect">Libros <i class="material-icons">book</i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li class="active waves-effect"><a href="${path}libros.jsp" class="">Listar <i class="material-icons">remove_red_eye</i></a></li>
+                                    <li class=" waves-effect"><a href="${path}libros.jsp" class="">Listar <i class="material-icons">remove_red_eye</i></a></li>
                                     <li class="waves-effect"><a href="${path}registrarLibro.jsp" class="">Registrar <i class="material-icons">add</i></a></li>
                                 </ul>
                             </div>
@@ -112,10 +112,10 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${prestamos}" var="_p">
-                            <tr class="${_p.isVencido() ? 'red lighten-4 red-text text-darken-5' : ''}">
+                            <tr class="lighten-5  text-darken-5 ${_p.getEstado().equals("VO") ? 'red red-text' : _p.getEstado().equals("FO") ? 'grey grey-text' : ''}">
                                 <td>${_p.getIdPrestamo()}</td>
                                 <td>${_p.getFechaDevolucionFormato()}</td>
-                                <td>${_p.isVencido() ? 'Vencido' : 'En curso'}</td>
+                                <td>${_p.getDisplayEstado()}</td>
                                 <td>$${_p.getMoraDecimales(2)}</td>
                                 <td>
                                     <a title="Ver préstamo" href="${path}verPrestamo.jsp?idPrestamo=${_p.getIdPrestamo()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">visibility</i></a>

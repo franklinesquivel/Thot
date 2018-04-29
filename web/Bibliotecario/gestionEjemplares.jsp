@@ -121,14 +121,7 @@
                 <c:forEach items="${_l.getEjemplares()}" var="_e">
                     <tr>
                         <td>${_e.getIdEjemplar()}</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${_e.getEstado() == 'PM'}">Modificación pendiente</c:when>
-                                <c:when test="${_e.getEstado() == 'D'}">Disponible</c:when>
-                                <c:when test="${_e.getEstado() == 'R'}">Reservado</c:when>
-                                <c:when test="${_e.getEstado() == 'P'}">Prestado</c:when>
-                            </c:choose>
-                        </td>
+                        <td>${_e.getDisplayEstado()}</td>
                         <td>${_e.getObservaciones()}</td>
                         <td>
                             <a href="">Hola</a>

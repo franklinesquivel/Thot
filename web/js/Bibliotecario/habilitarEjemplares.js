@@ -48,13 +48,25 @@
                                 _loader.out();
                                 _o = {
                                     html: `Ha ocurrido un error al modificar los ejemplares! Inténtelo mas tarde... <i class="material-icons right">error</i>`,
-                                    classes: "red darken-1", displayLength: 2000
+                                    classes: "red darken-1", displayLength: 2000, completeCallback: location.reload()
                                 };
                             }else if (r === -1) {
                                 _loader.out();
                                 _o = {
                                     html: `El cuerpo de la petición no es válido para ser procesado...<i class="material-icons right">block</i>`,
-                                    classes: "red darken-4", displayLength: 2000
+                                    classes: "red darken-4", displayLength: 2000, completeCallback: location.reload()
+                                };
+                            } else if (r === -2) {
+                                _loader.out();
+                                _o = {
+                                    html: `No te encuentras autenticado para efectuar esta operación<i class="material-icons right">block</i>`,
+                                    classes: "red darken-4", displayLength: 2000, completeCallback: location.reload()
+                                };
+                            } else if (r === -3) {
+                                _loader.out();
+                                _o = {
+                                    html: `No se ha enviado ningún ejemplar para ser habilitado...<i class="material-icons right">thumb_down</i>`,
+                                    classes: "red darken-3", displayLength: 2000, completeCallback: location.reload()
                                 };
                             }
                             
