@@ -79,6 +79,25 @@
                     <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cerrar</a>
                 </div>
             </div>
+            
+            <div id="mdlReserve" class="modal">
+                <div class="modal-content">
+                    <h4 class="center-align">Reserva de Libro</h4>
+                    <form id="frmReserve" name="frmReserve" class="row" action="">
+                        <div class="input-field col s8 offset-s2">
+                            <input id="fecha_vencimiento" name="fecha_vencimiento" type="date">
+                            <label for="fecha_vencimiento">Fecha de Vencimiento</label>
+                        </div>
+                        <input type="hidden" name="idLibro" id="idLibro">
+                        <div class="input-field col s8 center-align offset-s2">
+                            <button  class="waves-effect waves-light btn">Reservar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cerrar</a>
+                </div>
+            </div>
         </main>
     </body>
 </html>

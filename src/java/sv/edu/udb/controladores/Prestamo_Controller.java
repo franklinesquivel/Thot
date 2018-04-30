@@ -111,6 +111,38 @@ public class Prestamo_Controller {
         }
     }
     
+    public static List<Prestamo> obtenerPrestamos(boolean relaciones, String idUsuario){
+        try (Connection _cn = DBConnection.getConnection()) {
+            try {
+                List<Prestamo> _p = new ArrayList<>();
+                try (PreparedStatement obtener = DBConnection.getStatement("SELECT * FROM prestamo WHERE idUsuario = ?", _cn);) {
+                    obtener.setString(1, idUsuario);
+                    ResultSet data = obtener.executeQuery();
+                    while (data.next()) {
+                        _p.add(
+                            new Prestamo(
+                                data.getString(1),
+                                data.getDate(2),
+                                data.getDate(3),
+                                data.getFloat(4),
+                                data.getString(5),
+                                new Ejemplar(data.getString(4), relaciones),
+                                Usuario_Controller.obtenerUsuario(data.getString(5))
+                            )
+                        );
+                    }
+                }
+                return _p;
+            } catch (SQLException e) {
+                Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, e);
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Prestamo_Controller.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
     public static boolean renovarPrestamo(Prestamo _p){
         try (Connection _cn = DBConnection.getConnection()) {
             try {

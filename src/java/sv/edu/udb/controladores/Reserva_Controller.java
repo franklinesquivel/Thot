@@ -133,4 +133,36 @@ public class Reserva_Controller {
             return null;
         }
     }
+    
+    public static List<Reserva> obtenerReservas(boolean relaciones, String idUsuario){
+        try(Connection _cn = DBConnection.getConnection()){
+            List<Reserva> _r = new ArrayList<>();
+
+            try {
+                try (PreparedStatement obtener = DBConnection.getStatement("SELECT * FROM reserva WHERE idUsuario = ?;", _cn);) {
+                    obtener.setString(1, idUsuario);
+                    ResultSet data = obtener.executeQuery();
+                    while (data.next()) {
+                        _r.add(
+                            new Reserva(
+                                data.getString(1),
+                                data.getDate(2),
+                                data.getDate(3),
+                                data.getString(4),
+                                new Ejemplar(data.getString(5), relaciones),
+                                Usuario_Controller.obtenerUsuario(data.getString(6))
+                            )
+                        );
+                    }
+                }
+                return _r;
+            } catch (SQLException ex) {
+                Logger.getLogger(Reserva_Controller.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Reserva_Controller.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
 }
