@@ -5,7 +5,14 @@
 --%>
 
 <%@ include file="/WEB-INF/jspf/control_sesion.jspf" %>
+
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@page import="sv.edu.udb.libreria.Autor"%>
+<%@page import="java.util.List"%>
+<%@page import="sv.edu.udb.controladores.Autor_Controller"%>
+
 <c:set scope="page" var="path" value="/Thot/Bibliotecario/"></c:set>
+<% pageContext.setAttribute("autores", Autor_Controller.obtenerAutores());%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -21,7 +28,7 @@
             <nav class="grey darken-4">
                 <div class="container">
                     <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
-                    <div class="nav-wrapper"><a class="brand-logo center">Bibliotecario</a></div>
+                    <div class="nav-wrapper"><a class="brand-logo center">Autores</a></div>
                     </div>
                 </nav>
 
@@ -85,7 +92,39 @@
         </header>
         
         <main class="container">
-            
+            <c:if test="${sessionScope.msg != null}">
+                <div class="alert center ${sessionScope.msg_type} lighten-4 ${sessionScope.msg_type}-text text-darken-4">
+                    ${sessionScope.msg}
+                </div><br>
+                <c:remove scope="session" var="msg"/>
+                <c:remove scope="session" var="msg_type"/>
+            </c:if>
+            <c:if test="${autores.size() > 0}">
+                <table class="center" id="tblAutores">
+                    <thead>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Fecha de nacimiento</th>
+                    <th>País</th>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${autores}" var="_a">
+                            <tr>
+                                <td>${_a.getNombres()}</td>
+                                <td>${_a.getApellidos()}</td>
+                                <td>${_a.getFechaNacFormato()}</td>
+                                <td>${_a.getPais()}</td>
+                                
+                            </tr>
+                        </c:forEach >
+                    </tbody>
+                </table>
+            </c:if>
+            <c:if test="${autores.size() == 0}">
+                <div class="alert center red lighten-4 red-text text-darken-4">
+                    No hay autores registrados para mostrar!
+                </div><br>
+            </c:if>
         </main>
     </body>
 </html>

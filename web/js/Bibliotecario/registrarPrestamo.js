@@ -53,7 +53,7 @@
                                     html: `El préstamo ha sido registrado éxitosamente! <i class="material-icons right">check_circle</i>`,
                                     classes: "green darken-1", displayLength: 1500,
                                     completeCallback: function () {
-                                        // location.href = `${location.origin}/Thot/Bibliotecario/prestamos.jsp`;
+                                        location.href = `${location.origin}/Thot/Bibliotecario/prestamos.jsp`;
                                         _loader.out();
                                     }
                                 };
@@ -80,7 +80,9 @@
                                 _o = {
                                     html: `El ejemplar que deseas prestar no se encuentra disponible o el usuario al que deseas asignar el préstamo no se encuentra activo en la plataforma...<i class="material-icons right">thumb_down</i>`,
                                     classes: "red darken-3", displayLength: 2000,
-                                    completeCallback: `${location.origin}/Thot/Bibliotecario/libros.jsp`
+                                    completeCallback: function () {
+                                        location.href = `${location.origin}/Thot/Bibliotecario/libros.jsp`;
+                                    }
                                 };
                             }
 
