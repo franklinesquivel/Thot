@@ -86,7 +86,7 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${prestamos}" var="_p">
-                            <tr class="lighten-5  text-darken-5">
+                            <tr  class="lighten-5  text-darken-5 ${_p.getEstado().equals("VO") ? 'red red-text' : _p.getEstado().equals("FO") ? 'grey grey-text' : ''}">
                                 <td>${_p.getEjemplar().getLibro().getTitulo()}</td>
                                 <td>${_p.getFechaPrestamoFormato()}</td>
                                 <td>${_p.getFechaDevolucionFormato()}</td>

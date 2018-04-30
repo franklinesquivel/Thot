@@ -26,8 +26,8 @@ $(document).ready(function(){
         }
     });
     $.validator.addMethod('validDate', function(value, element) {
-        let actualDate = new Date(), fecha = new Date(value);
-        return this.optional(element) || (fecha > actualDate);
+        let now = new Date().setHours(0, 0, 0, 0), end = new Date(value).setHours(0, 0, 0, 0);
+        return (end >= now);
     }, 'Ingrese una fecha válida (no menor a la actual).');
     
     function twoDigits(d) {
@@ -255,7 +255,7 @@ function addCard(_l, i){
                         ${_l["titulo"]}<i class="material-icons right">more_vert</i>
                     </span>
                     <p class='center-align'>
-                        <a href="#mdlReserve" class="waves-effect waves-light btn btnReserve modal-trigger" idsearch="${i}">Reservar</a>
+                        <a href="#mdlReserve" class="waves-effect waves-light btn btnReserve modal-trigger" idlibro="${_l["idLibro"]}">Reservar</a>
                     </p>
                 </div>
                 <div class="card-reveal">
