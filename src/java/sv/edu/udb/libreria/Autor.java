@@ -8,6 +8,7 @@ package sv.edu.udb.libreria;
 import java.util.Date;
 import java.util.List;
 import sv.edu.udb.controladores.Autor_Controller;
+import sv.edu.udb.utilidades.Formatos;
 
 /**
  *
@@ -72,6 +73,10 @@ public class Autor {
     
     public String getDisplayName(){
         return this.nombres + " " + this.apellidos;
+    }
+    
+    public String getFechaNacFormato(){
+        return Formatos.formatearFecha(fechaNac, "dd-MM-yyyy");
     }
 
     public Autor(String idAutor, String nombres, String apellidos, Date fechaNac, String pais, List<Libro> libros) {

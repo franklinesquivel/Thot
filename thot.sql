@@ -434,10 +434,10 @@ DELIMITER ;;
 /*!50003 SET character_set_results = utf8 */ ;;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
-/*!50003 SET time_zone             = '+00:00' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `evento_verificar_procesos` ON SCHEDULE EVERY 5 MINUTE STARTS '2018-04-26 04:03:17' ON COMPLETION PRESERVE ENABLE DO CALL thot.verificar_procesos() */ ;;
+/*!50003 SET time_zone             = 'SYSTEM' */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `evento_verificar_procesos` ON SCHEDULE EVERY 5 MINUTE STARTS '2018-04-29 17:28:43' ON COMPLETION PRESERVE ENABLE DO CALL thot.verificar_procesos() */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -457,7 +457,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `calculo_mora_prestamo`(IN _idPrestamo VARCHAR(25))
 BEGIN
@@ -470,19 +470,22 @@ BEGIN
     
     SELECT mora into @mora FROM config WHERE idConfig = 1;
     
-    SELECT datediff(current_timestamp(), p.fecha_devolucion) INTO @dias FROM prestamo p WHERE p.idPrestamo = _idPrestamo;
-    SELECT (mora / @mora), mora INTO @diasCobrados, @moraAcumulada FROM prestamo p WHERE p.idPrestamo = _idPrestamo;
+    SELECT datediff(current_timestamp(), p.fecha_devolucion), p.estado INTO @dias, @estado FROM prestamo p WHERE p.idPrestamo = _idPrestamo;
     
-    SET @diasAux = @dias;
-    SET @dias = @dias - @diasCobrados;
+    IF @estado <> 'FO' THEN BEGIN
+		SELECT (mora / @mora), mora INTO @diasCobrados, @moraAcumulada FROM prestamo p WHERE p.idPrestamo = _idPrestamo;
     
-    IF @dias <= 0 THEN SET @dias = 0; END IF;
-    
-    IF @diasAux > 0 THEN SET @estado = 'VO'; 
-    ELSEIF @diasAux <= 0 THEN SET @estado = 'EP';
-    END IF;
-    
-    UPDATE prestamo p SET mora = (@moraAcumulada + (@mora * @dias)), estado = @estado WHERE p.idPrestamo = _idPrestamo;
+		SET @diasAux = @dias;
+		SET @dias = @dias - @diasCobrados;
+		
+		IF @dias <= 0 THEN SET @dias = 0; END IF;
+		
+		IF @diasAux > 0 THEN SET @estado = 'VO'; 
+		ELSEIF @diasAux <= 0 THEN SET @estado = 'EP';
+		END IF;
+		
+		UPDATE prestamo p SET mora = (@moraAcumulada + (@mora * @dias)), estado = @estado WHERE p.idPrestamo = _idPrestamo;
+    END; END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -497,19 +500,19 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `efectuar_reserva`(IN _idReserva VARCHAR(25), OUT _res int)
 BEGIN
-    SET @idUsuario = 0;
-    SET @idEjemplar = 0;
+    SET @idUsuario = '';
+    SET @idEjemplar = '';
     
     SELECT r.idUsuario, r.idEjemplar INTO @idUsuario, @idEjemplar FROM reserva r WHERE r.idReserva = _idReserva;
     
     CALL prestamo_libro(@idEjemplar, @idUsuario, _res, NULL);
     
     IF _res = 1 THEN BEGIN
-		UPDATE reserva SET estado = 'EO';
+		UPDATE reserva SET estado = 'EO' WHERE idReserva = _idReserva;
     END; END IF;
 END ;;
 DELIMITER ;
@@ -591,7 +594,7 @@ BEGIN
 	SET @estadoE = '';
     SELECT e.estado INTO @estadoE FROM ejemplar e WHERE e.idEjemplar = idEjemplar;
     
-	IF @estadoE = 'D' THEN BEGIN
+	IF @estadoE = 'D' OR @estadoE = 'R' THEN BEGIN
 		
         SET @y = year(current_timestamp);
         SET @prestamos = 0;
@@ -613,7 +616,7 @@ BEGIN
         SET out_res = 1;
 	END; END IF;
     
-    IF @estadoE <> 'D' THEN BEGIN
+    IF @estadoE <> 'D' AND @estadoE <> 'R' THEN BEGIN
 		SET out_res = 0;
     END; END IF;
 END ;;
@@ -760,7 +763,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `verificar_reservas`()
 BEGIN
@@ -778,7 +781,7 @@ BEGIN
 		END IF;
 		
         SET @dias = 0;
-        SELECT datediff(current_timestamp(), fecha_devolucion) INTO @dias FROM reserva WHERE idReserva = _id;
+        SELECT datediff(current_timestamp(), fecha_vencimiento) INTO @dias FROM reserva WHERE idReserva = _id;
         
         IF @dias > 0 THEN BEGIN
 			UPDATE reserva SET estado = 'VO' WHERE idReserva = _id;
@@ -802,4 +805,14 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-25 22:17:23
+SET GLOBAL event_scheduler = ON;
+
+DROP EVENT IF EXISTS evento_verificar_procesos;
+CREATE EVENT `evento_verificar_procesos`
+  ON SCHEDULE
+    EVERY 5 MINUTE
+    STARTS TIMESTAMP(NOW() + INTERVAL 1 MINUTE) ON COMPLETION PRESERVE ENABLE 
+  DO
+	CALL thot.verificar_procesos()
+
+-- Dump completed on 2018-04-29 21:25:09
