@@ -31,7 +31,7 @@
         <title>Thot - Libros</title>
     </head>
     <body>
-        <main class="container">
+        <div class="container">
             <div class="col s6 offset-s3">
                 <div class="input-field col s8">
                     <input id="txtSearch" type="text">
@@ -98,6 +98,6 @@
                     <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cerrar</a>
                 </div>
             </div>
-        </main>
+        </div>
     </body>
 </html>

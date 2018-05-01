@@ -7,6 +7,7 @@
 <%@ include file="/WEB-INF/jspf/control_sesion.jspf" %>
 <%@page import="sv.edu.udb.libreria.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<c:set scope="page" var="path" value="/Thot/Usuario/"></c:set>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,7 +18,7 @@
         <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>  
     </head>
     <body>
-
+        <form action="/Thot/Logout" name="frmLogout" method="POST"></form>        
             <header>
 
                 <nav class="teal darken-1">
@@ -47,22 +48,11 @@
                         </div>
                     </li>
 
-                    <li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                            <li>
-                                <a class="collapsible-header"> <i class="material-icons"></i>Libros</a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li>
-                                            <a href="prestamos.jsp">Mis Prestamos</a>
-                                        </li>
-                                        <li>
-                                            <a href="reservas.jsp">Mis Reservaciones</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
+                    <li class="nav-item active waves-effect"><a href="${path}">Libros <i class="material-icons">book</i></a></li>
+                    <li class="nav-item waves-effect"><a href="${path}prestamos.jsp">Préstamos <i class="material-icons">assignment</i></a></li>
+                    <li class="nav-item waves-effect"><a href="${path}reservas.jsp">Reservas <i class="material-icons">https</i></a></li>
+                    <li class="nav-item waves-effect">
+                        <a onclick="frmLogout.submit();">Cerrar Sesión <i class="material-icons">exit_to_app</i></a>
                     </li>
                 </ul>
             </header>
