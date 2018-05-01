@@ -104,7 +104,8 @@
             <c:if test="${prestamos.size() > 0}">
                 <table class="center" id="tblPrestamos">
                     <thead>
-                        <th>Código</th>
+                        <th>idPrestamo</th>
+                        <th>Usuario</th>
                         <th>Fecha de devolución</th>
                         <th>Estado</th>
                         <th>Mora acumulada</th>
@@ -114,12 +115,13 @@
                         <c:forEach items="${prestamos}" var="_p">
                             <tr data="${_p.getIdPrestamo()}" class="lighten-5  text-darken-5 ${_p.getEstado().equals("VO") ? 'red red-text' : _p.getEstado().equals("FO") ? 'grey grey-text' : ''}">
                                 <td>${_p.getIdPrestamo()}</td>
+                                <td>${_p.getUsuario().getDisplayName()}</td>
                                 <td>${_p.getFechaDevolucionFormato()}</td>
                                 <td>${_p.getDisplayEstado()}</td>
                                 <td>$${_p.getMoraDecimales(2)}</td>
                                 <td>
                                     <a title="Ver préstamo" href="${path}verPrestamo.jsp?idPrestamo=${_p.getIdPrestamo()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">visibility</i></a>
-                                    <a id="btnFinalizar" ${_p.getEstado().equals('FO') ? 'disabled' : ''} idPrestamo="${_p.getIdPrestamo()}" title="Finalizar préstamo" href="#mdlFinalizar" class="modal-trigger btn waves-effect grey darken-3 waves-light"><i class="material-icons">local_library</i></a>
+                                    <a ${_p.getEstado().equals('FO') ? 'disabled' : ''} idPrestamo="${_p.getIdPrestamo()}" title="Finalizar préstamo" href="#mdlFinalizar" class="modal-trigger btnFinalizar btn waves-effect grey darken-3 waves-light"><i class="material-icons">local_library</i></a>
                                 </td>
                             </tr>
                         </c:forEach >

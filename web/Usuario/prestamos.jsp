@@ -3,17 +3,19 @@
     Created on : 04-29-2018, 06:45:57 PM
     Author     : Leonardo
 --%>
-<%@page import="sv.edu.udb.controladores.Prestamo_Controller"%>
 <%@ include file="/WEB-INF/jspf/control_sesion.jspf" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+
+<%@page import="sv.edu.udb.controladores.Prestamo_Controller"%>
+
+<c:set scope="page" var="path" value="/Thot/Usuario/"></c:set>
+<%  
+    Usuario _e = (Usuario) session.getAttribute("userData");
+    pageContext.setAttribute("prestamos", Prestamo_Controller.obtenerPrestamos(true, _e.getIdUsuario()));
+%>
+  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<% 
-    Usuario _e = (Usuario) session.getAttribute("userData");
-    pageContext.setAttribute("prestamos", Prestamo_Controller.obtenerPrestamos(true, _e.getIdUsuario())); 
-%>
-<c:set scope="page" var="path" value="/Thot/Usuario/"></c:set>
 <html>
     <head>
         <%@ include file="/WEB-INF/jspf/header.jspf" %>

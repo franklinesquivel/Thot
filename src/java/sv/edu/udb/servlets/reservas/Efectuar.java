@@ -3,10 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.servlets.prestamos;
+package sv.edu.udb.servlets.reservas;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +27,7 @@ import sv.edu.udb.libreria.Usuario;
  *
  * @author Frank
  */
-@WebServlet(name = "Prestamos.Efectuar", urlPatterns = {"/Prestamos/Efectuar"})
+@WebServlet(name = "Reservas.Efectuar", urlPatterns = {"/Reservas/Efectuar"})
 public class Efectuar extends HttpServlet {
 
 
@@ -46,12 +52,27 @@ public class Efectuar extends HttpServlet {
                 Usuario _u = (Usuario) _s.getAttribute("userData");
                 
                 if(_u.getTipoUsuario().equals("B")){
-                    if (request.getParameter("idReserva") != null) {
+                    if (request.getParameter("idReserva") != null && request.getParameter("fecha_prestamo") != null && request.getParameter("fecha_devolucion") != null) {
                         Reserva _r = Reserva_Controller.obtenerReserva(request.getParameter("idReserva"), true);
-
+                        DateFormat _f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        
                         if (_r != null) {
                             if (_r.getEstado().equals("VE")) {
-                                res = Reserva_Controller.efectuarReserva(_r) ? "1" : "0";
+                                
+                                try {
+                                    Date _prestamo = (_f.parse(request.getParameter("fecha_prestamo"))),
+                                        _devolucion = (_f.parse(request.getParameter("fecha_devolucion")));
+                                    
+                                    if(_prestamo.before(_devolucion)){
+                                        res = Reserva_Controller.efectuarReserva(_r, _devolucion) ? "1" : "0";
+                                    }else{
+                                        res = "-4"; //Fechas erróneas
+                                    }
+                                } catch (ParseException ex) {
+                                    Logger.getLogger(Efectuar.class.getName()).log(Level.SEVERE, null, ex);
+                                    res = "-4"; //Fechas erróneas
+                                }
+                                
                             } else {
                                 res = "-3"; //La reserva no se encuentra en el estado óptimo (En proceso)
                             }

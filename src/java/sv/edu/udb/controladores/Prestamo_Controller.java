@@ -94,8 +94,8 @@ public class Prestamo_Controller {
                                 data.getDate(3),
                                 data.getFloat(4),
                                 data.getString(5),
-                                new Ejemplar(data.getString(4), relaciones),
-                                Usuario_Controller.obtenerUsuario(data.getString(5))
+                                new Ejemplar(data.getString(6), relaciones),
+                                Usuario_Controller.obtenerUsuario(data.getString(7))
                             )
                         );
                     }
@@ -117,19 +117,20 @@ public class Prestamo_Controller {
                 List<Prestamo> _p = new ArrayList<>();
                 try (PreparedStatement obtener = DBConnection.getStatement("SELECT * FROM prestamo WHERE idUsuario = ?", _cn);) {
                     obtener.setString(1, idUsuario);
-                    ResultSet data = obtener.executeQuery();
-                    while (data.next()) {
-                        _p.add(
-                            new Prestamo(
-                                data.getString(1),
-                                data.getDate(2),
-                                data.getDate(3),
-                                data.getFloat(4),
-                                data.getString(5),
-                                new Ejemplar(data.getString(4), relaciones),
-                                Usuario_Controller.obtenerUsuario(data.getString(5))
-                            )
-                        );
+                    try (ResultSet data = obtener.executeQuery()) {
+                        while (data.next()) {
+                            _p.add(
+                                new Prestamo(
+                                    data.getString(1),
+                                    data.getDate(2),
+                                    data.getDate(3),
+                                    data.getFloat(4),
+                                    data.getString(5),
+                                    new Ejemplar(data.getString(4), relaciones),
+                                    Usuario_Controller.obtenerUsuario(data.getString(5))
+                                )
+                            );
+                        }
                     }
                 }
                 return _p;

@@ -4,11 +4,19 @@
         if(typeof $("#tblPrestamos") !== 'undefined'){
             let idPrestamo;
     
-            $("#tblPrestamos").DataTable();
+            $("#tblPrestamos").DataTable({
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": false
+                    }
+                ],
+                "order": [[ 3, "asc" ], [ 2, "desc" ], [ 1, "desc" ]]
+            });
     
-            $("#btnFinalizar").click(function(){
+            $(".btnFinalizar").click(function(){
                 idPrestamo = $(this).attr('idPrestamo');
-    
+                console.log(idPrestamo);
                 $("#info-cont").html(`
                     <br><h6 class='center'><b>[${idPrestamo}]</b></h6>                    
                 `);
