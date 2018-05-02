@@ -15,7 +15,16 @@ $(document).ready(function(){
     });
     loadBook();
     
+    $(".grid").imagesLoaded(function(){
+        $('.grid').masonry({
+            // options
+            itemSelector: '.grid-item',
+            columnWidth: '.grid-sizer',
+            percentPosition: true
+        });
+    });
     
+    /* INICIO VALIDACIÓN FORMULARIO DE RESERVA */
     $.validator.setDefaults({
         errorClass: 'invalid',
         validClass: 'none',
@@ -26,9 +35,11 @@ $(document).ready(function(){
         }
     });
     $.validator.addMethod('validDate', function(value, element) {
-        let actualDate = new Date(), fecha = new Date(value);
-        return this.optional(element) || (fecha > actualDate);
-    }, 'Ingrese una fecha válida (no menor a la actual).');
+        let now = new Date().setHours(0, 0, 0, 0), end = new Date(value).setHours(0, 0, 0, 0), _d = new Date(now), _e = new Date(end), _n = new Date(now);
+        _d.setDate(_d.getDate() + 5); //Margen de 5 días
+        _e.setDate(_e.getDate() + 1);
+        return (_e >= _n && _e <= _d);
+    }, 'Ingrese una fecha válida (mayor a la actual y menor al margen [5 días]).');
     
     function twoDigits(d) {
         if(0 <= d && d < 10) return "0" + d.toString();
@@ -38,8 +49,6 @@ $(document).ready(function(){
     Date.prototype.toMySQLFormat = function() {
         return this.getFullYear() + "-" + twoDigits(this.getMonth()) + "-" + twoDigits(this.getDate()) + " " + twoDigits(this.getHours()) + ":" + twoDigits(this.getMinutes()) + ":" + twoDigits(this.getSeconds());
     };
-
-    
     $("#frmReserve").validate({
         rules:{
             fecha_vencimiento:{
@@ -87,18 +96,19 @@ $(document).ready(function(){
             });
         }
     });
-    
     function formatDate(date) {
         var now = new Date() , _a = date.split('-');
         var _d = new Date(_a[0], _a[1], _a[2], now.getHours(), now.getMinutes(), now.getSeconds());
         return _d;
     }
+    /* FIN VALIDACIÓN FORMULARIO DE RESERVA */
     
-    $('#txtSearch').on('keyup', function(){
+    $('#txtSearch').on('keyup', function(){ /* EVENTO AL BUSCAR */
         searchBook($(this).val(), false);
     });
     
-    $("#btnSearch").click(function(e){ //Búsqueda Avanzada
+    /* BUSQUEDA AVANZADA */
+    $("#btnSearch").click(function(e){ 
         //var inputs = $("#mdlSearch .txtSearch"); //Todos los inputs de entrada id = [category, printing, author, subject];
         var loader = new Loader();
         loader.in();
@@ -120,12 +130,15 @@ $(document).ready(function(){
         $("#mdlSearch").modal('close');
         loader.out();
     });
+    /* FIN BUSQUEDA AVANZADA */
 });
 
-$(document).on("click", ".btnReserve", function(){
+/* RESERVA */
+$(document).on("click", ".btnReserve", function(){ 
     $("#mdlReserve #idLibro").val($(this).attr("idlibro"));
 });
-        
+
+/* CARGA LOS LIBROS AL INICIAR PAGINA */
 function loadBook(){
     var loader = new Loader();
     loader.in();
@@ -170,12 +183,15 @@ function loadBook(){
             });    
             var $c = $(cards);
             $msnry.append( $c ).masonry( 'appended', $c );
+            $msnry.masonry('reloadItems');
         }
     });
     loader.out();
 }
+/* FIN CARGA LOS LIBROS AL INICIAR PAGINA */
 
-function searchBook(valor, busquedaAvanzada){ //Buscador
+/* FUNCIÓN DE BUSQUEDA */
+function searchBook(valor, busquedaAvanzada){
     var search = new RegExp(valor, 'i');
          
    libros.forEach(function(_l, i){
@@ -242,7 +258,9 @@ function searchBook(valor, busquedaAvanzada){ //Buscador
         }
     });//Fin foreach de libros
 }
+/* FIN FUNCIÓN DE BUSQUEDA */
 
+/* FUNCION QUE AGREGA LAS TARJETAS  */
 function addCard(_l, i){
     let card = `
         <div class="grid-item" search="${i}">
@@ -255,7 +273,7 @@ function addCard(_l, i){
                         ${_l["titulo"]}<i class="material-icons right">more_vert</i>
                     </span>
                     <p class='center-align'>
-                        <a href="#mdlReserve" class="waves-effect waves-light btn btnReserve modal-trigger" idsearch="${i}">Reservar</a>
+                        <a href="#mdlReserve" class="waves-effect waves-light btn btnReserve modal-trigger" idlibro="${_l["idLibro"]}">Reservar</a>
                     </p>
                 </div>
                 <div class="card-reveal">
@@ -276,3 +294,4 @@ function addCard(_l, i){
     var $c = $(card);
     $msnry.append( $c ).masonry( 'appended', $c );
 }
+/* FIN FUNCION QUE AGREGA LAS TARJETAS  */
