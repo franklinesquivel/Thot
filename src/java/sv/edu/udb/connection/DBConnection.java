@@ -18,7 +18,7 @@ import sv.edu.udb.libreria.Encriptar;
 
 /**
  *
- * @author Frank //pq4ktkXx
+ * @author Frank //pq4ktkXx | 9yhBL3Xa
  */
 public class DBConnection {
     private static final String HOST = "127.0.0.1";

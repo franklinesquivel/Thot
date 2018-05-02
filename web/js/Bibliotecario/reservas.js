@@ -10,7 +10,7 @@
             }
             
             Date.prototype.toMySQLFormat = function() {
-                return this.getFullYear() + "-" + twoDigits(this.getMonth()) + "-" + twoDigits(this.getDate()) + " " + twoDigits(this.getHours()) + ":" + twoDigits(this.getMinutes()) + ":" + twoDigits(this.getSeconds());
+                return this.getFullYear() + "-" + (twoDigits(this.getMonth() + 1)) + "-" + twoDigits(this.getDate()) + " " + twoDigits(this.getHours()) + ":" + twoDigits(this.getMinutes()) + ":" + twoDigits(this.getSeconds());
             };
 
             Date.prototype.addDays = function (days) {

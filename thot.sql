@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `thot` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish2_ci */;
 USE `thot`;
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: thot
+-- Host: localhost    Database: thot
 -- ------------------------------------------------------
--- Server version	5.7.21-log
+-- Server version	5.5.5-10.1.31-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -118,8 +118,7 @@ SET character_set_client = utf8;
  1 AS `mora`,
  1 AS `estado`,
  1 AS `idUsuario`,
- 1 AS `nombre`,
- 1 AS `apellido`,
+ 1 AS `usuario`,
  1 AS `correo`,
  1 AS `idEjemplar`,
  1 AS `idLibro`,
@@ -458,10 +457,10 @@ DELIMITER ;;
 /*!50003 SET character_set_results = utf8 */ ;;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `evento_verificar_procesos` ON SCHEDULE EVERY 5 MINUTE STARTS '2018-04-29 17:28:43' ON COMPLETION PRESERVE ENABLE DO CALL thot.verificar_procesos() */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `evento_verificar_procesos` ON SCHEDULE EVERY 5 MINUTE STARTS '2018-05-02 07:30:56' ON COMPLETION PRESERVE ENABLE DO CALL thot.verificar_procesos() */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -657,20 +656,20 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `renovar_prestamo`(IN _idEjemplar varchar(10), OUT _res int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `renovar_prestamo`(IN _idPrestamo varchar(25), OUT _res int)
 BEGIN
 	
     SET @existe = 0;
     SELECT COUNT(idPrestamo) INTO @existe FROM prestamo WHERE idPrestamo = _idPrestamo;
     
     IF @existe = 1 THEN BEGIN
-		UPDATE prestamo SET fecha_devolucion = DATE_ADD(now(), INTERVAL 1 DAY) WHERE idPrestamo = _idPrestamo;
+		UPDATE prestamo SET fecha_devolucion = DATE_ADD(current_timestamp, INTERVAL 1 DAY), estado = 'EP' WHERE idPrestamo = _idPrestamo;
         SET _res = 1;
     END; END IF;
     
-    IF @existe = 0 THEN SET _res = 0; END IF;
+    IF @existe = 0 THEN SET _res = -1; END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -833,7 +832,7 @@ DELIMITER ;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `detalle_prestamo` AS select `p`.`idPrestamo` AS `idPrestamo`,`p`.`fecha_prestamo` AS `fecha_prestamo`,`p`.`fecha_devolucion` AS `fecha_devolucion`,`p`.`mora` AS `mora`,`p`.`estado` AS `estado`,`u`.`idUsuario` AS `idUsuario`,`u`.`nombre` AS `nombre`,`u`.`apellido` AS `apellido`,`u`.`correo` AS `correo`,`e`.`idEjemplar` AS `idEjemplar`,`l`.`idLibro` AS `idLibro`,`l`.`titulo` AS `titulo`,`l`.`isbn` AS `isbn` from (((`prestamo` `p` join `usuario` `u` on((`u`.`idUsuario` = `p`.`idUsuario`))) join `ejemplar` `e` on((`e`.`idEjemplar` = `p`.`idEjemplar`))) join `libro` `l` on((`l`.`idLibro` = `e`.`idLibro`))) */;
+/*!50001 VIEW `detalle_prestamo` AS select `p`.`idPrestamo` AS `idPrestamo`,`p`.`fecha_prestamo` AS `fecha_prestamo`,`p`.`fecha_devolucion` AS `fecha_devolucion`,`p`.`mora` AS `mora`,`p`.`estado` AS `estado`,`u`.`idUsuario` AS `idUsuario`,concat(`u`.`nombre`,' ',`u`.`apellido`) AS `usuario`,`u`.`correo` AS `correo`,`e`.`idEjemplar` AS `idEjemplar`,`l`.`idLibro` AS `idLibro`,`l`.`titulo` AS `titulo`,`l`.`isbn` AS `isbn` from (((`prestamo` `p` join `usuario` `u` on((`u`.`idUsuario` = `p`.`idUsuario`))) join `ejemplar` `e` on((`e`.`idEjemplar` = `p`.`idEjemplar`))) join `libro` `l` on((`l`.`idLibro` = `e`.`idLibro`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -857,4 +856,4 @@ CREATE EVENT `evento_verificar_procesos`
   DO
 	CALL thot.verificar_procesos()
 
--- Dump completed on 2018-05-02  5:39:45
+-- Dump completed on 2018-05-02  9:08:09

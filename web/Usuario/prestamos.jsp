@@ -62,7 +62,7 @@
             </ul>
         </header>
                         
-        <main class="container">
+        <main class="">
             <br>
             <c:if test="${prestamos.size() > 0}">
                 <table class="center" id="tblPrestamos">

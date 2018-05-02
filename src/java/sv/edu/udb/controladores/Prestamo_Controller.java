@@ -126,8 +126,8 @@ public class Prestamo_Controller {
                                     data.getDate(3),
                                     data.getFloat(4),
                                     data.getString(5),
-                                    new Ejemplar(data.getString(4), relaciones),
-                                    Usuario_Controller.obtenerUsuario(data.getString(5))
+                                    new Ejemplar(data.getString(6), relaciones),
+                                    Usuario_Controller.obtenerUsuario(data.getString(7))
                                 )
                             );
                         }
@@ -149,7 +149,7 @@ public class Prestamo_Controller {
             try {
                 int res;
                 try (CallableStatement renovar = DBConnection.getProcedure("{CALL renovar_prestamo(?, ?)}", _cn)) {
-                    renovar.setString(1, _p.getEjemplar().getIdEjemplar());
+                    renovar.setString(1, _p.getIdPrestamo());
                     renovar.registerOutParameter(2, java.sql.Types.INTEGER);
                     renovar.executeQuery();
                     res = renovar.getInt(2);
