@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,15 +51,16 @@ public class Reserva_Controller {
         }
     }
     
-    public static boolean efectuarReserva(Reserva _r){
+    public static boolean efectuarReserva(Reserva _r, Date fecha_devolucion){
         try (Connection _cn = DBConnection.getConnection()) {
             try {
                 int res;
-                try (CallableStatement reservar = DBConnection.getProcedure("{CALL efectuar_reserva(?, ?)}", _cn)) {
+                try (CallableStatement reservar = DBConnection.getProcedure("{CALL efectuar_reserva(?, ?, ?)}", _cn)) {
                     reservar.setString(1, _r.getIdReserva());
-                    reservar.registerOutParameter(2, java.sql.Types.INTEGER);
+                    reservar.setTimestamp(2, new java.sql.Timestamp(fecha_devolucion.getTime()));
+                    reservar.registerOutParameter(3, java.sql.Types.INTEGER);
                     reservar.executeQuery();
-                    res = reservar.getInt(2);
+                    res = reservar.getInt(3);
                 }
                 return res == 1;
             } catch (SQLException ex) {

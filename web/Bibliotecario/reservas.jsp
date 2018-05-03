@@ -104,6 +104,7 @@
             <c:if test="${reservas.size() > 0}">
                 <table class="center" id="tblReservas">
                     <thead>
+                        <th>idReserva</th>
                         <th>Usuario</th>
                         <th>Libro</th>
                         <th>Fecha de reserva</th>
@@ -114,6 +115,7 @@
                     <tbody>
                     <c:forEach items="${reservas}" var="_r">
                         <tr data="${_r.getIdReserva()}" class="lighten-5  text-darken-5 ${_r.getEstado().equals("VO") ? 'red red-text' : _r.getEstado().equals("EO") ? 'green green-text' : ''}">
+                            <td>${_r.getIdReserva()}</td>
                             <td idUsuario="${_r.getUsuario().getIdUsuario()}">${_r.getUsuario().getDisplayName()}</td>
                             <td idLibro="${_r.getEjemplar().getLibro().getIdLibro()}">${_r.getEjemplar().getLibro().getTitulo()}</td>
                             <td>${_r.getFechaReservaFormato()}</td>
@@ -121,24 +123,37 @@
                             <td>${_r.getDisplayEstado()}</td>
                             <td>
                                 <a title="Ver reserva" href="${path}verReserva.jsp?idReserva=${_r.getIdReserva()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">visibility</i></a>
-                                <a ${_r.getEstado().equals("EO") || _r.getEstado().equals("VO") ? 'disabled' : ''} id="btnMdlPrestamo" dataID="${_r.getIdReserva()}" title="Efectuar préstamo" href="#mdlPrestamo" class="modal-trigger btn waves-effect grey darken-3 waves-light"><i class="material-icons">assignment_turned_in</i></a>
+                                <a ${_r.getEstado().equals("EO") || _r.getEstado().equals("VO") ? 'disabled' : ''} dataID="${_r.getIdReserva()}" title="Efectuar préstamo" href="#mdlPrestamo" class="modal-trigger btnMdlPrestamo btn waves-effect grey darken-3 waves-light"><i class="material-icons">assignment_turned_in</i></a>
                             </td>
                         </tr>
                     </c:forEach >
                     </tbody>
                 </table>
                     
-                    <div class="modal" id="mdlPrestamo">
-                        <div class="modal-content">
-                            <h5 class="center grey-text text-darken-4">¿Estás seguro de efectuar esta reserva a préstamo?</h5>
-                            <div id="info-cont" class="container section" style="display: flex; justify-content: center; flex-direction: column;"></div>
-                            <br>
-                            <div class="btn-cont">
-                                <a class="modal-action modal-close btn waves-effect red">Cancelar <i class="material-icons right">cancel</i></a>
-                                <a id="btnConfirm" class="btn waves-effect green">Confirmar <i class="material-icons right">check</i></a>
+                <div class="modal" id="mdlPrestamo">
+                    <div class="modal-content">
+                        <h5 class="center grey-text text-darken-4">¿Estás seguro de efectuar esta reserva a préstamo?</h5>
+
+                        <form name="frmConfirm" class="row">
+                            <input type="hidden" name="idReserva">
+                            <div class="input-field col s8 offset-s2">
+                                <select name="cmbDays" id="cmbDays">
+                                    <option value="1">1 día</option>
+                                    <option value="3">3 días</option>
+                                    <option value="5">5 días</option>
+                                </select>
+                                <label for="cmdDays">Selecciona la duración del préstamo</label>
                             </div>
+                        </form>
+
+                        <div id="info-cont" class="container section" style="display: flex; justify-content: center; flex-direction: column;"></div>
+                        <br>
+                        <div class="btn-cont">
+                            <a class="modal-action modal-close btn waves-effect red">Cancelar <i class="material-icons right">cancel</i></a>
+                            <a id="btnConfirm" class="btn waves-effect green">Confirmar <i class="material-icons right">check</i></a>
                         </div>
                     </div>
+                </div>
             </c:if>
             <c:if test="${reservas.size() == 0}">
                 <div class="alert center red lighten-4 red-text text-darken-4">

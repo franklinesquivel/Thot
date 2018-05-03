@@ -1,21 +1,48 @@
 (function(){
 
-    Date.prototype.addDays = function (days) {
-        var dat = new Date(this.valueOf());
-        dat.setDate(dat.getDate() + days);
-        return dat;
-    }
-
     $(document).ready(function () {
         if (typeof $("#tblReservas") !== 'undefined') {
+
+            function twoDigits(d) {
+                if(0 <= d && d < 10) return "0" + d.toString();
+                if(-10 < d && d < 0) return "-0" + (-1*d).toString();
+                return d.toString();
+            }
+            
+            Date.prototype.toMySQLFormat = function() {
+                return this.getFullYear() + "-" + (twoDigits(this.getMonth() + 1)) + "-" + twoDigits(this.getDate()) + " " + twoDigits(this.getHours()) + ":" + twoDigits(this.getMinutes()) + ":" + twoDigits(this.getSeconds());
+            };
+
+            Date.prototype.addDays = function (days) {
+                var returnDate = new Date(
+                    this.getFullYear(),
+                    this.getMonth(),
+                    this.getDate() + days,
+                    this.getHours(),
+                    this.getMinutes(),
+                    this.getSeconds()
+                );
+        
+                return returnDate;
+            }
+
             let data;
 
-            $("#tblReservas").DataTable();
+            $("#tblReservas").DataTable({
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": false
+                    }
+                ],
+                "order": [[ 5, "desc" ], [ 1, "desc" ], [ 3, "desc" ]]
+            });
 
-            $("#btnMdlPrestamo").click(function () {
+            $(".btnMdlPrestamo").click(function () {
                 let idReserva = $(this).attr("dataID"),
-                    dataContent = $(`#tblReservas tr[data=${idReserva}] td`);
-                
+                    dataContent = $(`#tblReservas tr[data=${idReserva}] td`),
+                    _d = new Date();
+
                 data = {
                     idReserva,
                     usuario: {
@@ -26,11 +53,13 @@
                         idLibro: dataContent.eq(1).attr("idLibro"),
                         titulo: dataContent.eq(1).html()
                     },
-                    fechaPrestamo: dataContent.eq(2).html(),
-                    fechaDevolucion: dataContent.eq(3).html()
-                }
+                    fechaPrestamo: _d,
+                    fechaDevolucion: _d.addDays(1)
+                };
+
+                $('#cmbDays').val(1);
+                $('select').formSelect();
                 
-                let _d = new Date();
                 $("#info-cont").html(`
                     <h6 class='center'><b>Libro:</b> ${data.libro.idLibro} - ${data.libro.titulo}</h6>
                     <h6 class='center'><b>Usuario:</b> ${data.usuario.idUsuario} - ${data.usuario.nombre}</h6>
@@ -39,6 +68,13 @@
                 `);
 
             });
+
+            $('#cmbDays').change(function(){
+                let _d = new Date(), _auxDate = _d.addDays(Number.parseInt($(this).val()));
+                $("#info-cont h6").eq(3).html(`<b>Fecha de devolución:</b> ${_auxDate.toLocaleDateString().split('/').join('-')}`)
+                data.fechaPrestamo = new Date();
+                data.fechaDevolucion = _auxDate;
+            });
             
             $("#btnConfirm").click(function () {
                 if(typeof data !== 'undefined'){
@@ -46,8 +82,12 @@
                     _loader.in();
                     $.ajax({
                         type: 'POST',
-                        url: `${location.origin}/Thot/Prestamos/Efectuar`,
-                        data: {idReserva: data.idReserva},
+                        url: `${location.origin}/Thot/Reservas/Efectuar`,
+                        data: {
+                            idReserva: data.idReserva,
+                            fecha_prestamo: data.fechaPrestamo.toMySQLFormat(),
+                            fecha_devolucion: data.fechaDevolucion.toMySQLFormat()
+                        },
                         success: function (r) {
                             r = parseInt(r);
                             let _o = {};
@@ -82,6 +122,12 @@
                                 _o = {
                                     html: `La reserva que deseas efectuar a préstamo no se encuentra en estado óptimo para ser procesada...<i class="material-icons right">thumb_down</i>`,
                                     classes: "red darken-3", displayLength: 2000
+                                };
+                            } else if (r === -4) {
+                                _loader.out();
+                                _o = {
+                                    html: `Ha ocurrido un error con las fechas ingresadas! Verifica sus valores...<i class="material-icons right">thumb_down</i>`,
+                                    classes: "red darken-2", displayLength: 2000
                                 };
                             }
         

@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `thot` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish2_ci */;
 USE `thot`;
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: thot
+-- Host: localhost    Database: thot
 -- ------------------------------------------------------
--- Server version	5.7.21-log
+-- Server version	5.5.5-10.1.31-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -102,6 +102,29 @@ CREATE TABLE `detalle_librotema` (
   CONSTRAINT `FK_Detalle_LibroTema_Tema` FOREIGN KEY (`idTema`) REFERENCES `tema` (`idTema`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Temporary view structure for view `detalle_prestamo`
+--
+
+DROP TABLE IF EXISTS `detalle_prestamo`;
+/*!50001 DROP VIEW IF EXISTS `detalle_prestamo`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `detalle_prestamo` AS SELECT 
+ 1 AS `idPrestamo`,
+ 1 AS `fecha_prestamo`,
+ 1 AS `fecha_devolucion`,
+ 1 AS `mora`,
+ 1 AS `estado`,
+ 1 AS `idUsuario`,
+ 1 AS `usuario`,
+ 1 AS `correo`,
+ 1 AS `idEjemplar`,
+ 1 AS `idLibro`,
+ 1 AS `titulo`,
+ 1 AS `isbn`*/;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `ejemplar`
@@ -434,10 +457,10 @@ DELIMITER ;;
 /*!50003 SET character_set_results = utf8 */ ;;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `evento_verificar_procesos` ON SCHEDULE EVERY 5 MINUTE STARTS '2018-04-29 17:28:43' ON COMPLETION PRESERVE ENABLE DO CALL thot.verificar_procesos() */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `evento_verificar_procesos` ON SCHEDULE EVERY 5 MINUTE STARTS '2018-05-02 07:30:56' ON COMPLETION PRESERVE ENABLE DO CALL thot.verificar_procesos() */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -502,14 +525,14 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `efectuar_reserva`(IN _idReserva VARCHAR(25), OUT _res int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `efectuar_reserva`(IN _idReserva VARCHAR(25), IN _fecha_devolucion timestamp, OUT _res int)
 BEGIN
     SET @idUsuario = '';
     SET @idEjemplar = '';
     
     SELECT r.idUsuario, r.idEjemplar INTO @idUsuario, @idEjemplar FROM reserva r WHERE r.idReserva = _idReserva;
     
-    CALL prestamo_libro(@idEjemplar, @idUsuario, _res, NULL);
+    CALL prestamo_libro(@idEjemplar, @idUsuario, _res, _fecha_devolucion);
     
     IF _res = 1 THEN BEGIN
 		UPDATE reserva SET estado = 'EO' WHERE idReserva = _idReserva;
@@ -554,7 +577,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `login`(IN _user varchar(100), OUT _pass varchar(300), OUT _res int)
 BEGIN
@@ -566,7 +589,7 @@ BEGIN
 
 	IF @existe > 0 THEN BEGIN
 		SELECT password INTO _pass FROM Usuario 
-		WHERE (idUsuario = _user OR username = _user OR correo = _user) AND estado = 1;
+		WHERE (STRCMP(idUsuario, _user) = 0 OR STRCMP(username, _user) = 0 OR STRCMP(correo, _user) = 0) AND estado = 1;
         
         SET _res = 1;
 	END; END IF;
@@ -633,20 +656,20 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `renovar_prestamo`(IN _idEjemplar varchar(10), OUT _res int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `renovar_prestamo`(IN _idPrestamo varchar(25), OUT _res int)
 BEGIN
 	
     SET @existe = 0;
     SELECT COUNT(idPrestamo) INTO @existe FROM prestamo WHERE idPrestamo = _idPrestamo;
     
     IF @existe = 1 THEN BEGIN
-		UPDATE prestamo SET fecha_devolucion = DATE_ADD(now(), INTERVAL 1 DAY) WHERE idPrestamo = _idPrestamo;
+		UPDATE prestamo SET fecha_devolucion = DATE_ADD(current_timestamp, INTERVAL 1 DAY), estado = 'EP' WHERE idPrestamo = _idPrestamo;
         SET _res = 1;
     END; END IF;
     
-    IF @existe = 0 THEN SET _res = 0; END IF;
+    IF @existe = 0 THEN SET _res = -1; END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -795,6 +818,24 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Final view structure for view `detalle_prestamo`
+--
+
+/*!50001 DROP VIEW IF EXISTS `detalle_prestamo`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `detalle_prestamo` AS select `p`.`idPrestamo` AS `idPrestamo`,`p`.`fecha_prestamo` AS `fecha_prestamo`,`p`.`fecha_devolucion` AS `fecha_devolucion`,`p`.`mora` AS `mora`,`p`.`estado` AS `estado`,`u`.`idUsuario` AS `idUsuario`,concat(`u`.`nombre`,' ',`u`.`apellido`) AS `usuario`,`u`.`correo` AS `correo`,`e`.`idEjemplar` AS `idEjemplar`,`l`.`idLibro` AS `idLibro`,`l`.`titulo` AS `titulo`,`l`.`isbn` AS `isbn` from (((`prestamo` `p` join `usuario` `u` on((`u`.`idUsuario` = `p`.`idUsuario`))) join `ejemplar` `e` on((`e`.`idEjemplar` = `p`.`idEjemplar`))) join `libro` `l` on((`l`.`idLibro` = `e`.`idLibro`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -815,4 +856,4 @@ CREATE EVENT `evento_verificar_procesos`
   DO
 	CALL thot.verificar_procesos()
 
--- Dump completed on 2018-04-29 21:25:09
+-- Dump completed on 2018-05-02  9:08:09

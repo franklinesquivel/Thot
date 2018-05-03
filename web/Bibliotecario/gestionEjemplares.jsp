@@ -115,7 +115,6 @@
                     <th>Código</th>
                     <th>Estado</th>
                     <th>Observaciones</th>
-                    <th>Acciones</th>
                 </thead>
                 <tbody>
                 <c:forEach items="${_l.getEjemplares()}" var="_e">
@@ -123,9 +122,6 @@
                         <td>${_e.getIdEjemplar()}</td>
                         <td>${_e.getDisplayEstado()}</td>
                         <td>${_e.getObservaciones()}</td>
-                        <td>
-                            <a href="">Hola</a>
-                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>

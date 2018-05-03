@@ -104,21 +104,22 @@
             <c:if test="${libros.size() > 0}">
                 <table class="center" id="tblLibros">
                     <thead>
-                    <th>ISBN</th>
-                    <th>Título</th>
-                    <th>Edición</th>
-                    <th>Acciones</th>
+                        <th>idLibro</th>
+                        <th>Título</th>
+                        <th>ISBN</th>
+                        <th>Edición</th>
+                        <th>Acciones</th>
                     </thead>
                     <tbody>
                         <c:forEach items="${libros}" var="_l">
                             <tr>
-                                <td>${_l.getIsbn()}</td>
+                                <td>${_l.getIdLibro()}</td>
                                 <td>${_l.getTitulo()}</td>
+                                <td>${_l.getIsbn()}</td>
                                 <td>${_l.getEdicion()}</td>
                                 <td>
                                     <a title="Ver libro" href="${path}verLibro.jsp?idLibro=${_l.getIdLibro()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">visibility</i></a>
                                     <a title="Administrar ejemplares" href="${path}gestionEjemplares.jsp?idLibro=${_l.getIdLibro()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">chrome_reader_mode</i></a>
-                                    <!--<a ${_l.esProcesable() ? 'disabled' : ''} title="Registrar Reserva" href="${path}registrarReserva.jsp?idLibro=${_l.getIdLibro()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">https</i></a>-->
                                     <a ${_l.esProcesable() ? 'disabled' : ''} title="Registrar Préstamo" href="${path}registrarPrestamo.jsp?idLibro=${_l.getIdLibro()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">assignment</i></a>
                                 </td>
                             </tr>
