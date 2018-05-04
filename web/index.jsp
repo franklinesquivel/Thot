@@ -102,7 +102,7 @@
                 <p class="center grey-text">
                     Registrate y disfruta del todo conocimiento y entretenimiento!
                 </p>
-                <div id="frmAlertCont" class="col m8 offset-m2 s10 offset-s1"></div>
+                <div id="_frmAlertCont" class="col m8 offset-m2 s10 offset-s1"></div>
                 <form class="row" name="frmRegister" id="frmRegister">
                     <div class="input-field col m10 offset-m1 s12">
                         <input type="text" name="txtName" id="txtName" class="form-control">

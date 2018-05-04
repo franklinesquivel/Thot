@@ -130,6 +130,10 @@
                     </tbody>
                 </table>
                     
+                <form action="/Thot/Reservas/Reporte" method="POST">
+                    <button class="btn btn grey darken-4 waves-effect waves-light">Reporte de reservas <i class="material-icons right">file_download</i></button>
+                </form>
+                    
                 <div class="modal" id="mdlPrestamo">
                     <div class="modal-content">
                         <h5 class="center grey-text text-darken-4">¿Estás seguro de efectuar esta reserva a préstamo?</h5>

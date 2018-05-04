@@ -102,6 +102,9 @@
                 <c:remove scope="session" var="msg_type"/>
             </c:if>
             <c:if test="${prestamos.size() > 0}">
+                <form name="frmFactura" action="/Thot/Prestamos/Factura" method="POST">
+                    <input type="hidden" name="idPrestamo" />
+                </form>
                 <table class="center" id="tblPrestamos">
                     <thead>
                         <th>idPrestamo</th>
@@ -121,12 +124,20 @@
                                 <td>$${_p.getMoraDecimales(2)}</td>
                                 <td>
                                     <a title="Ver préstamo" href="${path}verPrestamo.jsp?idPrestamo=${_p.getIdPrestamo()}" class="btn waves-effect grey darken-3 waves-light"><i class="material-icons">visibility</i></a>
-                                    <a ${_p.getEstado().equals('FO') ? 'disabled' : ''} idPrestamo="${_p.getIdPrestamo()}" title="Finalizar préstamo" href="#mdlFinalizar" class="modal-trigger btnFinalizar btn waves-effect grey darken-3 waves-light"><i class="material-icons">local_library</i></a>
+                                    <c:if test="${_p.getEstado() == 'FO'}">
+                                        <a idPrestamo="${_p.getIdPrestamo()}" title="Generar factura" class="btnFactura btn waves-effect grey darken-3 waves-light"><i class="material-icons">receipt</i></a>
+                                    </c:if>
+                                    <c:if test="${_p.getEstado() != 'FO'}">
+                                        <a idPrestamo="${_p.getIdPrestamo()}" title="Finalizar préstamo" href="#mdlFinalizar" class="modal-trigger btnFinalizar btn waves-effect grey darken-3 waves-light"><i class="material-icons">local_library</i></a>
+                                    </c:if>
                                 </td>
                             </tr>
                         </c:forEach >
                     </tbody>
                 </table>
+                <form action="/Thot/Prestamos/Reporte" method="POST">
+                    <button class="btn btn grey darken-4 waves-effect waves-light">Reporte de préstamos <i class="material-icons right">file_download</i></button>
+                </form>
             </c:if>
             <c:if test="${prestamos.size() == 0}">
                 <div class="alert center red lighten-4 red-text text-darken-4">

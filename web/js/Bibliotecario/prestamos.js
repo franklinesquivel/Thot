@@ -3,6 +3,11 @@
     $(document).ready(function(){
         if(typeof $("#tblPrestamos") !== 'undefined'){
             let idPrestamo;
+            
+            $('.btnFactura').click(function(){
+                frmFactura.idPrestamo.value = $(this).attr('idPrestamo');
+                frmFactura.submit();
+            });
     
             $("#tblPrestamos").DataTable({
                 "columnDefs": [

@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `thot` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish2_ci */;
 USE `thot`;
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: thot
+-- Host: 127.0.0.1    Database: thot
 -- ------------------------------------------------------
--- Server version	5.5.5-10.1.31-MariaDB
+-- Server version	5.7.21-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -116,6 +116,28 @@ SET character_set_client = utf8;
  1 AS `fecha_prestamo`,
  1 AS `fecha_devolucion`,
  1 AS `mora`,
+ 1 AS `estado`,
+ 1 AS `idUsuario`,
+ 1 AS `usuario`,
+ 1 AS `correo`,
+ 1 AS `idEjemplar`,
+ 1 AS `idLibro`,
+ 1 AS `titulo`,
+ 1 AS `isbn`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `detalle_reserva`
+--
+
+DROP TABLE IF EXISTS `detalle_reserva`;
+/*!50001 DROP VIEW IF EXISTS `detalle_reserva`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `detalle_reserva` AS SELECT 
+ 1 AS `idReserva`,
+ 1 AS `fecha_reserva`,
+ 1 AS `fecha_vencimiento`,
  1 AS `estado`,
  1 AS `idUsuario`,
  1 AS `usuario`,
@@ -457,10 +479,10 @@ DELIMITER ;;
 /*!50003 SET character_set_results = utf8 */ ;;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;;
-/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `evento_verificar_procesos` ON SCHEDULE EVERY 5 MINUTE STARTS '2018-05-02 07:30:56' ON COMPLETION PRESERVE ENABLE DO CALL thot.verificar_procesos() */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `evento_verificar_procesos` ON SCHEDULE EVERY 5 MINUTE STARTS '2018-05-03 17:52:44' ON COMPLETION PRESERVE ENABLE DO CALL thot.verificar_procesos() */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -836,6 +858,24 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `detalle_reserva`
+--
+
+/*!50001 DROP VIEW IF EXISTS `detalle_reserva`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `detalle_reserva` AS select `r`.`idReserva` AS `idReserva`,`r`.`fecha_reserva` AS `fecha_reserva`,`r`.`fecha_vencimiento` AS `fecha_vencimiento`,`r`.`estado` AS `estado`,`u`.`idUsuario` AS `idUsuario`,concat(`u`.`nombre`,' ',`u`.`apellido`) AS `usuario`,`u`.`correo` AS `correo`,`e`.`idEjemplar` AS `idEjemplar`,`l`.`idLibro` AS `idLibro`,`l`.`titulo` AS `titulo`,`l`.`isbn` AS `isbn` from (((`reserva` `r` join `usuario` `u` on((`u`.`idUsuario` = `r`.`idUsuario`))) join `ejemplar` `e` on((`e`.`idEjemplar` = `r`.`idEjemplar`))) join `libro` `l` on((`l`.`idLibro` = `e`.`idLibro`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -856,4 +896,4 @@ CREATE EVENT `evento_verificar_procesos`
   DO
 	CALL thot.verificar_procesos()
 
--- Dump completed on 2018-05-02  9:08:09
+-- Dump completed on 2018-05-03 21:54:41

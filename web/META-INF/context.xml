@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/Thot"/>
+<Context antiJARLocking="true" path="/Thot">
+
+    <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" name="jdbc/mysql"
+              password="" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/thot"
+              username="root"
+    />
+    
+</Context>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_prestamos" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="aaeefadd-9278-47d3-84e7-8715a76b75a4">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_reservas" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="aaeefadd-9278-47d3-84e7-8715a76b75a4">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -15,31 +15,32 @@
 	</style>
 	<queryString>
 		<![CDATA[SELECT
-     detalle_prestamo.`idPrestamo` AS detalle_prestamo_idPrestamo,
-     detalle_prestamo.`fecha_prestamo` AS detalle_prestamo_fecha_prestamo,
-     detalle_prestamo.`fecha_devolucion` AS detalle_prestamo_fecha_devolucion,
-     detalle_prestamo.`mora` AS detalle_prestamo_mora,
-     detalle_prestamo.`estado` AS detalle_prestamo_estado,
-     detalle_prestamo.`idUsuario` AS detalle_prestamo_idUsuario,
-     detalle_prestamo.`usuario` AS detalle_prestamo_usuario,
-     detalle_prestamo.`correo` AS detalle_prestamo_correo,
-     detalle_prestamo.`idEjemplar` AS detalle_prestamo_idEjemplar,
-     detalle_prestamo.`idLibro` AS detalle_prestamo_idLibro,
-     detalle_prestamo.`titulo` AS detalle_prestamo_titulo,
-     detalle_prestamo.`isbn` AS detalle_prestamo_isbn
+     detalle_reserva.`idReserva` AS detalle_reserva_idReserva,
+     detalle_reserva.`fecha_reserva` AS detalle_reserva_fecha_reserva,
+     detalle_reserva.`fecha_vencimiento` AS detalle_reserva_fecha_vencimiento,
+     detalle_reserva.`estado` AS detalle_reserva_estado,
+     detalle_reserva.`idUsuario` AS detalle_reserva_idUsuario,
+     detalle_reserva.`usuario` AS detalle_reserva_usuario,
+     detalle_reserva.`correo` AS detalle_reserva_correo,
+     detalle_reserva.`idEjemplar` AS detalle_reserva_idEjemplar,
+     detalle_reserva.`idLibro` AS detalle_reserva_idLibro,
+     detalle_reserva.`titulo` AS detalle_reserva_titulo,
+     detalle_reserva.`isbn` AS detalle_reserva_isbn
 FROM
-     `detalle_prestamo` detalle_prestamo]]>
+     `detalle_reserva` detalle_reserva]]>
 	</queryString>
-	<field name="detalle_prestamo_idPrestamo" class="java.lang.String"/>
-	<field name="detalle_prestamo_fecha_prestamo" class="java.sql.Timestamp"/>
-	<field name="detalle_prestamo_fecha_devolucion" class="java.sql.Timestamp"/>
-	<field name="detalle_prestamo_mora" class="java.math.BigDecimal"/>
-	<field name="detalle_prestamo_estado" class="java.lang.String"/>
-	<field name="detalle_prestamo_usuario" class="java.lang.String"/>
-	<field name="detalle_prestamo_idEjemplar" class="java.lang.String"/>
-	<field name="detalle_prestamo_idLibro" class="java.lang.String"/>
-	<field name="detalle_prestamo_titulo" class="java.lang.String"/>
-	<sortField name="detalle_prestamo_fecha_prestamo" order="Descending"/>
+	<field name="detalle_reserva_idReserva" class="java.lang.String"/>
+	<field name="detalle_reserva_fecha_reserva" class="java.sql.Timestamp"/>
+	<field name="detalle_reserva_fecha_vencimiento" class="java.sql.Timestamp"/>
+	<field name="detalle_reserva_estado" class="java.lang.String"/>
+	<field name="detalle_reserva_idUsuario" class="java.lang.String"/>
+	<field name="detalle_reserva_usuario" class="java.lang.String"/>
+	<field name="detalle_reserva_correo" class="java.lang.String"/>
+	<field name="detalle_reserva_idEjemplar" class="java.lang.String"/>
+	<field name="detalle_reserva_idLibro" class="java.lang.String"/>
+	<field name="detalle_reserva_titulo" class="java.lang.String"/>
+	<field name="detalle_reserva_isbn" class="java.lang.String"/>
+	<sortField name="detalle_reserva_fecha_reserva" order="Descending"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -52,7 +53,7 @@ FROM
 					<textElement textAlignment="Center">
 						<font fontName="SansSerif" size="20" isBold="false"/>
 					</textElement>
-					<text><![CDATA[Reporte de préstamos]]></text>
+					<text><![CDATA[Reporte de reservas]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Transparent" x="0" y="0" width="370" height="66" forecolor="#FFFFFF" uuid="3a8e0415-1757-4cae-bbd8-7a34f6f20785"/>
@@ -72,28 +73,7 @@ FROM
 			<frame>
 				<reportElement mode="Opaque" x="0" y="0" width="802" height="36" forecolor="#000000" backcolor="#64B5F6" uuid="06f1210e-6e25-47f5-94c5-975033ab6ec7"/>
 				<staticText>
-					<reportElement style="Column header" x="386" y="0" width="190" height="36" forecolor="#FFFFFF" uuid="9d807b97-e85f-45b8-acdb-bcb2424d9b3c"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="12" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Usuario]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="161" y="0" width="75" height="36" forecolor="#FFFFFF" uuid="f527eb69-3147-4e07-948c-fc14f57a0d29"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="12" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Fecha préstamo]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="727" y="0" width="75" height="36" forecolor="#FFFFFF" uuid="00303c94-bf27-4e88-9286-6e17e93815ef"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="12" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Mora]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="576" y="0" width="151" height="36" forecolor="#FFFFFF" uuid="5fc8b182-f623-4275-a4b9-027877848a97"/>
+					<reportElement style="Column header" x="386" y="0" width="215" height="36" forecolor="#FFFFFF" uuid="9d807b97-e85f-45b8-acdb-bcb2424d9b3c"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="12" isBold="true"/>
 					</textElement>
@@ -105,14 +85,21 @@ FROM
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Código del préstamo]]></text>
+				<text><![CDATA[Código de la reserva]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="161" y="0" width="75" height="36" forecolor="#FFFFFF" uuid="f527eb69-3147-4e07-948c-fc14f57a0d29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de inicio]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="236" y="0" width="75" height="36" forecolor="#FFFFFF" uuid="d85c7a51-53d5-4626-9530-bb94bc14fc62"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Fecha devolución]]></text>
+				<text><![CDATA[Fecha final]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="311" y="0" width="75" height="35" forecolor="#FFFFFF" uuid="b8664941-1d9b-431f-a3ea-280afd3a33f8"/>
@@ -121,10 +108,31 @@ FROM
 				</textElement>
 				<text><![CDATA[Estado]]></text>
 			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="601" y="0" width="201" height="36" forecolor="#FFFFFF" uuid="00303c94-bf27-4e88-9286-6e17e93815ef"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Libro]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="37" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="###0.00">
+				<reportElement style="Detail" positionType="Float" x="601" y="0" width="201" height="36" uuid="61ce33f6-d2e7-4b99-a34b-9b941e644f87"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#1976D2"/>
+					<topPen lineWidth="0.5" lineColor="#1976D2"/>
+					<leftPen lineWidth="0.5" lineColor="#1976D2"/>
+					<bottomPen lineWidth="0.5" lineColor="#1976D2"/>
+					<rightPen lineWidth="0.5" lineColor="#1976D2"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalle_reserva_titulo}]]></textFieldExpression>
+			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Detail" positionType="Float" x="0" y="0" width="161" height="36" uuid="7a7d7260-3c25-4c7b-a9b1-badfffa27e23"/>
 				<box>
@@ -137,21 +145,7 @@ FROM
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{detalle_prestamo_idPrestamo}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
-				<reportElement style="Detail" positionType="Float" x="236" y="0" width="75" height="36" uuid="8671ac25-b39e-4b8f-982c-5f5d3c6eabdf"/>
-				<box>
-					<pen lineWidth="0.5" lineColor="#1976D2"/>
-					<topPen lineWidth="0.5" lineColor="#1976D2"/>
-					<leftPen lineWidth="0.5" lineColor="#1976D2"/>
-					<bottomPen lineWidth="0.5" lineColor="#1976D2"/>
-					<rightPen lineWidth="0.5" lineColor="#1976D2"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{detalle_prestamo_fecha_devolucion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{detalle_reserva_idReserva}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
 				<reportElement style="Detail" positionType="Float" x="161" y="0" width="75" height="36" uuid="e50fab4e-1ea1-4584-9fe9-dfcc8ea7b143"/>
@@ -165,10 +159,10 @@ FROM
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{detalle_prestamo_fecha_prestamo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{detalle_reserva_fecha_reserva}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement style="Detail" positionType="Float" x="386" y="0" width="190" height="36" uuid="0abd8ea8-48c8-417f-bc77-af79a49df3f1"/>
+				<reportElement style="Detail" positionType="Float" x="386" y="0" width="215" height="36" uuid="0abd8ea8-48c8-417f-bc77-af79a49df3f1"/>
 				<box>
 					<pen lineWidth="0.5" lineColor="#1976D2"/>
 					<topPen lineWidth="0.5" lineColor="#1976D2"/>
@@ -179,10 +173,10 @@ FROM
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{detalle_prestamo_usuario}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{detalle_reserva_usuario}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="###0.00">
-				<reportElement style="Detail" positionType="Float" x="727" y="0" width="75" height="36" uuid="61ce33f6-d2e7-4b99-a34b-9b941e644f87"/>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement style="Detail" positionType="Float" x="236" y="0" width="75" height="36" uuid="8671ac25-b39e-4b8f-982c-5f5d3c6eabdf"/>
 				<box>
 					<pen lineWidth="0.5" lineColor="#1976D2"/>
 					<topPen lineWidth="0.5" lineColor="#1976D2"/>
@@ -193,21 +187,7 @@ FROM
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["\$" + $F{detalle_prestamo_mora}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement style="Detail" positionType="Float" x="576" y="0" width="151" height="36" uuid="9e9fefe2-1a79-4acf-aa99-c92cb57f967c"/>
-				<box>
-					<pen lineWidth="0.5" lineColor="#1976D2"/>
-					<topPen lineWidth="0.5" lineColor="#1976D2"/>
-					<leftPen lineWidth="0.5" lineColor="#1976D2"/>
-					<bottomPen lineWidth="0.5" lineColor="#1976D2"/>
-					<rightPen lineWidth="0.5" lineColor="#1976D2"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{detalle_prestamo_titulo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{detalle_reserva_fecha_vencimiento}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="###0.00">
 				<reportElement style="Detail" positionType="Float" x="311" y="0" width="75" height="36" uuid="6a5358fb-e7dd-46e8-8dd9-f39b19a3d390"/>
@@ -221,7 +201,7 @@ FROM
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{detalle_prestamo_estado} == "FO" ? "Finalizado" : ($F{detalle_prestamo_estado} == "EP" ? "En proceso" : "Finalizado"))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{detalle_reserva_estado} == "EO" ? "Efectuado" : ($F{detalle_reserva_estado} == "VO" ? "Vencido" : "Vigente"))]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
