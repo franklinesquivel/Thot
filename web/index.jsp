@@ -1,138 +1,116 @@
-<%-- 
-    Document   : index
-    Created on : 04-16-2018, 04:51:14 PM
-    Author     : Frank
---%>
-
-<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
-
-
-<%@ include file="/WEB-INF/jspf/control_sesion.jspf" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="/Thot/css/materialize.min.css">
-
-        <script src="/Thot/js/jquery.js"></script>
-        <script src="/Thot/js/jquery.validate.min.js"></script>
-        <script src="/Thot/js/materialize.min.js"></script>
-        <script src="/Thot/js/Loader.js"></script>
-        <script src="/Thot/js/init.js"></script>
         
-        <script src="/Thot/js/login.js"></script>
-        <link rel="stylesheet" href="/Thot/css/login.css">
-
-        <title>Thot - Sistema Bibliotecario</title>
+        <%@ include file="/WEB-INF/jspf/header.jspf" %>
+        <link rel="stylesheet" href="css/index.css"/>
+        <title>Thot - Librería</title>
     </head>
     <body>
-        <main class="row">
-            <form action="/Thot/Login" method="POST" name="frmLogin" id="frmLogin" class="col l10 offset-l1 m10 offset-m1 s10 offset-s1">
-                <h3 class="blue-text text-lighten-1 center" style="display: flex; justify-content: center;">Thot <i class="material-icons medium">book</i></h3>
-                <h5 class="grey-text center">[Inicio de Sesión]</h5>
-                
-                <br><br>
 
-                <div id="mainAlertCont" class="col m10 offset-m1 s12">
-                    <c:if test="${sessionScope.msg != null}">
-                        <div class="${sessionScope.msg_type} ${sessionScope.msg_type}-text text-darken-3 center alert">
-                            <strong>${sessionScope.msg}</strong>
+        <header>
+
+            <div class="container">
+                <nav class="transparent z-depth-0" id="nav">
+                    <div class="nav-wrapper">
+                        <a href="/Thot/" class="brand-logo">
+                            Thot
+                            <img src="/Thot/images/thot.jpg" width="50px" alt="">
+                        </a>
+                        <ul class="right hide-on-med-and-down" id="opc">    
+                            <li><a href="login.jsp">Iniciar Sesión <i class="material-icons right">person_pin</i></a></li>
+                            <li><a href="libros.jsp">Ver catálogo de libros <i class="material-icons right">library_books</i></a></li> 
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="col s12 m4 18">
+                <h1 class="center-align white-text">Bienvenido a Thot</h1>
+                <h5 class="center-align white-text">Tu biblioteca digital</h5>
+            </div> 
+            <br><br>
+
+            <br>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col s12 m4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="https://www.recreoviral.com/wp-content/uploads/2015/06/30-asombrosas-portadas-de-libros-28.jpg">
+                            
                         </div>
-                        
-                        <c:remove var="msg_type" scope="session" />
-                        <c:remove var="msg" scope="session" />
-                    </c:if>
+                        <div class="card-content">
+                            <p>Hermann Kermit Warm va a morir. El hombre enigmático y poderoso conocido como Commodore lo ha ordenado, y sus secuaces, 
+                                Eli y Charlie Sisters, se asegurarán de ello. Aunque Eli no comparte el apetito de su hermano por el whisky y la muerte, 
+                                nunca ha sabido nada más. Pero su presa no es una marca fácil, y en el camino de Oregon City 
+                                a la demanda de extracción de oro de Warm fuera de Sacramento, Eli comienza a cuestionar qué hace para ganarse la vida, 
+                                y para quién lo hace.</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">This is a link</a>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="input-field col m10 offset-m1 s12">
-                    <i class="material-icons prefix">account_circle</i>
-                    <input type="text" name="txtUser" id="txtUser" class="">
-                    <label for="txtUser">Correo / Nombre de usuario</label>
+                <div class="col s12 m4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="https://www.recreoviral.com/wp-content/uploads/2015/06/30-asombrosas-portadas-de-libros-20.jpg">
+                            
+                        </div>
+                        <div class="card-content">
+                            <p>arie, una joven madre soltera, consigue un trabajo en un exclusivo asador de Dallas. 
+                                Ella está sobrenaturalmente sintonizada con los apetitos de sus clientes, pero rápidamente aprende a esconder 
+                                su lucha privada detrás de una sonrisa fácil y un delantal blanco crujiente. En un mundo de largas horas y noches 
+                                nocturnas, donde todo funciona en una moneda de favores, efectivo y prestigio, Marie cede ante impulsos brutalmente 
+                                autodestructivos. Ella se pierde en una maraña de cuerpos y el tipo de coca que "napalm sus sinapsis emocionales". 
+                                Pero la destrucción, no el placer, es su objetivo. Pulsando con una energía feroz, casi salvaje, Love Me Back es un retrato 
+                                sin disculpas de una mujer que corta un camino precario a través de la adultez temprana.</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">This is a link</a>
+                        </div>
+                    </div>
                 </div>
-                <br>
-                <div class="input-field col m10 offset-m1 s12">
-                    <i class="material-icons prefix">vpn_key</i>
-                    <input type="password" name="txtPassword" id="txtPassword" class="">
-                    <label for="txtPassword">Contraseña</label>
-                </div>
-                
-                <div class="input-field col m10 offset-m1 s12">
-                    <a class="modal-trigger" href="#mdlRecover">He olvidado mi contraseña</a>
-                </div>
-                <div class="input-field col m10 offset-m1 s12">
-                    <a class="modal-trigger" href="#mdlRegister">Registrarme</a>
-                </div>      
-                <br><br>
-                <div class="input-field col m10 offset-m1 s12" style="display: flex; justify-content: center;">
-                    <button type="submit" class="btn indigo waves-effect waves-light">Iniciar Sesión</button>
-                </div>
-            </form>
-        </main>
 
-        <div id="mdlRecover" class="modal">
-            <div class="modal-content">
-                <h4 class="center modal-title purple-text text-accent-2">Recuperar Contraseña</h4>
-                <p class="center grey-text">
-                    Ingresa tu correo o nombre de usuario para enviarte tu contraseña a tu correo electrónico!
-                </p>
-                <div id="frmAlertCont" class="col m8 offset-m2 s10 offset-s1"></div>
-                <form class="row" name="frmRecoverPass" id="frmRecoverPass">
-                    <div class="input-field col m10 offset-m1 s12">
-                        <i class="material-icons prefix">account_circle</i>
-                        <input type="text" name="txtUser" class="form-control" placeholder="Correo / Nombre de usuario">
+                <div class="col s12 m4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="https://www.recreoviral.com/wp-content/uploads/2015/06/30-asombrosas-portadas-de-libros-24.jpg">
+                            
+                        </div>
+                        <div class="card-content">
+                            <p>Prisión de Fukuoka, 1944. Más allá de los muros de la prisión, la guerra se recrudece. En el interior, 
+                                un hombre es encontrado brutalmente asesinado. Lo que sigue es un retrato abrasador de Corea antes de su guerra civil, 
+                                y un testimonio del poder redentor de la poesía.</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">This is a link</a>
+                        </div>
                     </div>
-                </form>
+                </div>
+
             </div>
-            <div class="modal-footer">
-                <button class="modal-action modal-close waves-effect waves-light red darken-1 white-text btn">Cerrar</button>    
-                <button id="btnRecover" class="waves-effect waves-light amber white-text btn">Recuperar contraseña</button>  
-            </div>
+
         </div>
-        
-        <div id="mdlRegister" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <h4 class="center modal-title purple-text text-accent-2">Registro</h4>
-                <p class="center grey-text">
-                    Registrate y disfruta del todo conocimiento y entretenimiento!
-                </p>
-                <div id="_frmAlertCont" class="col m8 offset-m2 s10 offset-s1"></div>
-                <form class="row" name="frmRegister" id="frmRegister">
-                    <div class="input-field col m10 offset-m1 s12">
-                        <input type="text" name="txtName" id="txtName" class="form-control">
-                        <label for="txtUser">Nombre</label>
-                    </div>
-                    <div class="input-field col m10 offset-m1 s12">
-                        <input type="text" name="txtLastName" id="txtLastName" class="form-control">
-                        <label for="txtLastName">Apellido</label>
-                    </div>
-                    <div class="input-field col m10 offset-m1 s12">
-                        <input type="date" name="txtBirthdate" id="txtBirthdate" class="form-control">
-                        <label for="txtBirthdate" class="active">Fecha de Nacimiento</label>
-                    </div>
-                    <div class="input-field col m10 offset-m1 s12">
-                        <input type="text" name="txtEmail" id="txtEmail" class="form-control">
-                        <label for="txtEmail" class="active">Email</label>
-                    </div>
-                    
-                    <div class="input-field col m10 offset-m1 s12 center-align">
-                        <button id="btnRegister" class="waves-effect waves-light amber white-text btn">Registrar</button> 
-                    </div>
-                </form>
+
+        <footer class="page-footer amber darken-3">
+            <div class="footer-copyright">
+                <div class="container black-text center-align">
+                    © 2018 Copyright Thot
+                </div>
             </div>
-            <div class="modal-footer">
-                <button class="modal-action modal-close waves-effect waves-light red darken-1 white-text btn">Cerrar</button>    
-            </div>
-        </div>
-        
-        <div id="main-back">
-            <img src="images/log-wall.jpg">
-        </div>
+        </footer>
+        <script>
+            $(document).ready(function () {
+                $('.carousel').carousel();
+            });
+        </script>
     </body>
 </html>

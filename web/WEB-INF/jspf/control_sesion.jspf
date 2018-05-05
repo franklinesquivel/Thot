@@ -4,8 +4,8 @@
 
 <c:if test="${sessionScope.logged != true}">
     <%
-        if (!request.getRequestURI().equals("/Thot/")) {
-            response.sendRedirect("/Thot/");
+        if (!request.getRequestURI().equals("/Thot/login.jsp")) {
+            response.sendRedirect("/Thot/login.jsp");
         }
     %>
 </c:if>
@@ -26,7 +26,7 @@
         }else{
             session.setAttribute("logged", false);
             session.setAttribute("userData", false);
-            response.sendRedirect("/Thot/");
+            response.sendRedirect("/Thot/login.jsp");
         }
         
     %>

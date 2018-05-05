@@ -41,7 +41,7 @@ public class Login extends HttpServlet {
             _s.setAttribute("msg_type", "danger");
             _s.setAttribute("msg", "Ingrese datos válidos!");
 
-            response.sendRedirect("/Thot/");
+            response.sendRedirect("/Thot/login.jsp");
         } else {
             String redirect = "";
             switch (DBConnection.login(user, pass)) {
@@ -56,13 +56,13 @@ public class Login extends HttpServlet {
                 case -1: case 0:
                     _s.setAttribute("msg_type", "yellow");
                     _s.setAttribute("msg", "El usuario ingresado no ha sido encontrado... ");
-                    redirect = ("/Thot/");
+                    redirect = ("/Thot/login.jsp");
                     break;
                 //Error
                 case -2:
                     _s.setAttribute("msg_type", "red");
                     _s.setAttribute("msg", "En este momento no se puede conectar a la plataforma. Intente más tarde...");
-                    redirect = ("/Thot/");
+                    redirect = ("/Thot/login.jsp");
                     break;
             }
             

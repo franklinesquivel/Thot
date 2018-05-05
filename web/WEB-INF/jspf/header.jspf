@@ -10,11 +10,13 @@
 <link rel="stylesheet" href="/Thot/css/materialize.min.css">
 
 <link rel="stylesheet" href="/Thot/css/main.css">
-<link href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="/Thot/css/datatables.min.css" rel="stylesheet">
+<link href="/Thot/css/datatables.material.min.css" rel="stylesheet">
 
 <script src="/Thot/js/jquery.js"></script>
 <script src="/Thot/js/jquery.validate.min.js"></script>
 <script src="/Thot/js/materialize.min.js"></script>
 <script src="/Thot/js/Loader.js"></script>
 <script src="/Thot/js/init.js"></script>
-<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="/Thot/js/datatables.min.js"></script>
+<script src="/Thot/js/datatables.material.min.js"></script>

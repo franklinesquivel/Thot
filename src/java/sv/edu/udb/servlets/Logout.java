@@ -37,7 +37,7 @@ public class Logout extends HttpServlet {
             _s.invalidate();
         }
         
-        response.sendRedirect("/Thot/");
+        response.sendRedirect("/Thot/login.jsp");
     }
 
     /**

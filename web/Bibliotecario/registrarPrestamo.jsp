@@ -73,7 +73,7 @@
                         <div class="background grey darken-4">
                         </div>
                         <a>
-                            <img class="circle" src="/favicon.png">
+                            <img class="circle" src="/Thot/images/thot.jpg">
                         </a>
                         <a>
                             <span class="white-text name"><c:out value="${user.getDisplayName()}"></c:out></span>

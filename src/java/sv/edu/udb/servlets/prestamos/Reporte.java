@@ -73,12 +73,12 @@ public class Reporte extends HttpServlet {
                 } else {
                     request.getSession().setAttribute("msg", "Debes estar autenticado para efectuar esta acción...");
                     request.getSession().setAttribute("msg_type", "red");
-                    response.sendRedirect("/Thot/");
+                    response.sendRedirect("/Thot/login.jsp");
                 }
             } else {
                 request.getSession().setAttribute("msg", "Debes estar autenticado para efectuar esta acción...");
                 request.getSession().setAttribute("msg_type", "red");
-                response.sendRedirect("/Thot/");
+                response.sendRedirect("/Thot/login.jsp");
             }
         }
     }

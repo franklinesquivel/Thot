@@ -29,8 +29,8 @@ body {
 }
 
 #opc li:hover > a {
-    background-color: rgba(17, 17, 17, 0.1);
-    color: #ff8f00;
+    /* background-color: rgba(17, 17, 17, 0.1); */
+    /* color: #ff8f00; */
 }
 
 #body {
