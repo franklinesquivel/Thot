@@ -30,7 +30,7 @@
         <script src="/Thot/js/login.js"></script>
         <link rel="stylesheet" href="/Thot/css/login.css">
 
-        <title>Thot - Sistema Bibliotecario</title>
+        <title><fmt:message key="login.header.title"/></title>
     </head>
     <body>
         <main class="row">
@@ -54,31 +54,31 @@
                 <div class="input-field col m10 offset-m1 s12">
                     <i class="material-icons prefix">account_circle</i>
                     <input type="text" name="txtUser" id="txtUser" class="">
-                    <label for="txtUser">Correo / Nombre de usuario</label>
+                    <label for="txtUser"><fmt:message key="login.user"/></label>
                 </div>
                 <br>
                 <div class="input-field col m10 offset-m1 s12">
                     <i class="material-icons prefix">vpn_key</i>
                     <input type="password" name="txtPassword" id="txtPassword" class="">
-                    <label for="txtPassword">Contraseña</label>
+                    <label for="txtPassword"><fmt:message key="login.password"/></label>
                 </div>
                 
                 <div class="input-field col m10 offset-m1 s12">
-                    <a class="modal-trigger" href="#mdlRecover">He olvidado mi contraseña</a>
+                    <a class="modal-trigger" href="#mdlRecover"><fmt:message key="login.password.forgot"/></a>
                 </div>
                 <div class="input-field col m10 offset-m1 s12">
-                    <a class="modal-trigger" href="#mdlRegister">Registrarme</a>
+                    <a class="modal-trigger" href="#mdlRegister"><fmt:message key="register"/></a>
                 </div>      
                 <br><br>
                 <div class="input-field col m10 offset-m1 s12" style="display: flex; justify-content: center;">
-                    <button type="submit" class="btn indigo waves-effect waves-light">Iniciar Sesión</button>
+                    <button type="submit" class="btn indigo waves-effect waves-light"><fmt:message key="login"/></button>
                 </div>
             </form>
         </main>
 
         <div id="mdlRecover" class="modal">
             <div class="modal-content">
-                <h4 class="center modal-title purple-text text-accent-2">Recuperar Contraseña</h4>
+                <h4 class="center modal-title purple-text text-accent-2"><fmt:message key="login.password.recover"/></h4>
                 <p class="center grey-text">
                     Ingresa tu correo o nombre de usuario para enviarte tu contraseña a tu correo electrónico!
                 </p>
@@ -92,7 +92,7 @@
             </div>
             <div class="modal-footer">
                 <button class="modal-action modal-close waves-effect waves-light red darken-1 white-text btn">Cerrar</button>    
-                <button id="btnRecover" class="waves-effect waves-light amber white-text btn">Recuperar contraseña</button>  
+                <button id="btnRecover" class="waves-effect waves-light amber white-text btn"><fmt:message key="login.password.recover"/></button>  
             </div>
         </div>
         

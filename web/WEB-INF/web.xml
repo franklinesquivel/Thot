@@ -5,4 +5,22 @@
             30
         </session-timeout>
     </session-config>
+    
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>AplicationResource</param-value>
+    </context-param>
+    
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error500.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.sql.SQLException</exception-type>
+        <location>/errorsql.jsp</location>
+    </error-page>   
 </web-app>
