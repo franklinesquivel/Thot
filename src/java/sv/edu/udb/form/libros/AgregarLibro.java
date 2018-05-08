@@ -81,6 +81,8 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
         lblAutor = new javax.swing.JLabel();
         lblTemas = new javax.swing.JLabel();
         btnRegistrar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        txtExistencia = new javax.swing.JTextField();
 
         fileCImagen.setAcceptAllFileFilterUsed(false);
         fileCImagen.setCurrentDirectory(new java.io.File("C:\\"));
@@ -170,6 +172,8 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
                 }
             });
 
+            jLabel1.setText("Existencias");
+
             javax.swing.GroupLayout pnlMainFrmLayout = new javax.swing.GroupLayout(pnlMainFrm);
             pnlMainFrm.setLayout(pnlMainFrmLayout);
             pnlMainFrmLayout.setHorizontalGroup(
@@ -186,8 +190,13 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
                                 .addComponent(lblEdicion))
                             .addGap(48, 48, 48)
                             .addGroup(pnlMainFrmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblIsb)
-                                .addComponent(txtIsbn)))
+                                .addComponent(txtIsbn)
+                                .addGroup(pnlMainFrmLayout.createSequentialGroup()
+                                    .addGroup(pnlMainFrmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblIsb)
+                                        .addComponent(jLabel1))
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(txtExistencia)))
                         .addGroup(pnlMainFrmLayout.createSequentialGroup()
                             .addComponent(btnImagen)
                             .addGap(10, 10, 10)
@@ -236,9 +245,13 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
                         .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(lblEdicion)
+                    .addGroup(pnlMainFrmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblEdicion)
+                        .addComponent(jLabel1))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(txtEdicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlMainFrmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtEdicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtExistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(pnlMainFrmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnImagen)
@@ -288,7 +301,7 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(pnlMainFrm, javax.swing.GroupLayout.PREFERRED_SIZE, 577, Short.MAX_VALUE)
+                    .addComponent(pnlMainFrm, javax.swing.GroupLayout.PREFERRED_SIZE, 589, Short.MAX_VALUE)
                     .addContainerGap())
             );
 
@@ -331,14 +344,15 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
                 && Validacion.validar("^[0-9]*$", txtEdicion.getText(), "Ingresa una edición válida!", "[Thot] - Registro de Libro")
                 && Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú,0-9.-]*$", txtDescripcion.getText().trim(), "Ingresa una descripción válida!", "[Thot] - Registro de Libro")
                 && Validacion.validar("^([A-Z]|[a-z]|[ñÑ])[a-zA-Z ñÑáéíóú,0-9.-]*$", txtNotas.getText().trim(), "Ingresa notas válidos!", "[Thot] - Registro de Libro")
+                && Validacion.validar("^[0-9]*$", txtExistencia.getText().trim(), "Ingresa una existencia válida!", "[Thot] - Registro de Libro")
             ) {
                 if(Libro_Controller.validarIsbn(txtIsbn.getText())){
                     JOptionPane.showMessageDialog(this, "El ISBN que quieres ingresar ya se encuentra registrado en nuestro sistema!", "[Thot] - Registro de Libro", JOptionPane.ERROR_MESSAGE);
                 }else{
                     if (
-                        idAutores.length > 0 && idTemas.length > 0 &&
+                        idAutores.length > 0 && idTemas.length > 0 && !(txtExistencia.getText().isEmpty()) &&
                         cmbCategorias.getSelectedIndex() != -1 && cmbImprentas.getSelectedIndex() != -1 &&
-                        cmbCategorias.getSelectedIndex() != 0 && cmbImprentas.getSelectedIndex() != 0
+                        cmbCategorias.getSelectedIndex() != 0 && cmbImprentas.getSelectedIndex() != 0                        
                     ) {
                         for (int i = 0; i < idAutores.length; i++) {
                             _auxA.add(_a.get(idAutores[i]));
@@ -347,8 +361,8 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
                         for (int i = 0; i < idTemas.length; i++) {
                             _auxT.add(_t.get(idTemas[i]));
                         }
-
-                        Libro _l = new Libro(
+                        if(Integer.parseInt(txtExistencia.getText().trim()) > 0 && Integer.parseInt(txtExistencia.getText().trim()) < 51){
+                            Libro _l = new Libro(
                                 "",
                                 txtTitulo.getText().trim(),
                                 txtIsbn.getText().trim(),
@@ -356,20 +370,23 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
                                 txtDescripcion.getText().trim(),
                                 txtNotas.getText().trim(),
                                 img,
+                                Integer.parseInt(txtExistencia.getText().trim()),
                                 _i.get(cmbImprentas.getSelectedIndex() - 1),
                                 _c.get(cmbCategorias.getSelectedIndex() - 1),
                                 _auxA, _auxT
-                        );
-
-                        if (Libro_Controller.insertar(_l)) {
+                            );
+                            if (Libro_Controller.insertar(_l)) {
                             if (saveImage(_l.getIdLibro())) {
                                 JOptionPane.showMessageDialog(this, "El libro ha sido registrado éxitosamente!", "[Thot] - Registro de Libro", JOptionPane.DEFAULT_OPTION);
                                 initData();
                             } else {
                                 JOptionPane.showMessageDialog(this, "Ha ocurrido un error al subir la imagen :$", "[Thot] - Registro de Libro", JOptionPane.ERROR_MESSAGE);
                             }
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Ha ocurrido un error al registrar el libro :$", "[Thot] - Registro de Libro", JOptionPane.ERROR_MESSAGE);
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Ha ocurrido un error al registrar el libro :$", "[Thot] - Registro de Libro", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }else{
+                            JOptionPane.showMessageDialog(this, "Ingresa una existencia entre 1-50", "[Thot] - Registro de Libro", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
                         JOptionPane.showMessageDialog(this, "Ingresa todos los datos requeridos!", "[Thot] - Registro de Libro", JOptionPane.ERROR_MESSAGE);
@@ -388,6 +405,7 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cmbCategorias;
     private javax.swing.JComboBox<String> cmbImprentas;
     private javax.swing.JFileChooser fileCImagen;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -404,6 +422,7 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlMainFrm;
     private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtEdicion;
+    private javax.swing.JTextField txtExistencia;
     private javax.swing.JTextField txtImagen;
     private javax.swing.JTextField txtIsbn;
     private javax.swing.JTextArea txtNotas;
@@ -504,6 +523,7 @@ public class AgregarLibro extends javax.swing.JInternalFrame {
         txtIsbn.setText("");
         txtDescripcion.setText("");
         txtNotas.setText("");
+        txtExistencia.setText("");
         txtEdicion.setText("");
         txtImagen.setText("");
         validData = true;

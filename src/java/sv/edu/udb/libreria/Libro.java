@@ -190,7 +190,21 @@ public class Libro {
         this.categoria = categoria;
     }
 
-    public Libro(String idLibro, String titulo, String isbn, String edicion, String descripcion, String notas, String imagen, Imprenta imprenta, Categoria categoria, List<Autor> autores, List<Tema> temas) {
+    public Libro(String idLibro, String titulo, String isbn, String edicion, String descripcion, String notas, String imagen,int cant_ejemplares, Imprenta imprenta, Categoria categoria, List<Autor> autores, List<Tema> temas) {
+        this.idLibro = idLibro;
+        this.titulo = titulo;
+        this.isbn = isbn;
+        this.edicion = edicion;
+        this.descripcion = descripcion;
+        this.notas = notas;
+        this.imagen = imagen;
+        this.imprenta = imprenta;
+        this.categoria = categoria;
+        this.autores = autores;
+        this.temas = temas;
+        this.cant_ejemplares = cant_ejemplares;
+    }
+    public Libro(String idLibro, String titulo, String isbn, String edicion, String descripcion, String notas, String imagen,Imprenta imprenta, Categoria categoria, List<Autor> autores, List<Tema> temas) {
         this.idLibro = idLibro;
         this.titulo = titulo;
         this.isbn = isbn;
@@ -203,7 +217,6 @@ public class Libro {
         this.autores = autores;
         this.temas = temas;
     }
-
     public Libro(String idLibro, String titulo, String isbn, String edicion, String descripcion, String notas, String imagen, Imprenta imprenta, Categoria categoria) {
         this.idLibro = idLibro;
         this.titulo = titulo;

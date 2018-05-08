@@ -326,7 +326,7 @@ public class Libro_Controller {
         try(Connection _cn = DBConnection.getConnection()){
             try {
                 String _id = nuevoId();
-                try (PreparedStatement insertarSQL = DBConnection.getStatement("INSERT INTO Libro VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", _cn)) {
+                try (PreparedStatement insertarSQL = DBConnection.getStatement("INSERT INTO Libro(idLibro,titulo,isbn,edicion,descripcion,notas,imagen,ejemplares,idImprenta,idCategoria) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", _cn)) {
                     _l.setIdLibro(_id);
                     insertarSQL.setString(1, _id);
                     insertarSQL.setString(2, _l.getTitulo());
