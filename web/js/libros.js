@@ -83,10 +83,14 @@ $(document).ready(function(){
                         M.toast({html: 'Libro no encontrado'});
                     }else if(data === 1){
                         M.toast({html: 'Reserva Exitosa'});
-                        $("#mdlReserve").modal('close')
+                        $("#mdlReserve").modal('close');
                         $("#frmReserve")[0].reset();
                     }else if(data === 0){
                         M.toast({html: 'Error en el proceso de reserva'});
+                    }else{
+                        $("#messageModal").fadeIn();
+                        $("#mdlReserve #frmReserve").fadeOut(1);
+                        //$("#mdlReserve #frmReserve").html("<h6 class='center-align'>Registrate en la plataforma y disfruta de estos priviegios!</h6>");
                     }
                     _loader.out();
                 },
@@ -135,6 +139,7 @@ $(document).ready(function(){
 
 /* RESERVA */
 $(document).on("click", ".btnReserve", function(){ 
+    $("#messageModal").fadeOut(1);
     $("#mdlReserve #idLibro").val($(this).attr("idlibro"));
 });
 

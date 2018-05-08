@@ -26,7 +26,7 @@
                 success: function(data){
                     let _loader = new Loader();
                     _loader.in();
-                    
+                    data = parseInt(data);
                     if(data === 1){
                         M.toast({html: 'Renovación exitosa!', completeCallback: function(){
                             _loader.out();

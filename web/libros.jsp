@@ -93,6 +93,9 @@
                         <button  class="waves-effect waves-light btn"><fmt:message key="reserve"/></button>
                     </div>
                 </form>
+                <div class="row" id="messageModal">
+                    <h6 class="center-align"><fmt:message key="catalog.modal"/></h6>
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat "><fmt:message key="close"/></a>

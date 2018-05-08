@@ -1,7 +1,7 @@
 (function(){
     $(document).ready(function(){
         M.AutoInit();
-
+        
         if($('.modal').length > 0){
             $('.modal').modal();
         }
@@ -15,6 +15,8 @@
                         .append(`<span class='helper-text' data-error='${error.text()}'></span>`);
             }
         });
+        
+        
 
         $.extend(true, $.fn.dataTable.defaults, {
             "language": {
@@ -40,9 +42,11 @@
                     "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                 }
-            }, "dom": '<"toolbar">frtip'
+            }, "dom": '<"toolbar">frtip',
+            "initComplete": function(settings, json) {
+                $($.fn.dataTableExt.oStdClasses.sPageButton = "button").addClass("btn");
+            }
         });
     });
-
 })
 ();
