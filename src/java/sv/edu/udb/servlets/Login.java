@@ -39,7 +39,7 @@ public class Login extends HttpServlet {
         
         if (user == null || pass == null) {
             _s.setAttribute("msg_type", "danger");
-            _s.setAttribute("msg", "Ingrese datos válidos!");
+            _s.setAttribute("msg", "loginData");
 
             response.sendRedirect("/Thot/login.jsp");
         } else {
@@ -55,13 +55,13 @@ public class Login extends HttpServlet {
                 //No encontrado : Contraseña incorrecta
                 case -1: case 0:
                     _s.setAttribute("msg_type", "yellow");
-                    _s.setAttribute("msg", "El usuario ingresado no ha sido encontrado... ");
+                    _s.setAttribute("msg", "notFound");
                     redirect = ("/Thot/login.jsp");
                     break;
                 //Error
                 case -2:
                     _s.setAttribute("msg_type", "red");
-                    _s.setAttribute("msg", "En este momento no se puede conectar a la plataforma. Intente más tarde...");
+                    _s.setAttribute("msg", "connection");
                     redirect = ("/Thot/login.jsp");
                     break;
             }

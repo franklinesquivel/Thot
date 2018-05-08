@@ -55,7 +55,7 @@
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
         <link rel="stylesheet" href="/Thot/css/bibliotecario.css">
         <script src="/Thot/js/Bibliotecario/registrarPrestamo.js"></script>
-        <title>[Thot] - Bibliotecario</title>
+        <title><fmt:message key="librarian.header.title"/></title>
     </head>
     <body>
         <form action="/Thot/Logout" name="frmLogout" method="POST"></form>        
@@ -79,7 +79,7 @@
                             <span class="white-text name"><c:out value="${user.getDisplayName()}"></c:out></span>
                         </a>    
                         <a>
-                            <span style="font-weight: bold;" class="white-text email">${user.getTipoUsuario().equals("B") ? "Bibliotecario" : "Usuario"}</span>
+                            <span style="font-weight: bold;" class="white-text email"><fmt:message key="${user.getTipoUsuario()}"/></span>
                         </a>
                         <a>
                             <span class="white-text email"><c:out value="${user.getCorreo()}"></c:out></span>

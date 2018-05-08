@@ -18,7 +18,7 @@
                     <span class="white-text name"><c:out value="${user.getDisplayName()}"></c:out></span>
                 </a>    
                 <a>
-                    <span style="font-weight: bold;" class="white-text email">${user.getTipoUsuario().equals("B") ? "Bibliotecario" : "Usuario"}</span>
+                    <span style="font-weight: bold;" class="white-text email"><fmt:message key="${user.getTipoUsuario()}"/></span>
                 </a>
                 <a>
                     <span class="white-text email"><c:out value="${user.getCorreo()}"></c:out></span>
