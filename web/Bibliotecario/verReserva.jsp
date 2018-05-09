@@ -47,7 +47,7 @@
             <nav class="grey darken-4">
                 <div class="container">
                     <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
-                    <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="loan"/></a></div>
+                    <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="reserves"/></a></div>
                 </div>
             </nav>
 
