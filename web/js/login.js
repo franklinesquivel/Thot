@@ -54,7 +54,7 @@
                 _loader.in();
                 $.ajax({
                     type: 'POST',
-                    url: `${location.origin}/Thot/RecuperarContra`,
+                    url: `${location.origin}/Thot/RecuperarContra,`,
                     data: {email: frmRecoverPass.txtUser.value.trim()},
                     success: function(r){
                         _loader.out();
@@ -122,7 +122,7 @@
             submitHandler: function(form) {
                 $.ajax({
                     type: 'POST',
-                    url: `${location.origin + location.pathname}Registro`,
+                    url: `${location.origin}/Thot/Registro`,
                     data: {
                         name: frmRegister.txtName.value.trim(),
                         lastName: frmRegister.txtLastName.value.trim(),

@@ -153,28 +153,30 @@ public class Usuario {
     
     public static String crearNombreUsuario(String tipoUsuario, int numUsuario){
         String nombreUsuario = tipoUsuario;
+        numUsuario+=1;
         if(numUsuario < 10){
-            nombreUsuario += "000"+(numUsuario+=1);
+            nombreUsuario += "000"+(numUsuario);
         }else if(numUsuario >= 10 && numUsuario < 100){
-            nombreUsuario += "00"+(numUsuario+=1);
+            nombreUsuario += "00"+(numUsuario);
         }else if(numUsuario >= 100 && numUsuario < 1000){
-            nombreUsuario += "0"+(numUsuario+=1);
+            nombreUsuario += "0"+(numUsuario);
         }else if(numUsuario >= 1000){
-            nombreUsuario += (numUsuario+=1);
+            nombreUsuario += (numUsuario);
         }
         return nombreUsuario;
     }
     
     public static String crearIdUsuario(String tipoUsuario, int numUsuario){
         String nombreUsuario = tipoUsuario;
+        numUsuario+=1;
         if(numUsuario < 10){
-            nombreUsuario += "000"+(numUsuario+=1);
+            nombreUsuario += "000"+(numUsuario);
         }else if(numUsuario >= 10 && numUsuario < 100){
-            nombreUsuario += "00"+(numUsuario+=1);
+            nombreUsuario += "00"+(numUsuario);
         }else if(numUsuario >= 100 && numUsuario < 1000){
-            nombreUsuario += "0"+(numUsuario+=1);
+            nombreUsuario += "0"+(numUsuario);
         }else if(numUsuario >= 1000){
-            nombreUsuario += (numUsuario+=1);
+            nombreUsuario += (numUsuario);
         }
         return nombreUsuario;
     }
