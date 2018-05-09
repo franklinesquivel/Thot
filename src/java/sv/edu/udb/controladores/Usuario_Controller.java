@@ -267,8 +267,7 @@ public class Usuario_Controller{
         try(Connection _cn = DBConnection.getConnection()){
             try {
                 int num;
-                try (PreparedStatement query = DBConnection.getStatement("SELECT COUNT(*) FROM usuario WHERE tipoUsuario = ?;", _cn)) {
-                    query.setString(1, tipo);
+                try (PreparedStatement query = DBConnection.getStatement("SELECT COUNT(*) FROM usuario;", _cn)) {
                     try (ResultSet data = query.executeQuery()) {
                         if(data.next()){
                             num = data.getInt(1);
