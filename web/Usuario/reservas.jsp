@@ -18,7 +18,7 @@
     <head>
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
         <script src="../js/Usuario/reserva.js"></script>
-        <title>[Thot] - Usuario</title>
+        <title><fmt:message key="user.header.title"/></title>
     </head>
     <body>
         <form action="/Thot/Logout" name="frmLogout" method="POST"></form>        
@@ -27,7 +27,7 @@
             <nav class="teal darken-1">
                 <div class="container">
                     <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
-                    <div class="nav-wrapper"><a class="brand-logo center">Reservas</a></div>
+                    <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="reserves"/></a></div>
                 </div>
             </nav>
 
@@ -51,11 +51,11 @@
                     </div>
                 </li>
 
-                <li class="nav-item waves-effect"><a href="${path}">Libros <i class="material-icons">book</i></a></li>
-                <li class="nav-item waves-effect"><a href="${path}prestamos.jsp">Préstamos <i class="material-icons">assignment</i></a></li>
-                <li class="nav-item active waves-effect"><a href="${path}reservas.jsp">Reservas <i class="material-icons">https</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}"><fmt:message key="books"/>  <i class="material-icons">book</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}prestamos.jsp"><fmt:message key="loans"/> <i class="material-icons">assignment</i></a></li>
+                <li class="nav-item active waves-effect"><a href="${path}reservas.jsp"><fmt:message key="reserves"/> <i class="material-icons">https</i></a></li>
                 <li class="nav-item waves-effect">
-                    <a onclick="frmLogout.submit();">Cerrar Sesión <i class="material-icons">exit_to_app</i></a>
+                    <a onclick="frmLogout.submit();"><fmt:message key="logout"/>  <i class="material-icons">exit_to_app</i></a>
                 </li>
             </ul>
         </header>
@@ -65,10 +65,10 @@
             <c:if test="${reservas.size() > 0}">
                 <table class="center" id="tblReservas">
                     <thead>
-                        <th>Libro</th>
-                        <th>Fecha de reserva</th>
-                        <th>Fecha de vencimiento</th>
-                        <th>Estado</th>
+                        <th><fmt:message key="book"/></th>
+                        <th><fmt:message key="reserveDate"/></th>
+                        <th><fmt:message key="expireDate"/></th>
+                        <th><fmt:message key="state"/></th>
                     </thead>
                     <tbody>
                         <c:forEach items="${reservas}" var="_r">
@@ -84,7 +84,7 @@
             </c:if>
             <c:if test="${reservas.size() == 0}">
                 <div class="alert center red lighten-4 red-text text-darken-4">
-                    No hay reservas registradas para mostrar!
+                    <fmt:message key="reserves.notFound"/>
                 </div><br>
             </c:if>
         </main>

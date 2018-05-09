@@ -12,7 +12,7 @@
 <html>
     <head>
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
-        <title>[Thot] - Usuario</title>
+        <title><fmt:message key="user.header.title"/></title>
         <script src="/Thot/js/libros.js"></script>
         <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
         <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>  
@@ -24,7 +24,7 @@
             <nav class="teal darken-1">
                 <div class="container">
                     <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
-                    <div class="nav-wrapper"><a class="brand-logo center">Usuario</a></div>
+                    <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="U"/></a></div>
                 </div>
             </nav>
 
@@ -52,7 +52,7 @@
                 <li class="nav-item waves-effect"><a href="${path}prestamos.jsp">Préstamos <i class="material-icons">assignment</i></a></li>
                 <li class="nav-item waves-effect"><a href="${path}reservas.jsp">Reservas <i class="material-icons">https</i></a></li>
                 <li class="nav-item waves-effect">
-                    <a onclick="frmLogout.submit();">Cerrar Sesión <i class="material-icons">exit_to_app</i></a>
+                    <a onclick="frmLogout.submit();"><fmt:message key="logout"/><i class="material-icons">exit_to_app</i></a>
                 </li>
             </ul>
         </header>
@@ -62,10 +62,10 @@
                 <div class="col s6 offset-s3">
                     <div class="input-field col s8">
                         <input id="txtSearch" type="text">
-                        <label for="txtSearch">Buscar [Título, Descripción, ISBN]</label>
+                        <label for="txtSearch"><fmt:message key="catalog.search"/></label>
                     </div>
                     <div class="input-field col s2 center-align">
-                        <a class="waves-effect waves-light btn modal-trigger" href="#mdlSearch">Búsqueda Avanzada</a>
+                        <a class="waves-effect waves-light btn modal-trigger" href="#mdlSearch"><fmt:message key="catalog.advanceSearch"/></a>
                     </div>
                 </div>
 
@@ -79,31 +79,31 @@
 
                 <div id="mdlSearch" class="modal">
                     <div class="modal-content">
-                        <h4 class="center-align">Búsqueda avanzada</h4>
+                        <h4 class="center-align"><fmt:message key="catalog.advanceSearch"/></h4>
                         <div class="row ">
                             <div class="input-field col s10 offset-s1">
                                 <input id="category" class="txtSearch" type="text">
-                                <label for="category">Categoria</label>
+                                <label for="category"><fmt:message key="categorie"/></label>
                             </div>
                             <div class="input-field col s10 offset-s1">
                                 <input id="printing" class="txtSearch" type="text">
-                                <label for="printing">Imprenta</label>
+                                <label for="printing"><fmt:message key="press"/></label>
                             </div>
                             <div class="input-field col s10 offset-s1">
                                 <input id="author" class="txtSearch" type="text">
-                                <label for="author">Autor</label>
+                                <label for="author"><fmt:message key="author"/></label>
                             </div>
                             <div class="input-field col s10 offset-s1">
                                 <input id="subject" class="txtSearch" type="text">
-                                <label for="subject">Tema</label>
+                                <label for="subject"><fmt:message key="theme"/></label>
                             </div>
                             <div class="input-field col s10 offset-s1 center-align">
-                                <button id="btnSearch" class="waves-effect waves-light btn">Buscar</button>
+                                <button id="btnSearch" class="waves-effect waves-light btn"><fmt:message key="search"/></button>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cerrar</a>
+                        <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat "><fmt:message key="close"/></a>
                     </div>
                 </div>
             </div>
@@ -111,20 +111,23 @@
 
         <div id="mdlReserve" class="modal">
             <div class="modal-content">
-                <h4 class="center-align">Reserva de Libro</h4>
+                <h4 class="center-align"><fmt:message key="catalog.advanceSearch.title"/></h4>
                 <form id="frmReserve" name="frmReserve" class="row" action="">
                     <div class="input-field col s8 offset-s2">
                         <input id="fecha_vencimiento" name="fecha_vencimiento" type="date">
-                        <label for="fecha_vencimiento">Fecha de Vencimiento</label>
+                        <label for="fecha_vencimiento"><fmt:message key="expireDate"/></label>
                     </div>
                     <input type="hidden" name="idLibro" id="idLibro">
                     <div class="input-field col s8 center-align offset-s2">
-                        <button  class="waves-effect waves-light btn">Reservar</button>
+                        <button  class="waves-effect waves-light btn"><fmt:message key="reserve"/></button>
                     </div>
                 </form>
+                <div class="row" id="messageModal">
+                    <h6 class="center-align"><fmt:message key="catalog.modal"/></h6>
+                </div>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cerrar</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat "><fmt:message key="close"/></a>
             </div>
         </div>
     </body>

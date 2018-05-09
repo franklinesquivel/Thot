@@ -20,7 +20,7 @@
     <head>
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
         <script src="../js/Usuario/prestamo.js"></script>
-        <title>[Thot] - Usuario</title>
+        <title><fmt:message key="user.header.title"/></title>
     </head>
     <body>
         <form action="/Thot/Logout" name="frmLogout" method="POST"></form>        
@@ -29,7 +29,7 @@
             <nav class="teal darken-1">
                 <div class="container">
                     <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
-                    <div class="nav-wrapper"><a class="brand-logo center">Prestamos</a></div>
+                    <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="loans"/></a></div>
                 </div>
             </nav>
 
@@ -53,11 +53,11 @@
                     </div>
                 </li>
 
-                <li class="nav-item waves-effect"><a href="${path}">Libros <i class="material-icons">book</i></a></li>
-                <li class="nav-item active waves-effect"><a href="${path}prestamos.jsp">Préstamos <i class="material-icons">assignment</i></a></li>
-                <li class="nav-item waves-effect"><a href="${path}reservas.jsp">Reservas <i class="material-icons">https</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}"><fmt:message key="books"/> <i class="material-icons">book</i></a></li>
+                <li class="nav-item active waves-effect"><a href="${path}prestamos.jsp"><fmt:message key="loans"/> <i class="material-icons">assignment</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}reservas.jsp"><fmt:message key="reserves"/> <i class="material-icons">https</i></a></li>
                 <li class="nav-item waves-effect">
-                    <a onclick="frmLogout.submit();">Cerrar Sesión <i class="material-icons">exit_to_app</i></a>
+                    <a onclick="frmLogout.submit();"><fmt:message key="logout"/> <i class="material-icons">exit_to_app</i></a>
                 </li>
             </ul>
         </header>
@@ -67,13 +67,13 @@
             <c:if test="${prestamos.size() > 0}">
                 <table class="center" id="tblPrestamos">
                     <thead>
-                        <th>Libro</th>
-                        <th>Fecha de Prestamo</th>
-                        <th>Fecha de Devolución</th>
-                        <th>Mora</th>
-                        <th>Estado</th>
+                        <th><fmt:message key="book"/></th>
+                        <th><fmt:message key="loans.loanDate"/></th>
+                        <th><fmt:message key="loans.finishDate"/></th>
+                        <th><fmt:message key="amount"/></th>
+                        <th><fmt:message key="state"/></th>
                         <th>
-                            Renovar
+                            <fmt:message key="actions"/>
                         </th>
                     </thead>
                     <tbody>
@@ -86,10 +86,10 @@
                                 <td>${_p.getDisplayEstado()}</td>
                                 <td>
                                     <c:if test="${_p.getEstado() != 'FO'}">
-                                        <a class="waves-effect waves-light btn modal-trigger btnRenovar" href="#mdlRenovar" idprestamo="${_p.getIdPrestamo()}">Renovar</a>
+                                        <a class="waves-effect waves-light btn modal-trigger btnRenovar" href="#mdlRenovar" idprestamo="${_p.getIdPrestamo()}"><fmt:message key="renovate"/></a>
                                     </c:if>
                                     <c:if test="${_p.getEstado() == 'FO'}">
-                                        Finalizado
+                                        <fmt:message key="state.FO"/>
                                     </c:if>
                                 </td>
                             </tr>
@@ -99,19 +99,19 @@
             </c:if>
             <c:if test="${prestamos.size() == 0}">
                 <div class="alert center red lighten-4 red-text text-darken-4">
-                    No hay préstamos registrados para mostrar!
+                    <fmt:message key="loans.notFound"/>
                 </div><br>
             </c:if>
         </main>
         <div id="mdlRenovar" class="modal">
             <div class="modal-content center-align">
-                <h4>Renovar Libro</h4>
-                <p>¿Seguro deseas renovar (renovación por 1 día)?</p>
+                <h4><fmt:message key="renovate"/></h4>
+                <p><fmt:message key="loans.renovate.tite"/></p>
                 <input type="hidden" name="idPrestamo" value="null" id="idPrestamo">
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="btnRenovar">Renovar</a>
-                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cerrar</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="btnRenovar"><fmt:message key="renovate"/></a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat"><fmt:message key="close"/></a>
             </div>
         </div>
     </body>
