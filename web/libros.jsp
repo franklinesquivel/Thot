@@ -32,12 +32,12 @@
     </head>
     <body>
         
-        <nav class="blue darken-3" id="">
+        <nav class="blue darken-2" id="">
             <div class="nav-wrapper">
                 
                 <ul class="right hide-on-med-and-down" id="opc">    
-                    <li><a href="index.jsp" class="waves-effect waves-light btn-large blue darken-1"><fmt:message key="catalog.index"/> <i class="material-icons right">arrow_back</i></a></li> 
-                    <li><a href="login.jsp" class="waves-effect waves-light btn-large blue darken-1"><fmt:message key="login"/> <i class="material-icons right">person_pin</i></a></li>
+                    <li><a href="index.jsp"><fmt:message key="catalog.index"/> <i class="material-icons right">arrow_back</i></a></li> 
+                    <li><a href="login.jsp"><fmt:message key="login"/> <i class="material-icons right">person_pin</i></a></li>
                 </ul>
             </div>
         </nav>
@@ -49,7 +49,7 @@
                     <label for="txtSearch"><fmt:message key="catalog.search"/></label>
                 </div>
                 <div class="input-field col s2 center-align">
-                    <a class="waves-effect waves-light btn modal-trigger" href="#mdlSearch"><fmt:message key="catalog.advanceSearch"/></a>
+                    <a class="blue darken-2 waves-effect waves-light btn modal-trigger" href="#mdlSearch"><fmt:message key="catalog.advanceSearch"/></a>
                 </div>
             </div>
             
@@ -82,7 +82,7 @@
                             <label for="subject"><fmt:message key="theme"/></label>
                         </div>
                         <div class="input-field col s10 offset-s1 center-align">
-                            <button id="btnSearch" class="waves-effect waves-light btn"><fmt:message key="search"/></button>
+                            <button id="btnSearch" class="blue darken-2 waves-effect waves-light btn"><fmt:message key="search"/></button>
                         </div>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                     </div>
                     <input type="hidden" name="idLibro" id="idLibro">
                     <div class="input-field col s8 center-align offset-s2">
-                        <button  class="waves-effect waves-light btn"><fmt:message key="reserve"/></button>
+                        <button  class="blue darken-2 waves-effect waves-light btn"><fmt:message key="reserve"/></button>
                     </div>
                 </form>
                 <div class="row" id="messageModal">

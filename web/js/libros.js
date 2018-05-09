@@ -167,7 +167,7 @@ function loadBook(){
                                 </span>
                 
                                 <p class='center-align'>
-                                    <a href="#mdlReserve" class="waves-effect waves-light btn btnReserve modal-trigger" idlibro="${_l["idLibro"]}">Reservar</a>
+                                    <a href="#mdlReserve" class="blue darken-2 waves-effect waves-light btn btnReserve modal-trigger" idlibro="${_l["idLibro"]}">Reservar</a>
                                 </p>
                             </div>
                             <div class="card-reveal">
