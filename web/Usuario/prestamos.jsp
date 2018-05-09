@@ -15,6 +15,7 @@
 %>
   
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/fmt' prefix='fmt'%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,7 +27,7 @@
         <form action="/Thot/Logout" name="frmLogout" method="POST"></form>        
         <header>
 
-            <nav class="teal darken-1">
+            <nav class="blue darken-1">
                 <div class="container">
                     <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
                     <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="loans"/></a></div>
@@ -36,7 +37,7 @@
             <ul id="slide-out" class="sidenav sidenav-fixed">
                 <li>
                     <div class="user-view">
-                        <div class="background teal darken-1">
+                        <div class="background blue darken-1">
                         </div>
                         <a>
                             <img class="circle" src="/Thot/images/thot.jpg">
@@ -106,7 +107,7 @@
         <div id="mdlRenovar" class="modal">
             <div class="modal-content center-align">
                 <h4><fmt:message key="renovate"/></h4>
-                <p><fmt:message key="loans.renovate.tite"/></p>
+                <p><fmt:message key="loans.renovate.title"/></p>
                 <input type="hidden" name="idPrestamo" value="null" id="idPrestamo">
             </div>
             <div class="modal-footer">
