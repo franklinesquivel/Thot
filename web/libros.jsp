@@ -31,6 +31,17 @@
         <title><fmt:message key="catalog.header.title"/></title>
     </head>
     <body>
+        
+        <nav class="blue darken-3" id="">
+            <div class="nav-wrapper">
+                
+                <ul class="right hide-on-med-and-down" id="opc">    
+                    <li><a href="index.jsp" class="waves-effect waves-light btn-large blue darken-1"><fmt:message key="catalog.index"/> <i class="material-icons right">arrow_back</i></a></li> 
+                    <li><a href="login.jsp" class="waves-effect waves-light btn-large blue darken-1"><fmt:message key="login"/> <i class="material-icons right">person_pin</i></a></li>
+                </ul>
+            </div>
+        </nav>
+        
         <div class="container">
             <div class="col s6 offset-s3">
                 <div class="input-field col s8">
