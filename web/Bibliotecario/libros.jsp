@@ -105,7 +105,7 @@
                             </tr>
                         </c:forEach >
                     </tbody>
-                </table>
+                </table><br><br>
             </c:if>
             <c:if test="${libros.size() == 0}">
                 <div class="alert center red lighten-4 red-text text-darken-4">

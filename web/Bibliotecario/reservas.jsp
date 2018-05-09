@@ -110,6 +110,7 @@
                     
                 <form action="/Thot/Reservas/Reporte" method="POST">
                     <button class="btn btn grey darken-4 waves-effect waves-light"><fmt:message key="reserves.report"/> <i class="material-icons right">file_download</i></button>
+                    <br><br>
                 </form>
                     
                 <div class="modal" id="mdlPrestamo">

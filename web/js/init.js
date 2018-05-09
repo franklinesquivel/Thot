@@ -42,7 +42,11 @@
                     "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                 }
-            }, "dom": '<"toolbar">frtip',
+            },
+            // "language": {
+            //     "url": "dataTables.spanish.lang"
+            // },
+            "dom": '<"toolbar">frtip',
             "initComplete": function(settings, json) {
                 $($.fn.dataTableExt.oStdClasses.sPageButton = "button").addClass("btn");
             }

@@ -116,6 +116,7 @@
                 </table>
                 <form action="/Thot/Prestamos/Reporte" method="POST">
                     <button class="btn btn grey darken-4 waves-effect waves-light"><fmt:message key="loans.report"/> <i class="material-icons right">file_download</i></button>
+                    <br><br>
                 </form>
             </c:if>
             <c:if test="${prestamos.size() == 0}">

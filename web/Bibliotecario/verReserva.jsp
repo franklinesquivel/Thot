@@ -47,7 +47,7 @@
             <nav class="grey darken-4">
                 <div class="container">
                     <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
-                    <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="loan"/></a></div>
+                    <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="reserve"/></a></div>
                 </div>
             </nav>
 
@@ -91,7 +91,7 @@
                     <h5><b><fmt:message key="book"/>:</b> ${_p.getEjemplar().getLibro().getTitulo()}</h5>
                     <h5><b><fmt:message key="reserveDate"/>:</b> ${_p.getFechaReservaFormato()}</h5>
                     <h5><b><fmt:message key="expireDate"/>:</b> ${_p.getFechaVencimientoFormato()}</h5>    
-                    <h5><b><fmt:message key="state"/>:</b> <span class="${_p.getEstado().equals("Vencido") ? 'red-text' : ''}"><fmt:message key="state.${_p.getDisplayEstado()}"/></span></h5>    
+                    <h5><b><fmt:message key="state"/>:</b> <span class="${_p.getEstado().equals("VO") ? 'red-text' : ''}"><fmt:message key="state.${_p.getEstado()}"/></span></h5>    
                 </div>
             </div>
             <div class="btn-cont">

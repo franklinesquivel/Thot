@@ -23,12 +23,12 @@
         $("#tblUsers").css('width', '90%');
     
         let tblRecord = $("#tblRecord").DataTable({
-            "columnDefs": [
-                {
-                    "targets": [ 0 ],
-                    "visible": false
-                }
-            ],
+            // "columnDefs": [
+            //     {
+            //         "targets": [ 0 ],
+            //         "visible": false
+            //     }
+            // ],
             "ajax": `${location.origin}/Thot/Historial?idUsuario=${idUsuario}&tipoProceso=${idProceso}`,
             "columns": [
                 {"data": "idProceso"},
