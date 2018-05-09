@@ -43,3 +43,16 @@ input[type=password]:focus {
 .switch label input[type=checkbox]:checked+.lever {
     background-color: #838383;
 }
+
+.pagination .btn{
+    background: #7a7a7a !important;
+    margin: 0 2px;
+}
+
+.pagination .btn.slctd{
+    background: #212121 !important;
+}
+
+.pagination .btn.disabled{
+    background: #ccc !important;
+}

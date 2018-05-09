@@ -25,7 +25,7 @@
             <nav class="blue darken-1">
                 <div class="container">
                     <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
-                    <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="U"/></a></div>
+                    <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="books"/></a></div>
                 </div>
             </nav>
 
@@ -58,7 +58,7 @@
             </ul>
         </header>
 
-        <main class="container">
+        <main class="container section">
             <div class="Contenido">
                 <div class="col s6 offset-s3">
                     <div class="input-field col s8">

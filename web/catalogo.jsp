@@ -3,7 +3,32 @@
     Created on : 04-23-2018, 10:59:22 PM
     Author     : Leonardo
 --%>
+<%@page import="sv.edu.udb.libreria.Usuario"%>
+<%@page import="java.util.Arrays"%>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/fmt' prefix='fmt'%>
+
+<c:if test="${sessionScope.logged == true}">
+    <c:if test="${sessionScope.user == null}">
+        <c:set var="user" scope="session" value="${userData}"></c:set>
+    </c:if>
+    
+    <% 
+        Usuario _u = (Usuario) session.getAttribute("userData");
+        String[] actualView = request.getRequestURI().split("/");
+        
+        if(_u != null){
+            if (!Arrays.asList(actualView).contains(_u.getTipoUsuario().equals("B") ? "Bibliotecario" : "Usuario")) {
+                response.sendRedirect("/Thot/" + (_u.getTipoUsuario().equals("B") ? "Bibliotecario" : "Usuario") + "/");
+            }
+        }else{
+            session.setAttribute("logged", false);
+            session.setAttribute("userData", false);
+            response.sendRedirect("/Thot/login.jsp");
+        }
+        
+    %>
+</c:if>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -36,13 +61,13 @@
             <div class="nav-wrapper">
                 
                 <ul class="right hide-on-med-and-down" id="opc">    
-                    <li><a href="index.jsp"><fmt:message key="catalog.index"/> <i class="material-icons right">arrow_back</i></a></li> 
+                    <li><a href="/Thot/"><fmt:message key="catalog.index"/> <i class="material-icons right">arrow_back</i></a></li> 
                     <li><a href="login.jsp"><fmt:message key="login"/> <i class="material-icons right">person_pin</i></a></li>
                 </ul>
             </div>
         </nav>
-        
-        <div class="container">
+        <br>
+        <div class="container section">
             <div class="col s6 offset-s3">
                 <div class="input-field col s8">
                     <input id="txtSearch" type="text">

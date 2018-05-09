@@ -5,6 +5,7 @@
 --%>
 <%@ include file="/WEB-INF/jspf/control_sesion.jspf" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/fmt' prefix='fmt'%>
 
 <%@page import="sv.edu.udb.controladores.Prestamo_Controller"%>
 
@@ -21,6 +22,8 @@
     <head>
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
         <script src="../js/Usuario/prestamo.js"></script>
+        <link rel="stylesheet" href="/Thot/css/usuario.css">
+        
         <title><fmt:message key="user.header.title"/></title>
     </head>
     <body>
@@ -87,7 +90,7 @@
                                 <td>${_p.getDisplayEstado()}</td>
                                 <td>
                                     <c:if test="${_p.getEstado() != 'FO'}">
-                                        <a class="waves-effect waves-light btn modal-trigger btnRenovar" href="#mdlRenovar" idprestamo="${_p.getIdPrestamo()}"><fmt:message key="renovate"/></a>
+                                        <a class="waves-effect waves-light btn modal-trigger btnRenovar blue darken-1" href="#mdlRenovar" idprestamo="${_p.getIdPrestamo()}"><fmt:message key="renovate"/></a>
                                     </c:if>
                                     <c:if test="${_p.getEstado() == 'FO'}">
                                         <fmt:message key="state.FO"/>

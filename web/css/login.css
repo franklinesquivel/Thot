@@ -43,11 +43,25 @@ main{
     color: #42a5f5 !important;
 }
 /* label focus color */
-.input-field input[type=text]:focus + label {
+input[type=text]:focus + label,
+input[type=number]:focus + label,
+input[type=date]:focus + label,
+input[type=tel]:focus + label,
+input[type=search]:focus + label,
+textarea.materialize-textarea:focus + label,
+input[type=email]:focus + label,
+input[type=password]:focus + label {
     color: #42a5f5 !important;
 }
 /* label underline focus color */
-.input-field input[type=text]:focus {
+input[type=text]:focus,
+input[type=number]:focus,
+input[type=date]:focus,
+input[type=tel]:focus,
+input[type=search]:focus,
+textarea.materialize-textarea:focus,
+input[type=email]:focus,
+input[type=password]:focus {
     border-bottom: 1px solid #e040fb!important;
     box-shadow: 0 1px 0 0 #e040fb !important;
 }
@@ -71,4 +85,13 @@ main{
 
 .alert{
     padding: 2%;
+}
+
+.btn-cont{
+    display: flex;
+    justify-content: center;
+}
+
+.btn-cont > .btn{
+    margin: 0 1%;
 }

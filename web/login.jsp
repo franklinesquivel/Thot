@@ -21,6 +21,7 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="/Thot/css/materialize.min.css">
 
+
         <script src="/Thot/js/jquery.js"></script>
         <script src="/Thot/js/jquery.validate.min.js"></script>
         <script src="/Thot/js/materialize.min.js"></script>
@@ -49,7 +50,7 @@
                         <c:remove var="msg_type" scope="session" />
                         <c:remove var="msg" scope="session" />
                     </c:if>
-                </div>
+                </div><br>
 
                 <div class="input-field col m10 offset-m1 s12">
                     <i class="material-icons prefix">account_circle</i>
@@ -64,14 +65,18 @@
                 </div>
                 
                 <div class="input-field col m10 offset-m1 s12">
-                    <a class="modal-trigger" href="#mdlRecover"><fmt:message key="login.password.forgot"/></a>
+                    
                 </div>
                 <div class="input-field col m10 offset-m1 s12">
-                    <a class="modal-trigger" href="#mdlRegister"><fmt:message key="register"/></a>
+                    <a class="modal-trigger" href="#mdlRegister"><fmt:message key="register"/></a> | 
+                    <a href="/Thot/"><fmt:message key="home"/></a>
                 </div>      
                 <br><br>
-                <div class="input-field col m10 offset-m1 s12" style="display: flex; justify-content: center;">
-                    <button type="submit" class="btn indigo waves-effect waves-light"><fmt:message key="login"/></button>
+                <div class="input-field col m10 offset-m1 s12">
+                    <div class=" btn-cont">
+                        <button type="submit" class="btn indigo waves-effect waves-light"><fmt:message key="login"/></button>
+                        <a class="modal-trigger btn indigo lighten-3 waves-effect" href="#mdlRecover"><fmt:message key="login.password.forgot"/></a>
+                    </div>
                 </div>
             </form>
         </main>

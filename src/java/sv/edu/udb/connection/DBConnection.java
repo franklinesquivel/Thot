@@ -80,7 +80,11 @@ public class DBConnection {
                 query.registerOutParameter(3, java.sql.Types.INTEGER);
 
                 query.execute();
-
+                
+                if(query.getString(2) == null){
+                    return 0;
+                }
+                
                 r = pass.equals(Encriptar.desencriptar(query.getString(2))) ? 1 : 0;
                 r = query.getInt(3) != -1 ? r : -1;
             }

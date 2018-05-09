@@ -19,6 +19,7 @@
     <head>
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
         <script src="../js/Usuario/reserva.js"></script>
+        <link rel="stylesheet" href="/Thot/css/usuario.css">
         <title><fmt:message key="user.header.title"/></title>
     </head>
     <body>
@@ -61,7 +62,7 @@
             </ul>
         </header>
                         
-        <main class="container">
+        <main class="">
             <br>
             <c:if test="${reservas.size() > 0}">
                 <table class="center" id="tblReservas">
@@ -73,11 +74,11 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${reservas}" var="_r">
-                            <tr class="lighten-5  text-darken-5">
+                            <tr class="lighten-5 text-darken-5 ${_r.getEstado().equals("VO") ? 'red red-text' : _r.getEstado().equals("EO") ? 'green green-text' : ''}">
                                 <td>${_r.getEjemplar().getLibro().getTitulo()}</td>
                                 <td>${_r.getFechaReservaFormato()}</td>
                                 <td>${_r.getFechaVencimientoFormato()}</td>
-                                <td>${_r.getDisplayEstado()}</td>
+                                <td><fmt:message key="state.${_r.getEstado()}"/></td>
                             </tr>
                         </c:forEach >
                     </tbody>

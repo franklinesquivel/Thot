@@ -54,7 +54,7 @@
                 _loader.in();
                 $.ajax({
                     type: 'POST',
-                    url: `${location.origin}/Thot/RecuperarContra,`,
+                    url: `${location.origin}/Thot/RecuperarContra`,
                     data: {email: frmRecoverPass.txtUser.value.trim()},
                     success: function(r){
                         _loader.out();
@@ -65,7 +65,7 @@
                             alertCont = $(mainAlertCont);
                             msg = "El correo ha sido mandado éxitosamente!";
                             $(frmAlertCont).html("");
-                            $('#mdlRecover').close();
+                            $('#mdlRecover').modal('close');
                             frmLogin.txtUser.value = frmRecoverPass.txtUser.value.trim();
                             frmRecoverPass.txtUser.value = "";
                         }else if(r == -1){
@@ -82,6 +82,8 @@
                                 <strong>${msg}</strong>
                             </div>
                         `);
+
+                        M.updateTextFields();
                     },
                     error: function(err){
                         console.log(err);
