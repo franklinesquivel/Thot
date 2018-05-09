@@ -69,6 +69,7 @@
                 <li class="nav-item waves-effect"><a href="${path}prestamos.jsp"><fmt:message key="loans"/> <i class="material-icons">assignment</i></a></li>
                 <li class="nav-item waves-effect"><a href="${path}reservas.jsp"><fmt:message key="reserves"/> <i class="material-icons">https</i></a></li>
                 <li class="nav-item waves-effect"><a href="${path}libros.jsp"><fmt:message key="books"/> <i class="material-icons">book</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}historial.jsp"><fmt:message key="record"/> <i class="material-icons">history</i></a></li>
                 <li>
                     <div class="divider"></div>
                 </li>
@@ -89,13 +90,18 @@
                     <th><fmt:message key="code"/></th>
                     <th><fmt:message key="state"/></th>
                     <th><fmt:message key="copies.observations"/></th>
+                    <th><fmt:message key="actions"/></th>
                 </thead>
                 <tbody>
                 <c:forEach items="${_l.getEjemplares()}" var="_e">
-                    <tr>
+                    <tr data="${_e.getIdEjemplar()}">
                         <td>${_e.getIdEjemplar()}</td>
                         <td><fmt:message key="state.${_e.getEstado()}"/></td>
                         <td>${_e.getObservaciones()}</td>
+                        <td>
+                            <fmt:message key="copies.edit" var="editVar"/>
+                            <a ${!_e.getEstado().equals('D') ? 'disabled' : ''} class="modal-trigger btnEdit btn grey darken-4 waves-effect waves-light" href="#mdlEdit" title="${editVar}" idEjemplar="${_e.getIdEjemplar()}"><i class="material-icons">edit</i></a>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -120,6 +126,23 @@
             <div class="modal-footer">
                 <a class="modal-action modal-close waves-effect waves-light red btn"><fmt:message key="cancel"/> <i class="material-icons right">cancel</i></a>
                 <a id="btnAdd" class="waves-effect waves-light green btn"><fmt:message key="confirm"/> <i class="material-icons right">done</i></a>
+            </div>
+        </div>
+            
+        <div id="mdlEdit" class="modal">
+            <div class="modal-content section">
+                <h5 class="grey-text text-darken-4 center"><fmt:message key="copies.edit.title"/></h5>
+                <form name="frmEdit" class="row section">
+                    <input type="hidden" name="idEjemplar">
+                    <div class="input-field col m8 offset-m2 s10 offset-s1">
+                        <textarea class="materialize-textarea" name="txtObservaciones" id="txtObservaciones" /></textarea>
+                        <label for="txtObservaciones"><fmt:message key="copies.observations"/></label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-light red btn"><fmt:message key="cancel"/> <i class="material-icons right">cancel</i></a>
+                <a id="btnSubmitEdit" class="waves-effect waves-light green btn"><fmt:message key="copies.save"/> <i class="material-icons right">done</i></a>
             </div>
         </div>
     </body>

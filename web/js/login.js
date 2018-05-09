@@ -54,7 +54,7 @@
                 _loader.in();
                 $.ajax({
                     type: 'POST',
-                    url: `${location.origin + location.pathname}RecuperarContra`,
+                    url: `${location.origin}/Thot/RecuperarContra`,
                     data: {email: frmRecoverPass.txtUser.value.trim()},
                     success: function(r){
                         _loader.out();

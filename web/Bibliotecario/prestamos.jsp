@@ -62,6 +62,7 @@
                     <li class="active nav-item waves-effect"><a href="${path}prestamos.jsp"><fmt:message key="loans"/> <i class="material-icons">assignment</i></a></li>
                     <li class="nav-item waves-effect"><a href="${path}reservas.jsp"><fmt:message key="reserves"/> <i class="material-icons">https</i></a></li>
                     <li class="nav-item waves-effect"><a href="${path}libros.jsp"><fmt:message key="books"/> <i class="material-icons">book</i></a></li>
+                    <li class="nav-item waves-effect"><a href="${path}historial.jsp"><fmt:message key="record"/> <i class="material-icons">history</i></a></li>
                     <li>
                         <div class="divider"></div>
                     </li>
@@ -114,7 +115,7 @@
                     </tbody>
                 </table>
                 <form action="/Thot/Prestamos/Reporte" method="POST">
-                    <button class="btn btn grey darken-4 waves-effect waves-light"><fmt:message key="loans.Reporte"/> <i class="material-icons right">file_download</i></button>
+                    <button class="btn btn grey darken-4 waves-effect waves-light"><fmt:message key="loans.report"/> <i class="material-icons right">file_download</i></button>
                 </form>
             </c:if>
             <c:if test="${prestamos.size() == 0}">

@@ -7,18 +7,13 @@ package sv.edu.udb.servlets.ejemplares;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Type;
-import com.google.gson.reflect.TypeToken;
 import javax.servlet.http.HttpSession;
 import sv.edu.udb.controladores.Ejemplar_Controller;
 import sv.edu.udb.libreria.Ejemplar;
@@ -28,8 +23,10 @@ import sv.edu.udb.libreria.Usuario;
  *
  * @author Frank
  */
-@WebServlet(name = "Ejemplares.Habilitar", urlPatterns = {"/Ejemplares/Habilitar"})
-public class Habilitar extends HttpServlet {
+@WebServlet(name = "Ejemplares.Modificar", urlPatterns = {"/Ejemplares/Modificar"})
+public class Modificar extends HttpServlet {
+
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -50,24 +47,18 @@ public class Habilitar extends HttpServlet {
             if((Boolean) _s.getAttribute("logged")){
                 Usuario _u = (Usuario) _s.getAttribute("userData");
                 if(_u.getTipoUsuario().equals("B")){
-                    if (request.getParameter("ejemplares") != null) {
-                        try {
-                            Type listType = new TypeToken<ArrayList<Ejemplar>>() {}.getType();
-                            List<Ejemplar> ejemplares = gson.fromJson(request.getParameter("ejemplares"), listType);
-
-                            if (ejemplares.size() > 0) {
-                                for (Ejemplar _e : ejemplares) {
-                                    _e.setEstado("D");
-                                    if (!Ejemplar_Controller.modificar(_e)) {
-                                        res = "0"; //Error al insertar la iteración
-                                    }
-                                }
-                                res = res.equals("0") ? "0" : "1";
+                    if (request.getParameter("idEjemplar") != null && request.getParameter("observaciones") != null) {
+                        Ejemplar _e = Ejemplar_Controller.obtenerEjemplar(request.getParameter("idEjemplar"));
+                        
+                        if(_e != null){
+                            if(_e.getEstado().equals("D")){
+                                _e.setObservaciones(request.getParameter("observaciones"));
+                                res = Ejemplar_Controller.modificar(_e) ? "1" : "0";
                             }else{
-                                res = "-3"; //No hay ejemplares
+                                res = "-3"; //No está en estado óptimo
                             }
-                        } catch (JsonSyntaxException e) {
-                            res = "-1"; //Cuerpo incorrecto
+                        }else{
+                            res = "-1"; //Ejemplar no existe
                         }
                     } else {
                         res = "-1"; //Cuerpo incorrecto

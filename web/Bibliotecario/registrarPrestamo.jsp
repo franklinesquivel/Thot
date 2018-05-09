@@ -61,9 +61,9 @@
         <form action="/Thot/Logout" name="frmLogout" method="POST"></form>        
         <header>
             <nav class="grey darken-4">
-                <div class="container">
-                    <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
-                    <div class="nav-wrapper"><a class="brand-logo center">Registrar Préstamo</a></div>
+            <div class="container">
+                <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
+                <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="reserves"/></a></div>
                 </div>
             </nav>
 
@@ -86,43 +86,17 @@
                         </a>
                     </div>
                 </li>
-                <li class="nav-item waves-effect"><a href="${path}">Inicio <i class="material-icons">home</i></a></li>
-                <li class="nav-item waves-effect"><a href="${path}prestamos.jsp">Préstamos <i class="material-icons">assignment</i></a></li>
-                <li class="nav-item waves-effect"><a href="${path}reservas.jsp">Reservas <i class="material-icons">https</i></a></li>
-
-                <li class="no-padding">
-                    <ul class="collapsible collapsible-accordion">
-                        <li>
-                            <a class="collapsible-header waves-effect">Libros <i class="material-icons">book</i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li class="waves-effect"><a href="${path}libros.jsp" class="">Listar <i class="material-icons">remove_red_eye</i></a></li>
-                                    <li class="waves-effect"><a href="${path}registrarLibro.jsp" class="">Registrar <i class="material-icons">add</i></a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="no-padding">
-                    <ul class="collapsible collapsible-accordion">
-                        <li>
-                            <a class="collapsible-header waves-effect">Autores <i class="material-icons">brush</i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li class="waves-effect"><a href="${path}autores.jsp" class="">Listar <i class="material-icons">remove_red_eye</i></a></li>
-                                    <li class="waves-effect"><a href="${patch}registrarAutor.jsp" class="">Registrar <i class="material-icons">add</i></a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
+                <li class="nav-item waves-effect"><a href="${path}"><fmt:message key="home"/> <i class="material-icons">home</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}prestamos.jsp"><fmt:message key="loans"/> <i class="material-icons">assignment</i></a></li>
+                <li class="active nav-item waves-effect"><a href="${path}reservas.jsp"><fmt:message key="reserves"/> <i class="material-icons">https</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}libros.jsp"><fmt:message key="books"/> <i class="material-icons">book</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}historial.jsp"><fmt:message key="record"/> <i class="material-icons">history</i></a></li>
                 <li>
                     <div class="divider"></div>
                 </li>
                 <li class="nav-item waves-effect">
-                    <a onclick="frmLogout.submit();">Cerrar Sesión <i class="material-icons">exit_to_app</i></a>
+                    <a onclick="frmLogout.submit();"><fmt:message key="logout"/> <i class="material-icons">exit_to_app</i></a>
                 </li>
-
             </ul>
         </header>
 

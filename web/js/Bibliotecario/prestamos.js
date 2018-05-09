@@ -21,7 +21,6 @@
     
             $(".btnFinalizar").click(function(){
                 idPrestamo = $(this).attr('idPrestamo');
-                console.log(idPrestamo);
                 $("#info-cont").html(`
                     <br><h6 class='center'><b>[${idPrestamo}]</b></h6>                    
                 `);

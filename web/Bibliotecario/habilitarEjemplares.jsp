@@ -7,6 +7,7 @@
 <%@page import="sv.edu.udb.libreria.Libro"%>
 <%@page import="sv.edu.udb.controladores.Libro_Controller"%>
 <%@ include file="/WEB-INF/jspf/control_sesion.jspf" %>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/fmt' prefix='fmt'%>
 <c:set scope="page" var="path" value="/Thot/Bibliotecario/"></c:set>
 
 <c:if test="${param.idLibro == null}">
@@ -20,7 +21,7 @@
 
 <c:if test="${_l == null}">
     <c:redirect url="libros.jsp">
-        <c:set scope="session"  var="msg" value="El libro que deseas visualizar no existe..." />
+        <c:set scope="session"  var="msg" value="notFound" />
         <c:set scope="session" var="msg_type" value="yellow" />
     </c:redirect>
 </c:if>
@@ -41,7 +42,7 @@
             <nav class="grey darken-4">
                 <div class="container">
                     <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
-                    <div class="nav-wrapper"><a class="brand-logo center">Habilitar Ejemplares</a></div>
+                    <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="book.show.title"/></a></div>
                 </div>
             </nav>
 
@@ -64,48 +65,21 @@
                             </a>
                         </div>
                     </li>
-                    <li class="nav-item waves-effect"><a href="${path}">Inicio <i class="material-icons">home</i></a></li>
-                    <li class="nav-item waves-effect"><a href="${path}prestamos.jsp">Préstamos <i class="material-icons">assignment</i></a></li>
-                    <li class="nav-item waves-effect"><a href="${path}reservas.jsp">Reservas <i class="material-icons">https</i></a></li>
-
-                <li class="no-padding">
-                    <ul class="collapsible collapsible-accordion">
-                        <li>
-                            <a class="collapsible-header waves-effect">Libros <i class="material-icons">book</i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li class="waves-effect"><a href="${path}libros.jsp" class="">Listar <i class="material-icons">remove_red_eye</i></a></li>
-                                    <li class="waves-effect"><a href="${path}registrarLibro.jsp" class="">Registrar <i class="material-icons">add</i></a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="no-padding">
-                    <ul class="collapsible collapsible-accordion">
-                        <li>
-                            <a class="collapsible-header waves-effect">Autores <i class="material-icons">brush</i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li class="waves-effect"><a href="${path}autores.jsp" class="">Listar <i class="material-icons">remove_red_eye</i></a></li>
-                                    <li class="waves-effect"><a href="${patch}registrarAutor.jsp" class="">Registrar <i class="material-icons">add</i></a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
+                    <li class="nav-item waves-effect"><a href="${path}"><fmt:message key="home"/> <i class="material-icons">home</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}prestamos.jsp"><fmt:message key="loans"/> <i class="material-icons">assignment</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}reservas.jsp"><fmt:message key="reserves"/> <i class="material-icons">https</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}historial.jsp"><fmt:message key="record"/> <i class="material-icons">history</i></a></li><li class="nav-item waves-effect"><a href="${path}libros.jsp"><fmt:message key="books"/> <i class="material-icons">book</i></a></li>
                 <li>
                     <div class="divider"></div>
                 </li>
                 <li class="nav-item waves-effect">
-                    <a onclick="frmLogout.submit();">Cerrar Sesión <i class="material-icons">exit_to_app</i></a>
+                    <a onclick="frmLogout.submit();"><fmt:message key="logout"/> <i class="material-icons">exit_to_app</i></a>
                 </li>
-
             </ul>
         </header>
 
         <main class="">
-            <h5 class="center grey-text text-darken-4"><b>Libro:</b> ${_l.getTitulo()}</h5><br>
+            <h5 class="center grey-text text-darken-4"><b><fmt:message key="book"/>:</b> ${_l.getTitulo()}</h5><br>
             
             <div class="section row">
             <c:set scope="page" value="${0}" var="_i"/>    
@@ -114,10 +88,10 @@
                     <div class="row col s6">
                         <form action="" name="frmEjemplar" class="col s12">
                             <input type="hidden" name="idEjemplar" value="${_e.getIdEjemplar()}"/>
-                            <h6 class="grey-text text-darken-4"><b>Ejemplar:</b> ${_e.getIdEjemplar()}</h6><br>
+                            <h6 class="grey-text text-darken-4"><b><fmt:message key="copy"/>:</b> ${_e.getIdEjemplar()}</h6><br>
                             <div class="input-field">
                                 <textarea name="txtObservaciones" id="txtObservaciones_${_i}" class="materialize-textarea" data-length="120"></textarea>
-                                <label for="txtObservaciones_${_i}">Observaciones</label>
+                                <label for="txtObservaciones_${_i}"><fmt:message key="copies.observations"/></label>
                             </div>
                         </form>
                     </div>
@@ -126,7 +100,7 @@
             </c:forEach>
             <c:if test="${_i == 0}">
                 <div class="alert center yellow yellow-text text-darken-4">
-                    Este libro no posee ejemplares para habilitar...
+                    <fmt:message key="copies.notFound"/>
                 </div>
             </c:if>
 
@@ -134,15 +108,19 @@
                 <a class="btn-floating btn-large grey darken-4 ${_i == 0 ? 'disabled' : ''}">
                     <i class="large material-icons">menu</i>
                 </a>
+                    
+                <fmt:message key="copies.save" var="saveVar"/>
+                <fmt:message key="copies.clean" var="cleanVar"/>
+                    
                 <ul>
-                    <li><a id="btnLimpiar" ${_i == 0 ? 'disabled' : ''} title="Limpiar todos los campos" class="btn-floating red"><i class="material-icons">cached</i></a></li>
-                    <li><a id="btnGuardar" ${_i == 0 ? 'disabled' : ''} title="Guardar cambios" class="btn-floating green"><i class="material-icons">done_all</i></a></li>
+                    <li><a id="btnLimpiar" ${_i == 0 ? 'disabled' : ''} title="${cleanVar}" class="btn-floating red"><i class="material-icons">cached</i></a></li>
+                    <li><a id="btnGuardar" ${_i == 0 ? 'disabled' : ''} title="${saveVar}" class="btn-floating green"><i class="material-icons">done_all</i></a></li>
                 </ul>
             </div>
 
             </div>
-            <a href="${path}gestionEjemplares.jsp?idLibro=${_l.getIdLibro()}">Regresar</a> |
-            <a href="${path}verLibro.jsp?idLibro=${_l.getIdLibro()}">Ver libro</a>
+            <a href="${path}gestionEjemplares.jsp?idLibro=${_l.getIdLibro()}"><fmt:message key="return"/></a> |
+            <a href="${path}verLibro.jsp?idLibro=${_l.getIdLibro()}"><fmt:message key="books.showBook"/></a>
             <br><br>
         </main>
     </body>
