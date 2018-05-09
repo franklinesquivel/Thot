@@ -8,6 +8,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <c:set scope="page" var="path" value="/Thot/Usuario/"></c:set>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/fmt' prefix='fmt'%>
 <!DOCTYPE html>
 
 <% 
@@ -24,7 +25,7 @@
         <form action="/Thot/Logout" name="frmLogout" method="POST"></form>        
         <header>
 
-            <nav class="teal darken-1">
+            <nav class="blue darken-1">
                 <div class="container">
                     <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
                     <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="reserves"/></a></div>
@@ -34,7 +35,7 @@
             <ul id="slide-out" class="sidenav sidenav-fixed">
                 <li>
                     <div class="user-view">
-                        <div class="background teal darken-1">
+                        <div class="background blue darken-1">
                         </div>
                         <a>
                             <img class="circle" src="/Thot/images/thot.jpg">

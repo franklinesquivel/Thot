@@ -8,6 +8,7 @@
 <%@page import="sv.edu.udb.libreria.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <c:set scope="page" var="path" value="/Thot/Usuario/"></c:set>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/fmt' prefix='fmt'%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,7 +22,7 @@
         <form action="/Thot/Logout" name="frmLogout" method="POST"></form>        
         <header>
 
-            <nav class="teal darken-1">
+            <nav class="blue darken-1">
                 <div class="container">
                     <a href="#" data-target="user_nav" class="sidenav-trigger "><i class="material-icons">menu</i></a>
                     <div class="nav-wrapper"><a class="brand-logo center"><fmt:message key="U"/></a></div>
@@ -31,7 +32,7 @@
             <ul id="slide-out" class="sidenav sidenav-fixed">
                 <li>
                     <div class="user-view">
-                    <div class="background teal darken-1">
+                    <div class="background blue darken-1">
                     </div>
                     <a>
                         <img class="circle" src="/Thot/images/thot.jpg">
@@ -48,9 +49,9 @@
                     </div>
                 </li>
 
-                <li class="nav-item active waves-effect"><a href="${path}">Libros <i class="material-icons">book</i></a></li>
-                <li class="nav-item waves-effect"><a href="${path}prestamos.jsp">Préstamos <i class="material-icons">assignment</i></a></li>
-                <li class="nav-item waves-effect"><a href="${path}reservas.jsp">Reservas <i class="material-icons">https</i></a></li>
+                <li class="nav-item active waves-effect"><a href="${path}"><fmt:message key="books"/> <i class="material-icons">book</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}prestamos.jsp"><fmt:message key="loans"/> <i class="material-icons">assignment</i></a></li>
+                <li class="nav-item waves-effect"><a href="${path}reservas.jsp"><fmt:message key="reserves"/> <i class="material-icons">https</i></a></li>
                 <li class="nav-item waves-effect">
                     <a onclick="frmLogout.submit();"><fmt:message key="logout"/><i class="material-icons">exit_to_app</i></a>
                 </li>
@@ -65,7 +66,7 @@
                         <label for="txtSearch"><fmt:message key="catalog.search"/></label>
                     </div>
                     <div class="input-field col s2 center-align">
-                        <a class="waves-effect waves-light btn modal-trigger" href="#mdlSearch"><fmt:message key="catalog.advanceSearch"/></a>
+                        <a class="waves-effect  blue darken-1 btn modal-trigger" href="#mdlSearch"><fmt:message key="catalog.advanceSearch"/></a>
                     </div>
                 </div>
 
@@ -98,7 +99,7 @@
                                 <label for="subject"><fmt:message key="theme"/></label>
                             </div>
                             <div class="input-field col s10 offset-s1 center-align">
-                                <button id="btnSearch" class="waves-effect waves-light btn"><fmt:message key="search"/></button>
+                                <button id="btnSearch" class="waves-effect  blue darken-1 btn"><fmt:message key="search"/></button>
                             </div>
                         </div>
                     </div>
@@ -119,7 +120,7 @@
                     </div>
                     <input type="hidden" name="idLibro" id="idLibro">
                     <div class="input-field col s8 center-align offset-s2">
-                        <button  class="waves-effect waves-light btn"><fmt:message key="reserve"/></button>
+                        <button  class="waves-effect  blue darken-1 btn"><fmt:message key="reserve"/></button>
                     </div>
                 </form>
                 <div class="row" id="messageModal">
