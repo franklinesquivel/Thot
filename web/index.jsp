@@ -2,28 +2,6 @@
 <%@page import="java.util.Arrays"%>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/fmt' prefix='fmt'%>
 
-<c:if test="${sessionScope.logged == true}">
-    <c:if test="${sessionScope.user == null}">
-        <c:set var="user" scope="session" value="${userData}"></c:set>
-    </c:if>
-    
-    <% 
-        Usuario _u = (Usuario) session.getAttribute("userData");
-        String[] actualView = request.getRequestURI().split("/");
-        
-        if(_u != null){
-            if (!Arrays.asList(actualView).contains(_u.getTipoUsuario().equals("B") ? "Bibliotecario" : "Usuario")) {
-                response.sendRedirect("/Thot/" + (_u.getTipoUsuario().equals("B") ? "Bibliotecario" : "Usuario") + "/");
-            }
-        }else{
-            session.setAttribute("logged", false);
-            session.setAttribute("userData", false);
-            response.sendRedirect("/Thot/login.jsp");
-        }
-        
-    %>
-</c:if>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

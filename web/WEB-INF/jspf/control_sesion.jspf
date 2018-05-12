@@ -4,9 +4,10 @@
 
 <c:if test="${sessionScope.logged != true}">
     <%
-        if (!request.getRequestURI().equals("/Thot/login.jsp")) {
+        if(!request.getRequestURI().equals("/Thot/login.jsp")){
             response.sendRedirect("/Thot/login.jsp");
         }
+        
     %>
 </c:if>
 
